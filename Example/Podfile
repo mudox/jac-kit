@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'JacKit_Example' do
+  pod 'JacKit', :path => '../'
+
+  target 'JacKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
