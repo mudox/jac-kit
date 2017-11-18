@@ -1,42 +1,25 @@
-#
-# Be sure to run `pod lib lint JacKit.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = 'JacKit'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of JacKit.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
+  s.version          = '1.0.0-beta1'
+  s.summary          = 'JacKit, my iOS developing logging tool'
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  Wrap CocoaLumberjack to embrace Swift syntax.
+  File based logging level control.
+  A HTTP logger to send events to JacServer, so that I can view my logs in a
+  Tmux window, cleaned up and prettified.
+  DESC
 
-  s.homepage         = 'https://github.com/mudox/JacKit'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.homepage         = 'https://github.com/mudox/jac-kit'
+
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'mudox' => 'mudoxisme@gmail.com' }
-  s.source           = { :git => 'https://github.com/mudox/JacKit.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.author           = 'Mudox'
 
-  s.ios.deployment_target = '8.0'
+  s.source           = { :git => 'https://github.com/mudox/jac-kit.git', :tag => s.version.to_s }
 
-  s.source_files = 'JacKit/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'JacKit' => ['JacKit/Assets/*.png']
-  # }
+  s.ios.deployment_target = '9.0'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.source_files = 'JacKit/Sources/**/*'
+  s.preserve_paths = 'JacKit/Assets/*'
+
+  s.dependency 'CocoaLumberjack/Swift', '~> 3.3.0'
 end

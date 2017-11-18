@@ -1,11 +1,13 @@
 use_frameworks!
+platform :ios, '9.0'
 
 target 'JacKit_Example' do
+
   pod 'JacKit', :path => '../'
+  pod 'Alamofire'
 
   target 'JacKit_Tests' do
     inherit! :search_paths
 
-    
   end
 end
