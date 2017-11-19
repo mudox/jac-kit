@@ -7,15 +7,15 @@
 //
 
 #import "JKHTTPLogger.h"
+#import "JacKit.h"
+
+static NSURL *eventURL;
+static NSURL *sessionURL;
+static NSString *sessionID;
 
 @implementation JKHTTPLogger {
   NSURLSession *_urlSession;
 }
-
-static NSURL *eventURL;
-static NSURL *sessionURL;
-
-static NSString *sessionID;
 
 + (void)load
 {
@@ -25,12 +25,10 @@ static NSString *sessionID;
   sessionID = [NSString stringWithFormat:@"%@-%f", bundleID, sessionTimestamp];
 
   // eventURL & sessionURL
-  NSURL *baseURL = [NSURL URLWithString:NSProcessInfo.processInfo.environment[@"JACKIT_SRV_URL"]];
+  NSURL *baseURL = [NSURL URLWithString:NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"]];
   eventURL   = [baseURL URLByAppendingPathComponent:@"event" isDirectory:YES];
   sessionURL = [baseURL URLByAppendingPathComponent:@"session" isDirectory:YES];
 }
-
-#pragma mark DDLogger protocol
 
 - (NSData *)requestBodyDataWithLogMessage: (DDLogMessage *)logMessage
 {
@@ -86,6 +84,54 @@ static NSString *sessionID;
 
   return data;
 }
+
+- (void)postInitiatingMessage
+{
+  NSDictionary *sessionInfo= @{
+    @"bundleID": NSBundle.mainBundle.bundleIdentifier,
+    @"timestamp": @([NSDate.date timeIntervalSince1970])
+  };
+
+  NSError *error;
+  NSData  *bodyData = [NSJSONSerialization dataWithJSONObject:sessionInfo options:kNilOptions error:&error];
+  if (error != nil)
+  {
+    NSLog(@"JKHTTPLogger - error JSON encoding session message: %@", error);
+    return;
+  }
+
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:sessionURL];
+  request.HTTPMethod = @"POST";
+  [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+  request.HTTPBody = bodyData;
+
+#ifdef JACKIT_DEBUG
+  NSURLSessionDataTask *task =
+    [_urlSession dataTaskWithRequest:request
+                   completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
+     {
+       // check error
+       if (error != nil)
+       {
+         NSLog(@"JKHTTPLogger - error sending request: %@", error);
+         return;
+       }
+       // check reponse status code
+       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+       NSAssert(httpResponse != nil)
+       if (httpResponse.statusCode != 200)
+       {
+         NSLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
+         return;
+       }
+     }];
+#else
+  NSURLSessionDataTask *task = [_urlSession dataTaskWithRequest:request];
+#endif
+  [task resume];
+}
+
+#pragma mark DDLogger protocol
 
 - (void)logMessage: (DDLogMessage *)logMessage
 {
@@ -148,53 +194,9 @@ static NSString *sessionID;
   _urlSession = nil;
 }
 
-- (void)postInitiatingMessage
-{
-  NSDictionary *sessionInfo= @{
-    @"bundleID": NSBundle.mainBundle.bundleIdentifier,
-    @"timestamp": @([NSDate.date timeIntervalSince1970])
-  };
-
-  NSError *error;
-  NSData  *bodyData = [NSJSONSerialization dataWithJSONObject:sessionInfo options:kNilOptions error:&error];
-  if (error != nil)
-  {
-    NSLog(@"JKHTTPLogger - error JSON encoding session message: %@", error);
-    return;
-  }
-
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:sessionURL];
-  request.HTTPMethod = @"POST";
-  [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-  request.HTTPBody = bodyData;
-
-#ifdef JACKIT_DEBUG
-  NSURLSessionDataTask *task =
-    [_urlSession dataTaskWithRequest:request
-                   completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
-     {
-       // check error
-       if (error != nil)
-       {
-         NSLog(@"JKHTTPLogger - error sending request: %@", error);
-         return;
-       }
-       // check reponse status code
-       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-       NSAssert(httpResponse != nil)
-       if (httpResponse.statusCode != 200)
-       {
-         NSLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
-         return;
-       }
-     }];
-#else
-  NSURLSessionDataTask *task = [_urlSession dataTaskWithRequest:request];
-#endif
-  [task resume];
-}
 
 @end
+
 
 
 

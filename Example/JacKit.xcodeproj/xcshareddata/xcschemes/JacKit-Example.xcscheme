@@ -89,12 +89,13 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "JACKIT_SRV_URL"
+            key = "JACKIT_SERVER_URL"
             value = "http://192.168.0.101:7086"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "JACKIT_DEBUG"
+            value = ""
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
