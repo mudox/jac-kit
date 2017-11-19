@@ -13,4 +13,6 @@
 
 + (void)wakeup;
 
++ (void)greet;
+
 @end
