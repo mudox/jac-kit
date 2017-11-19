@@ -10,10 +10,7 @@
 #endif
 #endif
 
-#import "JacKit.h"
-#import "JKHTTPLogger.h"
-#import "JKLogFormatter.h"
 
-FOUNDATION_EXPORT double JacKitVersionNumber;
-FOUNDATION_EXPORT const unsigned char JacKitVersionString[];
+FOUNDATION_EXPORT double FakeryVersionNumber;
+FOUNDATION_EXPORT const unsigned char FakeryVersionString[];
 

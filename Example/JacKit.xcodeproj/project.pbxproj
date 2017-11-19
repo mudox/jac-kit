@@ -15,6 +15,7 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		6D950C8CCCF591CAAA9AABBE /* Pods_JacKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74601F16ADE2E815737DBD83 /* Pods_JacKit_Tests.framework */; };
 		DF539A9D52DEA479298CDED1 /* Pods_JacKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7636E05FEC926FA72B87C7EF /* Pods_JacKit_Example.framework */; };
+		F434C8461FC0FDCA000E3224 /* JackitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F434C8451FC0FDCA000E3224 /* JackitTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		A28010670EBD73E8FC8810D8 /* Pods-JacKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JacKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JacKit_Example/Pods-JacKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A2CEFA2E9353211B22994373 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		C799AC34773BF1FA165D7BAA /* Pods-JacKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JacKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-JacKit_Example/Pods-JacKit_Example.release.xcconfig"; sourceTree = "<group>"; };
+		F434C8451FC0FDCA000E3224 /* JackitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackitTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 		607FACD21AFB9204008FA782 /* Example for JacKit */ = {
 			isa = PBXGroup;
 			children = (
+				F434C8451FC0FDCA000E3224 /* JackitTest.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -273,14 +276,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-JacKit_Example/Pods-JacKit_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/Fakery/Fakery.framework",
 				"${BUILT_PRODUCTS_DIR}/JacKit/JacKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fakery.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JacKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,6 +380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				F434C8461FC0FDCA000E3224 /* JackitTest.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
