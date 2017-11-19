@@ -2,56 +2,65 @@
 #import "JKLogFormatter.h"
 #import "JKHTTPLogger.h"
 
-#ifdef DEBUG
-static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
-#else
-static const DDLogLevel ddLogLevel = DDLogLevelWarning;
-#endif
+//#ifdef DEBUG
+//static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
+//#else
+//static const DDLogLevel ddLogLevel = DDLogLevelWarning;
+//#endif
 
+static NSString *greetingString;
 
 @implementation Jack
 
-//+ (void)load
-//{
-//  [self wakeup];
-//}
++ (NSString *)greetingString {
+  return greetingString;
+}
+
++ (void)load
+{
+  [self wakeup];
+}
 
 + (void)wakeup
 {
-  JKLogFormatter *logFormatter = [JKLogFormatter new];
+  NSMutableString *greetingLines = [NSMutableString stringWithString:@"JacKit initialized\0"];
 
   /**
-   *  Log goes into Xcode debug area / or temrinal when project is run in terminal
+   *  Log goes into Xcode debug area or temrinal when project is run in terminal
    */
-  DDTTYLogger *ttyLogger = [DDTTYLogger sharedInstance];
+  DDTTYLogger    *ttyLogger    = [DDTTYLogger sharedInstance];
+  JKLogFormatter *logFormatter = [JKLogFormatter new];
   ttyLogger.logFormatter = logFormatter;
   [DDLog addLogger:ttyLogger];
 
+  [greetingLines appendString:[
+     @[
+       @"Add TTY Logger\n",
+       [NSString stringWithFormat: @"  - Logger name: %@", ttyLogger.loggerName],
+       [NSString stringWithFormat: @"  - Logging queue: %s", dispatch_queue_get_label(ttyLogger.loggerQueue)],
+     ] componentsJoinedByString: @"\n"]];
+
+
   /**
-   *  Log goes out to the HTTP log server
+   *  Log goes out to the JacServer
    */
   JKHTTPLogger *httpLogger = [JKHTTPLogger new];
   [DDLog addLogger:httpLogger];
-}
 
-+ (void)greet
-{
-  NSString *format = [
-    @[
-      @"\nJacKit initialized\0attached loggers:",
-      @"%@",
-      @"\n",
-    ] componentsJoinedByString: @"\n"];
-
-  NSMutableArray *loggerList = [NSMutableArray array];
-  [DDLog.allLoggers enumerateObjectsUsingBlock:^(id < DDLogger > _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-     [loggerList addObject:[NSString stringWithFormat:@" [%ld] - %@", (long)idx + 1, obj.loggerName]];
-   }];
-
-  NSString *loggerLines = [loggerList componentsJoinedByString:@"\n"];
-
-  DDLogInfo(format, loggerLines);
+  [greetingLines appendString:[
+     @[
+       @"Add HTTP Logger\n",
+       [NSString stringWithFormat:@"  - Logger name: %@", httpLogger.loggerName],
+       [NSString stringWithFormat:@"  - Logging queue: %s", dispatch_queue_get_label(httpLogger.loggerQueue)],
+       [NSString stringWithFormat:@"  - Server address: %@", NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"]],
+     ] componentsJoinedByString: @"\n"]];
+  
+  greetingString = greetingLines;
 }
 
 @end
+
+
+
+
 

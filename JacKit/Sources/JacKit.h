@@ -11,8 +11,8 @@
 
 @interface Jack : NSObject
 
-+ (void)wakeup;
+@property (class, strong, readonly, nonatomic) NSString *greetingString;
 
-+ (void)greet;
++ (void)wakeup;
 
 @end
