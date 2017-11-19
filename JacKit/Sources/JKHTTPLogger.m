@@ -9,15 +9,15 @@
 #import "JKHTTPLogger.h"
 #import "JacKit.h"
 
-static NSURL *eventURL;
-static NSURL *sessionURL;
+static NSURL    *serverURL;
+static NSURL    *eventURL;
+static NSURL    *sessionURL;
 static NSString *sessionID;
 
 @implementation JKHTTPLogger {
   NSURLSession *_urlSession;
 }
 
-+ (void)load
 #pragma mark - Class Properties
 
 + (NSURL *)serverURL
@@ -29,16 +29,75 @@ static NSString *sessionID;
 {
   return sessionID;
 }
+
+#pragma mark - Initialization
+
++ (void)initialize
+{
+  if (self.class != JKHTTPLogger.self)
+  {
+    return;
+  }
+
+  // server URL
+  NSString *urlString = NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"];
+  if (nil == urlString)
+  {
+    NSString *errorLines =
+      [@[@"!",
+         @"!",
+         @"!",
+         @"!!! JacKit initialization error: environment variable `JACKIT_SERVER_URL` is missing",
+         @"!",
+         @"!",
+         @"!",
+       ] componentsJoinedByString: @"\n"];
+    NSLog(@"%@", errorLines);
+    return;
+  }
+  NSURL *url = [NSURL URLWithString:urlString];
+  if (nil == url)
+  {
+    NSString *errorLines =
+      [@[@"!",
+         @"!",
+         @"!",
+         [NSString stringWithFormat:@"!!! JacKit initialization error: environment variable `JACKIT_SERVER_URL` value `%@` is not a valid URL string", urlString],
+         @"!",
+         @"!",
+         @"!",
+       ] componentsJoinedByString: @"\n"];
+    NSLog(@"\n\n%@\n\n", errorLines);
+    return;
+  }
+  serverURL = url;
+
   // sessionID
   NSString      *bundleID         = NSBundle.mainBundle.bundleIdentifier;
   NSTimeInterval sessionTimestamp = [NSDate.date timeIntervalSince1970];
   sessionID = [NSString stringWithFormat:@"%@-%f", bundleID, sessionTimestamp];
 
   // eventURL & sessionURL
-  NSURL *baseURL = [NSURL URLWithString:NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"]];
-  eventURL   = [baseURL URLByAppendingPathComponent:@"event" isDirectory:YES];
-  sessionURL = [baseURL URLByAppendingPathComponent:@"session" isDirectory:YES];
+  eventURL   = [self.class.serverURL URLByAppendingPathComponent:@"event" isDirectory:YES];
+  sessionURL = [self.class.serverURL URLByAppendingPathComponent:@"session" isDirectory:YES];
 }
+
+- (instancetype)init
+{
+  if (nil == self.class.serverURL)
+  {
+    return nil;
+  }
+
+  if (nil == (self = [super init]))
+  {
+    return nil;
+  }
+
+  return self;
+}
+
+#pragma mark - Private Methods
 
 - (NSData *)requestBodyDataWithLogMessage: (DDLogMessage *)logMessage
 {
