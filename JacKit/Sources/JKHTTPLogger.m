@@ -18,7 +18,17 @@ static NSString *sessionID;
 }
 
 + (void)load
+#pragma mark - Class Properties
+
++ (NSURL *)serverURL
 {
+  return serverURL;
+}
+
++ (NSString *)sessionID
+{
+  return sessionID;
+}
   // sessionID
   NSString      *bundleID         = NSBundle.mainBundle.bundleIdentifier;
   NSTimeInterval sessionTimestamp = [NSDate.date timeIntervalSince1970];

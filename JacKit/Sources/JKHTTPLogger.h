@@ -10,6 +10,9 @@
 
 @interface JKHTTPLogger : DDAbstractLogger <DDLogger>
 
+@property (class, strong, readonly, nonatomic) NSURL *_Nullable serverURL;
+@property (class, strong, readonly, nonatomic) NSString *_Nullable sessionID;
+
 @end
 
 
