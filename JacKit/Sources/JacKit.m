@@ -2,17 +2,18 @@
 #import "JKLogFormatter.h"
 #import "JKHTTPLogger.h"
 
-//#ifdef DEBUG
-//static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
-//#else
-//static const DDLogLevel ddLogLevel = DDLogLevelWarning;
-//#endif
+// #ifdef DEBUG
+// static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
+// #else
+// static const DDLogLevel ddLogLevel = DDLogLevelWarning;
+// #endif
 
 static NSString *greetingString;
 
 @implementation Jack
 
-+ (NSString *)greetingString {
++ (NSString *)greetingString
+{
   return greetingString;
 }
 
@@ -23,7 +24,7 @@ static NSString *greetingString;
 
 + (void)wakeup
 {
-  NSMutableString *greetingLines = [NSMutableString stringWithString:@"JacKit initialized\0"];
+  NSMutableString *greetingLines = [NSMutableString string];
 
   /**
    *  Log goes into Xcode debug area or temrinal when project is run in terminal
@@ -31,34 +32,60 @@ static NSString *greetingString;
   DDTTYLogger    *ttyLogger    = [DDTTYLogger sharedInstance];
   JKLogFormatter *logFormatter = [JKLogFormatter new];
   ttyLogger.logFormatter = logFormatter;
-  [DDLog addLogger:ttyLogger];
 
   [greetingLines appendString:[
      @[
-       @"Add TTY Logger\n",
-       [NSString stringWithFormat: @"  - Logger name: %@", ttyLogger.loggerName],
-       [NSString stringWithFormat: @"  - Logging queue: %s", dispatch_queue_get_label(ttyLogger.loggerQueue)],
+       @"    _____                      __    __  __    __",
+       @"   |     \\                    |  \\  /  \\|  \\  |  \\",
+       @"    \\$$$$$  ______    _______ | $$ /  $$ \\$$ _| $$_",
+       @"      | $$ |      \\  /       \\| $$/  $$ |  \\|   $$ \\",
+       @" __   | $$  \\$$$$$$\\|  $$$$$$$| $$  $$  | $$ \\$$$$$$",
+       @"|  \\  | $$ /      $$| $$      | $$$$$\\  | $$  | $$ __",
+       @"| $$__| $$|  $$$$$$$| $$_____ | $$ \\$$\\ | $$  | $$|  \\",
+       @" \\$$    $$ \\$$    $$ \\$$     \\| $$  \\$$\\| $$   \\$$  $$",
+       @"  \\$$$$$$   \\$$$$$$$  \\$$$$$$$ \\$$   \\$$ \\$$    \\$$$$",
+       @"\n\n",
+       
+       @"[Add TTY Logger]",
+       [NSString stringWithFormat:@"  - Logger name:      %@", ttyLogger.loggerName],
+       [NSString stringWithFormat:@"  - Logging queue:    %s", dispatch_queue_get_label(ttyLogger.loggerQueue)],
      ] componentsJoinedByString: @"\n"]];
-
 
   /**
    *  Log goes out to the JacServer
    */
   JKHTTPLogger *httpLogger = [JKHTTPLogger new];
-  [DDLog addLogger:httpLogger];
+  if (httpLogger != nil)
+  {
+    [greetingLines appendString:[
+       @[
+         @"\n\n[Add HTTP Logger]",
+         [NSString stringWithFormat:@"  - Logger name:      %@", httpLogger.loggerName],
+         [NSString stringWithFormat:@"  - Logging queue:    %s", dispatch_queue_get_label(httpLogger.loggerQueue)],
+         [NSString stringWithFormat:@"  - Server address:   %@", JKHTTPLogger.serverURL],
+         [NSString stringWithFormat:@"  - Session ID:       %@", JKHTTPLogger.sessionID],
+       ] componentsJoinedByString: @"\n"]];
+    greetingString = greetingLines;
+  }
 
-  [greetingLines appendString:[
-     @[
-       @"Add HTTP Logger\n",
-       [NSString stringWithFormat:@"  - Logger name: %@", httpLogger.loggerName],
-       [NSString stringWithFormat:@"  - Logging queue: %s", dispatch_queue_get_label(httpLogger.loggerQueue)],
-       [NSString stringWithFormat:@"  - Server address: %@", NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"]],
-     ] componentsJoinedByString: @"\n"]];
-  
-  greetingString = greetingLines;
+  NSLog(@"\n----\n\n\n%@\n\n\n----", greetingLines);
+
+  /**
+   * Add loggers at the very end, after the `greetingString` property is full initilization
+   * JKHttpLogger -didAddLogger will add this property into its first message to the server
+   */
+  [DDLog addLogger:ttyLogger];
+  [DDLog addLogger:httpLogger];
 }
 
 @end
+
+
+
+
+
+
+
 
 
 
