@@ -42,123 +42,123 @@ extension Jack {
 
 }
 
-// MARK: - Logging method
+// MARK: - Private
 extension Jack {
 
   public enum Subsystem {
-    case appName, fileFunctionName
-    case text(String)
-  }
-
-  public enum Prefix {
-    case appName, fileFunctionName
-    case text(String)
+    case app
+    case fileFunction
+    case custom(String)
   }
 
   static let appName = ProcessInfo.processInfo.processName
-
-  static let indentRegex = try! NSRegularExpression(pattern: "\\n([^>]{2})", options: [])
 
   /**
    It is the designated method that other public logging methods delegate to.
    It composes log line(s) to feed into DDLogXXXX functions
 
    - parameter message:  message content
-   - parameter prefix:   one of .appName | .fileFunctionName | .text(<whatever you want>)
+   - parameter subsystem:   one of .app | .fileFunction | .text(<whatever you want>)
    - parameter file:     file name of call site (usually captured automatically)
    - parameter function: function / method name of the call site (usually captured automatically)
 
    - returns: the line(s) string with which to feed the DDLogXXXX functions
    */
-  fileprivate static func logStringWith(
+
+
+  /// It is the designated method that other public logging methods delegate to.
+  /// It composes log line(s) to feed into DDLogXXXX functions
+  ///
+  /// - Parameters:
+  ///   - message: message directly from user
+  ///   - subsystem: [.app | .fileFunction | .custom(...)
+  ///   - file: file name (extension stripped)
+  ///   - function: function name
+  /// - Returns: It combine the `subsystem` and `message` into a single string for passing to the DDLogXXX functions
+  fileprivate static func messagePartForDDLogMessage(
     _ message: String,
-    _ prefix: Prefix,
+    _ subsystem: Subsystem,
     _ file: String,
     _ function: String
   ) -> String {
 
-    // prefix continued none empty lines with `>> `
-    var log = indentRegex.stringByReplacingMatches(
-      in: message,
-      options: [],
-      range: NSMakeRange(0, (message as NSString).length),
-      withTemplate: "\n>> $1"
-    )
-
-    // prepend subsystem info
-    switch prefix {
-
-    case .appName:
-      log = "\(appName): " + log
-
-    case .fileFunctionName:
+    var prefix: String
+    switch subsystem {
+    case .app:
+      prefix = appName
+    case .fileFunction:
       let fileName = URL(fileURLWithPath: file).deletingPathExtension().lastPathComponent
-      log = "\(fileName) \(function)] " + log // use `]` as terminator here because `:` may be a valid symbol in function names
-      
-    case .text(let content):
-      log = "\(content): " + log
+      prefix = "\(fileName).\(function)"
+    case .custom(let content):
+      prefix = content
     }
 
-    return log
+    assert(!prefix.contains("\0"))
+    return "\(prefix)\0\(message)"
   }
+
+}
+
+// MARK: - Public Interface
+extension Jack {
 
   public static func error(
     _ message: @autoclosure () -> String,
-    withPrefix prefix: Prefix = .fileFunctionName,
+    from subsystem: Subsystem = .fileFunction,
     _ file: String = #file,
     _ function: String = #function
   ) {
 
     if DDLogFlag.error.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogError(logStringWith(message(), prefix, file, function), level: levelOfFile(file))
+      DDLogError(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
     }
   }
 
   public static func warn(
     _ message: @autoclosure () -> String,
-    withPrefix prefix: Prefix = .fileFunctionName,
+    from subsystem: Subsystem = .fileFunction,
     _ file: String = #file,
     _ function: String = #function
   ) {
 
     if DDLogFlag.warning.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogWarn(logStringWith(message(), prefix, file, function), level: levelOfFile(file))
+      DDLogWarn(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
     }
   }
 
   public static func info(
     _ message: @autoclosure () -> String,
-    withPrefix prefix: Prefix = .fileFunctionName,
+    from subsystem: Subsystem = .fileFunction,
     _ file: String = #file,
     _ function: String = #function
   ) {
 
     if DDLogFlag.info.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogInfo(logStringWith(message(), prefix, file, function), level: levelOfFile(file))
+      DDLogInfo(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
     }
   }
 
   public static func debug(
     _ message: @autoclosure () -> String,
-    withPrefix prefix: Prefix = .fileFunctionName,
+    from subsystem: Subsystem = .fileFunction,
     _ file: String = #file,
     _ function: String = #function
   ) {
 
     if DDLogFlag.debug.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogDebug(logStringWith(message(), prefix, file, function), level: levelOfFile(file))
+      DDLogDebug(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
     }
   }
 
   public static func verbose(
     _ message: @autoclosure () -> String,
-    withPrefix prefix: Prefix = .fileFunctionName,
+    from subsystem: Subsystem = .fileFunction,
     _ file: String = #file,
     _ function: String = #function
   ) {
 
     if DDLogFlag.verbose.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogVerbose(logStringWith(message(), prefix, file, function), level: levelOfFile(file))
+      DDLogVerbose(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
     }
   }
 
