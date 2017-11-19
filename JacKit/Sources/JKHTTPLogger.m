@@ -95,11 +95,12 @@ static NSString *sessionID;
   return data;
 }
 
-- (void)postInitiatingMessage
+- (void)postGreetingMessage
 {
   NSDictionary *sessionInfo= @{
     @"bundleID": NSBundle.mainBundle.bundleIdentifier,
-    @"timestamp": @([NSDate.date timeIntervalSince1970])
+    @"timestamp": @([NSDate.date timeIntervalSince1970]),
+    @"greeting": Jack.greetingString
   };
 
   NSError *error;
@@ -194,7 +195,7 @@ static NSString *sessionID;
   NSURLSessionConfiguration * config = NSURLSessionConfiguration.defaultSessionConfiguration;
   _urlSession = [NSURLSession sessionWithConfiguration:config];
 
-  [self postInitiatingMessage];
+  [self postGreetingMessage];
 }
 
 - (void)willRemoveLogger
@@ -204,15 +205,5 @@ static NSString *sessionID;
   _urlSession = nil;
 }
 
-
 @end
-
-
-
-
-
-
-
-
-
 
