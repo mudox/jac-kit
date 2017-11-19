@@ -14,8 +14,11 @@ static NSURL    *eventURL;
 static NSURL    *sessionURL;
 static NSString *sessionID;
 
+static BOOL _isDebugging;
+
 @implementation JKHTTPLogger {
   NSURLSession *_urlSession;
+
 }
 
 #pragma mark - Class Properties
@@ -38,6 +41,8 @@ static NSString *sessionID;
   {
     return;
   }
+
+  _isDebugging = (NSProcessInfo.processInfo.environment[@"JACKIT_DEBUG"] != nil);
 
   // server URL
   NSString *urlString = NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"];
@@ -175,29 +180,35 @@ static NSString *sessionID;
   [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
   request.HTTPBody = bodyData;
 
-#ifdef JACKIT_DEBUG
-  NSURLSessionDataTask *task =
-    [_urlSession dataTaskWithRequest:request
-                   completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
-     {
-       // check error
-       if (error != nil)
+
+  NSURLSessionDataTask *task;
+  if (_isDebugging)
+  {
+    task =
+      [_urlSession dataTaskWithRequest:request
+                     completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
        {
-         NSLog(@"JKHTTPLogger - error sending request: %@", error);
-         return;
-       }
-       // check reponse status code
-       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-       NSAssert(httpResponse != nil)
-       if (httpResponse.statusCode != 200)
-       {
-         NSLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
-         return;
-       }
-     }];
-#else
-  NSURLSessionDataTask *task = [_urlSession dataTaskWithRequest:request];
-#endif
+         // check error
+         if (error != nil)
+         {
+           NSLog(@"JKHTTPLogger - error sending request: %@", error);
+           return;
+         }
+         // check reponse status code
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+         assert(httpResponse != nil);
+         if (httpResponse.statusCode != 200)
+         {
+           NSLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
+           return;
+         }
+       }];
+  }
+  else
+  {
+    task = [_urlSession dataTaskWithRequest:request];
+  }
+
   [task resume];
 }
 
@@ -217,29 +228,34 @@ static NSString *sessionID;
   [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
   request.HTTPBody = bodyData;
 
-#ifdef JACKIT_DEBUG
-  NSURLSessionDataTask *task =
-    [_urlSession dataTaskWithRequest:request
-                   completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
-     {
-       // check error
-       if (error != nil)
+  NSURLSessionDataTask *task;
+  if (_isDebugging)
+  {
+    task =
+      [_urlSession dataTaskWithRequest:request
+                     completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
        {
-         NSLog(@"JKHTTPLogger - error sending request: %@", error);
-         return;
-       }
-       // check reponse status code
-       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-       NSAssert(httpResponse != nil)
-       if (httpResponse.statusCode != 200)
-       {
-         NSLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
-         return;
-       }
-     }];
-#else
-  NSURLSessionDataTask *task = [_urlSession dataTaskWithRequest:request];
-#endif
+         // check error
+         if (error != nil)
+         {
+           NSLog(@"JKHTTPLogger - error sending request: %@", error);
+           return;
+         }
+         // check reponse status code
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+         assert(httpResponse != nil);
+         if (httpResponse.statusCode != 200)
+         {
+           NSLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
+           return;
+         }
+       }];
+  }
+  else
+  {
+    task = [_urlSession dataTaskWithRequest:request];
+  }
+
   [task resume];
 }
 
