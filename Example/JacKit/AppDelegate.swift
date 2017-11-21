@@ -9,6 +9,7 @@
 import UIKit
 
 import JacKit
+import iOSKit
 
 fileprivate let jack = Jack.with(levelOfThisFile: .debug)
 
@@ -20,10 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
-//    DispatchQueue.global().async {
-//      var t = JacKitTest()
-//      t.test()
-//    }
+    application.mdx_greet()
+    
+    DispatchQueue.global().async {
+      var t = JacKitTest()
+      t.test()
+    }
+    
     return true
   }
 

@@ -4,6 +4,8 @@ platform :ios, '9.0'
 target 'JacKit_Example' do
 
   pod 'JacKit', :path => '../'
+  pod 'iOSKit/Core', :path => '../../iOSKit/'
+
   pod 'Fakery'
 
   target 'JacKit_Tests' do

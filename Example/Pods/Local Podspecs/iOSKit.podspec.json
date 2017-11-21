@@ -1,0 +1,102 @@
+{
+  "name": "iOSKit",
+  "version": "0.1.0",
+  "summary": "My iOS extension library",
+  "description": "My iOS app development toolbox",
+  "homepage": "https://github.com/mudox/ios-kit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": "Mudox",
+  "source": {
+    "git": "https://github.com/mudox/ios-kit.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "default_subspecs": "Core",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "iOSKit/Core/**/*",
+      "dependencies": {
+        "JacKit": [
+
+        ]
+      }
+    },
+    {
+      "name": "Basic",
+      "dependencies": {
+        "iOSKit/Core": [
+
+        ],
+        "iOSKit/PromiseKit": [
+
+        ],
+        "iOSKit/RxSwift": [
+
+        ]
+      }
+    },
+    {
+      "name": "MBProgressHUD-Swift",
+      "source_files": "iOSKit/MBProgressHUD/MPB.swift",
+      "dependencies": {
+        "MBProgressHUD": [
+          "~> 1.0"
+        ]
+      }
+    },
+    {
+      "name": "MBProgressHUD-OC",
+      "source_files": "iOSKit/MBProgressHUD/**/*.{m,h}",
+      "dependencies": {
+        "MBProgressHUD": [
+          "~> 1.0"
+        ]
+      }
+    },
+    {
+      "name": "SVProgressHUD",
+      "source_files": "iOSKit/SVProgressHUD/**/*",
+      "dependencies": {
+        "SVProgressHUD": [
+
+        ]
+      }
+    },
+    {
+      "name": "SwiftyJSON",
+      "source_files": "iOSKit/SwiftyJSON/**/*",
+      "dependencies": {
+        "SwiftyJSON": [
+
+        ]
+      }
+    },
+    {
+      "name": "PromiseKit",
+      "source_files": "iOSKit/PromiseKit/**/*",
+      "dependencies": {
+        "PromiseKit": [
+
+        ]
+      }
+    },
+    {
+      "name": "RxSwift",
+      "source_files": "iOSKit/RxSwift/**/*",
+      "dependencies": {
+        "RxSwift": [
+
+        ],
+        "RxCocoa": [
+
+        ]
+      }
+    }
+  ]
+}
