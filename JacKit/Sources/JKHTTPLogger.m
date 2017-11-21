@@ -137,8 +137,16 @@ static BOOL _isDebugging;
 
   // subsystem & message
   NSArray  *subsystemAndMessage = [logMessage.message componentsSeparatedByString:@"\0"];
-  NSString *subsystem           = subsystemAndMessage[0];
-  NSString *message             = subsystemAndMessage[1];
+  NSString *subsystem;
+  NSString *message;
+  if (subsystemAndMessage.count > 1)
+  {
+    subsystem = subsystemAndMessage[0];
+    message   = subsystemAndMessage[1];
+  } else {
+    subsystem = [NSString stringWithFormat:@"%@.%@ (it's a fallback)", logMessage.fileName, logMessage.function];
+    message = logMessage.message;
+  }
 
   NSDictionary *jsonDict = @{
     @"sessionID": sessionID,
@@ -281,4 +289,5 @@ static BOOL _isDebugging;
 }
 
 @end
+
 
