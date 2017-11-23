@@ -1,5 +1,5 @@
 #import "JacKit.h"
-#import "JKLogFormatter.h"
+#import "JKTTYLoggerFormatter.h"
 #import "JKHTTPLogger.h"
 
 // #ifdef DEBUG
@@ -30,7 +30,7 @@ static NSString *greetingString;
    *  Log goes into Xcode debug area or temrinal when project is run in terminal
    */
   DDTTYLogger    *ttyLogger    = [DDTTYLogger sharedInstance];
-  JKLogFormatter *logFormatter = [JKLogFormatter new];
+  JKTTYLoggerFormatter *logFormatter = [JKTTYLoggerFormatter new];
   ttyLogger.logFormatter = logFormatter;
 
   [greetingLines appendString:[
