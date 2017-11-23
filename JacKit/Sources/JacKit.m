@@ -68,7 +68,7 @@ static NSString *greetingString;
     greetingString = greetingLines;
   }
 
-  NSLog(@"\n----\n\n\n%@\n\n\n----", greetingLines);
+  TTYLog(@"\n----\n\n\n%@\n\n\n----\n", greetingLines);
 
   /**
    * Add loggers at the very end, after the `greetingString` property is full initilization

@@ -49,30 +49,20 @@ static BOOL _isDebugging;
   if (nil == urlString)
   {
     NSString *errorLines =
-      [@[@"!",
-         @"!",
-         @"!",
-         @"!!! JacKit initialization error: environment variable `JACKIT_SERVER_URL` is missing",
-         @"!",
-         @"!",
-         @"!",
+      [@[@"☠️ JacKit initialization error",
+         @"environment variable `JACKIT_SERVER_URL` is missing which is needed by the `JKHTTPLogger`",
        ] componentsJoinedByString: @"\n"];
-    NSLog(@"%@", errorLines);
+    TTYLog(@"%@", errorLines);
     return;
   }
   NSURL *url = [NSURL URLWithString:urlString];
   if (nil == url)
   {
     NSString *errorLines =
-      [@[@"!",
-         @"!",
-         @"!",
-         [NSString stringWithFormat:@"!!! JacKit initialization error: environment variable `JACKIT_SERVER_URL` value `%@` is not a valid URL string", urlString],
-         @"!",
-         @"!",
-         @"!",
+      [@[@"☠️ JacKit initialization error",
+         [NSString stringWithFormat:@"environment variable `JACKIT_SERVER_URL`s value `%@` is not a valid URL address string", urlString],
        ] componentsJoinedByString: @"\n"];
-    NSLog(@"\n\n%@\n\n", errorLines);
+    TTYLog(@"%@\n\n", errorLines);
     return;
   }
   serverURL = url;
@@ -143,9 +133,11 @@ static BOOL _isDebugging;
   {
     subsystem = subsystemAndMessage[0];
     message   = subsystemAndMessage[1];
-  } else {
-    subsystem = [NSString stringWithFormat:@"%@.%@ (it's a fallback)", logMessage.fileName, logMessage.function];
-    message = logMessage.message;
+  }
+  else
+  {
+    subsystem = [NSString stringWithFormat:@"%@.%@ (fallback)", logMessage.fileName, logMessage.function];
+    message   = logMessage.message;
   }
 
   NSDictionary *jsonDict = @{
@@ -160,7 +152,7 @@ static BOOL _isDebugging;
   NSData  *data = [NSJSONSerialization dataWithJSONObject:jsonDict options:kNilOptions error:&error];
   if (error != nil)
   {
-    NSLog(@"JKHTTPLogger - error JSON encoding event message: %@", error);
+    TTYLog(@"JKHTTPLogger - error JSON encoding event message: %@", error);
     return nil;
   }
 
@@ -179,7 +171,7 @@ static BOOL _isDebugging;
   NSData  *bodyData = [NSJSONSerialization dataWithJSONObject:sessionInfo options:kNilOptions error:&error];
   if (error != nil)
   {
-    NSLog(@"JKHTTPLogger - error JSON encoding session message: %@", error);
+    TTYLog(@"JKHTTPLogger - error JSON encoding session message: %@", error);
     return;
   }
 
@@ -199,7 +191,7 @@ static BOOL _isDebugging;
          // check error
          if (error != nil)
          {
-           NSLog(@"JKHTTPLogger - error sending request: %@", error);
+           TTYLog(@"JKHTTPLogger - error sending request: %@", error);
            return;
          }
          // check reponse status code
@@ -207,7 +199,7 @@ static BOOL _isDebugging;
          assert(httpResponse != nil);
          if (httpResponse.statusCode != 200)
          {
-           NSLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
+           TTYLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
            return;
          }
        }];
@@ -246,7 +238,7 @@ static BOOL _isDebugging;
          // check error
          if (error != nil)
          {
-           NSLog(@"JKHTTPLogger - error sending request: %@", error);
+           TTYLog(@"JKHTTPLogger - error sending request: %@", error);
            return;
          }
          // check reponse status code
@@ -254,7 +246,7 @@ static BOOL _isDebugging;
          assert(httpResponse != nil);
          if (httpResponse.statusCode != 200)
          {
-           NSLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
+           TTYLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
            return;
          }
        }];
@@ -289,5 +281,11 @@ static BOOL _isDebugging;
 }
 
 @end
+
+
+
+
+
+
 
 

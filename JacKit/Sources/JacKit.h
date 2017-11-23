@@ -15,6 +15,9 @@
 #define JackDebugWithPrefix(prefix, content, ...)     DDLogDebug(@"%@\0" content, prefix, ## __VA_ARGS__)
 #define JackVerboseWithPrefix(prefix, content, ...)   DDLogVerbose(@"%@\0" content, prefix, ## __VA_ARGS__)
 
+// used internally to log directly to terminal
+#define TTYLog(args,...) do { [(NSFileHandle*)[NSFileHandle fileHandleWithStandardOutput] writeData:[[NSString stringWithFormat:args, ##__VA_ARGS__] dataUsingEncoding: NSUTF8StringEncoding]]; } while(0);
+
 @interface Jack : NSObject
 
 @property (class, strong, readonly, nonatomic) NSString *greetingString;
