@@ -6,17 +6,28 @@
 
   NSString *levelPrefix;
 
-  switch (logMessage.flag) {
+  switch (logMessage.flag)
+  {
   case DDLogFlagError:
-    levelPrefix = @"E"; break;
+    levelPrefix = @"⁉️";
+    break;
+
   case DDLogFlagWarning:
-    levelPrefix = @"W"; break;
+    levelPrefix = @"⚠️";
+    break;
+
   case DDLogFlagInfo:
-    levelPrefix = @"I"; break;
+    levelPrefix = @"🔆";
+    break;
+
   case DDLogFlagDebug:
-    levelPrefix = @"D"; break;
+    levelPrefix = @"🔎";
+    break;
+
   case DDLogFlagVerbose:
-    levelPrefix = @"V"; break;
+    levelPrefix = @"▫️";
+    break;
+
   default:
     NSAssert(false, @"Should not be here");
   }
