@@ -12,7 +12,7 @@
 
 #import "JacKit.h"
 #import "JKHTTPLogger.h"
-#import "JKLogFormatter.h"
+#import "JKTTYLoggerFormatter.h"
 
 FOUNDATION_EXPORT double JacKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char JacKitVersionString[];
