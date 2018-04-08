@@ -55,6 +55,7 @@ static BOOL _isDebugging;
     TTYLog(@"%@", errorLines);
     return;
   }
+  
   NSURL *url = [NSURL URLWithString:urlString];
   if (nil == url)
   {
@@ -65,6 +66,7 @@ static BOOL _isDebugging;
     TTYLog(@"%@\n\n", errorLines);
     return;
   }
+  
   serverURL = url;
 
   // sessionID
@@ -268,6 +270,8 @@ static BOOL _isDebugging;
 {
   // create URL session
   NSURLSessionConfiguration * config = NSURLSessionConfiguration.defaultSessionConfiguration;
+  config.requestCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+  config.URLCache = nil;
   _urlSession = [NSURLSession sessionWithConfiguration:config];
 
   [self postGreetingMessage];

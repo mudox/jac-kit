@@ -8,6 +8,9 @@
 
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
+/**
+  Encode logging events as JSON, send them to JacKit HTTP server
+ */
 @interface JKHTTPLogger : DDAbstractLogger <DDLogger>
 
 @property (class, strong, readonly, nonatomic) NSURL *_Nullable serverURL;
