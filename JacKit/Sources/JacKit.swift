@@ -179,7 +179,30 @@ extension Jack {
 
 }
 
+// MARK: - Assertion
+extension Jack {
+  public static func assert(
+    _ valid: Bool,
+    _ message: String,
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
+  ) {
+    if !valid {
+      #if DEBUG
+        fatalError(message, file: file, line: line)
+      #else
+        warn(message, file: file, function: function)
+      #endif
     }
   }
 
+  public static func assertFailure(
+    _ message: String,
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
+  ) {
+    assert(false, message, file: file, line: line)
+  }
 }
