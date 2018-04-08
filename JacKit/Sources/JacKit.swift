@@ -9,11 +9,23 @@
 import Foundation
 import CocoaLumberjack
 
-// MARK: - Per-file severity level support
+// MARK: - File local level management
 extension Jack {
 
-  static var levelOfFile = [String: DDLogLevel]()
+  private static var _fileLocalLevels = [String: DDLogLevel]()
 
+  private static func _register(level: DDLogLevel, file: StaticString = #file) {
+    _fileLocalLevels[file.description] = level
+  }
+
+  fileprivate static func _level(of file: StaticString) -> DDLogLevel {
+    if let level = _fileLocalLevels[file.description] {
+      return level
+    } else {
+      return defaultDebugLevel
+    }
+  }
+  
   /**
    In the start of each file that you want to set a per file debug severity level for, add following line:
    `fileprivate let jack = Jack.with(levelOfThisFile: .warning)`
@@ -23,26 +35,19 @@ extension Jack {
 
    - returns: Jack.Type for compiler's happiness
    */
-  public static func with(levelOfThisFile level: DDLogLevel, _ fileName: String = #file) -> Jack.Type {
-    setLevelOfThisFile(level, fileName)
+  public static func with(levelOfThisFile level: DDLogLevel, _ file: StaticString = #file) -> Jack.Type {
+    _register(level: level, file: file)
     return Jack.self
   }
 
-  static func setLevelOfThisFile(_ level: DDLogLevel, _ fileName: String = #file) {
-    levelOfFile[fileName] = level
-  }
-
-  static func levelOfFile(_ fileName: String) -> DDLogLevel {
-    if let level = levelOfFile[fileName] {
-      return level
-    } else {
-      return defaultDebugLevel
-    }
+  public static func with(fileLocalLevel level: DDLogLevel, _ file: StaticString = #file) -> Jack.Type {
+    _register(level: level, file: file)
+    return Jack.self
   }
 
 }
 
-// MARK: - Private
+// MARK: - Compose log message
 extension Jack {
 
   public enum Subsystem {
@@ -51,7 +56,7 @@ extension Jack {
     case custom(String)
   }
 
-  static let appName = ProcessInfo.processInfo.processName
+  private static let _appName = ProcessInfo.processInfo.processName
 
   /**
    It is the designated method that other public logging methods delegate to.
@@ -75,90 +80,105 @@ extension Jack {
   ///   - file: file name (extension stripped)
   ///   - function: function name
   /// - Returns: It combine the `subsystem` and `message` into a single string for passing to the DDLogXXX functions
-  fileprivate static func messagePartForDDLogMessage(
+  fileprivate static func _compose(
     _ message: String,
     _ subsystem: Subsystem,
-    _ file: String,
-    _ function: String
+    _ file: StaticString = #file,
+    _ line: UInt = #line,
+    _ function: StaticString
   ) -> String {
 
     var prefix: String
     switch subsystem {
     case .app:
-      prefix = appName
+      prefix = _appName
     case .fileFunction:
-      let fileName = URL(fileURLWithPath: file).deletingPathExtension().lastPathComponent
-      prefix = "\(fileName).\(function)"
+      let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+      prefix = "\(fileName).\(function) @\(line)"
     case .custom(let content):
       prefix = content
     }
 
-    assert(!prefix.contains("\0"))
+    self.assert(!prefix.contains("\0"), "Should not contain null character")
     return "\(prefix)\0\(message)"
   }
 
 }
 
-// MARK: - Public Interface
+// MARK: - Logging
 extension Jack {
+
+  private static func _canLog(flag: DDLogFlag, file: StaticString) -> Bool {
+    return flag.rawValue & _level(of: file).rawValue != 0
+  }
 
   public static func error(
     _ message: @autoclosure () -> String,
     from subsystem: Subsystem = .fileFunction,
-    _ file: String = #file,
-    _ function: String = #function
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
   ) {
-
-    if DDLogFlag.error.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogError(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
+    if _canLog(flag: .error, file: file) {
+      let message = _compose(message(), subsystem, file, line, function)
+      DDLogError(message, level: _level(of: file))
     }
   }
 
   public static func warn(
     _ message: @autoclosure () -> String,
     from subsystem: Subsystem = .fileFunction,
-    _ file: String = #file,
-    _ function: String = #function
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
   ) {
-
-    if DDLogFlag.warning.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogWarn(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
+    if _canLog(flag: .warning, file: file) {
+      let message = _compose(message(), subsystem, file, line, function)
+      DDLogWarn(message, level: _level(of: file))
     }
   }
 
   public static func info(
     _ message: @autoclosure () -> String,
     from subsystem: Subsystem = .fileFunction,
-    _ file: String = #file,
-    _ function: String = #function
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
   ) {
-
-    if DDLogFlag.info.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogInfo(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
+    if _canLog(flag: .info, file: file) {
+      let message = _compose(message(), subsystem, file, line, function)
+      DDLogInfo(message, level: _level(of: file))
     }
   }
 
   public static func debug(
     _ message: @autoclosure () -> String,
     from subsystem: Subsystem = .fileFunction,
-    _ file: String = #file,
-    _ function: String = #function
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
   ) {
-
-    if DDLogFlag.debug.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogDebug(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
+    if _canLog(flag: .debug, file: file) {
+      let message = _compose(message(), subsystem, file, line, function)
+      DDLogDebug(message, level: _level(of: file))
     }
   }
 
   public static func verbose(
     _ message: @autoclosure () -> String,
     from subsystem: Subsystem = .fileFunction,
-    _ file: String = #file,
-    _ function: String = #function
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
   ) {
+    if _canLog(flag: .verbose, file: file) {
+      let message = _compose(message(), subsystem, file, line, function)
+      DDLogVerbose(message, level: _level(of: file))
+    }
+  }
 
-    if DDLogFlag.verbose.rawValue & levelOfFile(file).rawValue != 0 {
-      DDLogVerbose(messagePartForDDLogMessage(message(), subsystem, file, function), level: levelOfFile(file))
+}
+
     }
   }
 
