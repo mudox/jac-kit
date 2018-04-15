@@ -197,7 +197,7 @@ extension Jack {
     }
   }
 
-  public static func assertFailure(
+  public static func failure(
     _ message: String,
     file: StaticString = #file,
     function: StaticString = #function,
