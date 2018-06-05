@@ -181,6 +181,18 @@ extension Jack {
 
 // MARK: - Assertion
 extension Jack {
+  
+  /// JacKit' version of `rxFatalError()`.
+  /// It `falalError()` in debug mode, while logs a warnning message
+  /// in release mode.
+  /// Unlike `assert`, the expression is always evaluated.
+  ///
+  /// - Parameters:
+  ///   - valid: The expression to be tested.
+  ///   - message: Failure message.
+  ///   - file: File name which is autolmatically captured.
+  ///   - function: Function name which automatically capture.
+  ///   - line: Line number which is automatically captured.
   public static func assert(
     _ valid: Bool,
     _ message: String,
@@ -197,6 +209,15 @@ extension Jack {
     }
   }
 
+  /// JacKit' version of `assertionFailure()`.
+  /// It `falalError()` in debug mode while logs a warnning message in
+  /// release mode.
+  ///
+  /// - Parameters:
+  ///   - message: Failure message.
+  ///   - file: File name which is autolmatically captured.
+  ///   - function: Function name which automatically capture.
+  ///   - line: Line number which is automatically captured.
   public static func failure(
     _ message: String,
     file: StaticString = #file,

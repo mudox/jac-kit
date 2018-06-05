@@ -34,7 +34,7 @@ static BOOL _isDebugging;
 }
 
 #pragma mark - Initialization
-
+  
 + (void)initialize
 {
   if (self.class != JKHTTPLogger.self)
