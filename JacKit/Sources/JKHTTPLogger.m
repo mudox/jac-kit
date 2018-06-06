@@ -49,8 +49,9 @@ static BOOL _isDebugging;
   if (nil == urlString)
   {
     NSString *errorLines =
-      [@[@"☠️ JacKit initialization error",
-         @"environment variable `JACKIT_SERVER_URL` is missing which is needed by the `JKHTTPLogger`",
+      [@[@"⚠️ JacKit initialization error",
+         @"   Environment variable `JACKIT_SERVER_URL` is missing which is needed by the `JKHTTPLogger`",
+         @"   The `JKHTTPLogger` will not be installed",
        ] componentsJoinedByString: @"\n"];
     TTYLog(@"%@", errorLines);
     return;
@@ -60,8 +61,9 @@ static BOOL _isDebugging;
   if (nil == url)
   {
     NSString *errorLines =
-      [@[@"☠️ JacKit initialization error",
-         [NSString stringWithFormat:@"environment variable `JACKIT_SERVER_URL`s value `%@` is not a valid URL address string", urlString],
+      [@[@"⚠️ JacKit initialization error",
+         [NSString stringWithFormat:@"   environment variable `JACKIT_SERVER_URL`s value `%@` is not a valid URL address string", urlString],
+         @"   The `JKHTTPLogger` will not be installed",
        ] componentsJoinedByString: @"\n"];
     TTYLog(@"%@\n\n", errorLines);
     return;

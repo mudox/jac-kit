@@ -68,14 +68,16 @@ static NSString *greetingString;
     greetingString = greetingLines;
   }
 
-  TTYLog(@"\n----\n\n\n%@\n\n\n----\n", greetingLines);
+  TTYLog(@"\n\n\n%@\n\n\n\n", greetingLines);
 
   /**
    * Add loggers at the very end, after the `greetingString` property is full initilization
    * JKHttpLogger -didAddLogger will add this property into its first message to the server
    */
   [DDLog addLogger:ttyLogger];
-  [DDLog addLogger:httpLogger];
+  if (httpLogger != nil) {
+    [DDLog addLogger:httpLogger];
+  }
 }
 
 @end

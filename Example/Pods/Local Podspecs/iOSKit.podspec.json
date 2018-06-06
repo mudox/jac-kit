@@ -24,39 +24,25 @@
       "dependencies": {
         "JacKit": [
 
-        ]
-      }
-    },
-    {
-      "name": "Basic",
-      "dependencies": {
-        "iOSKit/Core": [
+        ],
+        "RxSwift": [
 
         ],
-        "iOSKit/PromiseKit": [
-
-        ],
-        "iOSKit/RxSwift": [
+        "RxCocoa": [
 
         ]
       }
     },
     {
-      "name": "MBProgressHUD-Swift",
-      "source_files": "iOSKit/MBProgressHUD/MPB.swift",
+      "name": "MBProgressHUD",
+      "source_files": "iOSKit/MBProgressHUD/**/*.swift",
       "dependencies": {
         "MBProgressHUD": [
-          "~> 1.0"
+
         ]
-      }
-    },
-    {
-      "name": "MBProgressHUD-OC",
-      "source_files": "iOSKit/MBProgressHUD/**/*.{m,h}",
-      "dependencies": {
-        "MBProgressHUD": [
-          "~> 1.0"
-        ]
+      },
+      "resource_bundles": {
+        "mbp": "iOSKit/MBP/MBP.xcassets"
       }
     },
     {
@@ -69,19 +55,23 @@
       }
     },
     {
-      "name": "SwiftyJSON",
-      "source_files": "iOSKit/SwiftyJSON/**/*",
+      "name": "NVActivityIndicatorView",
+      "source_files": "iOSKit/NVActivityIndicatorView/**/*",
       "dependencies": {
-        "SwiftyJSON": [
+        "NVActivityIndicatorView": [
 
         ]
       }
     },
     {
-      "name": "PromiseKit",
-      "source_files": "iOSKit/PromiseKit/**/*",
+      "name": "ObjectiveC",
+      "source_files": "iOSKit/ObjectiveC/**/*"
+    },
+    {
+      "name": "SwiftyJSON",
+      "source_files": "iOSKit/SwiftyJSON/**/*",
       "dependencies": {
-        "PromiseKit": [
+        "SwiftyJSON": [
 
         ]
       }
@@ -92,8 +82,31 @@
       "dependencies": {
         "RxSwift": [
 
+        ]
+      }
+    },
+    {
+      "name": "All",
+      "dependencies": {
+        "iOSKit/Core": [
+
         ],
-        "RxCocoa": [
+        "iOSKit/MBProgressHUD": [
+
+        ],
+        "iOSKit/SVProgressHUD": [
+
+        ],
+        "iOSKit/NVActivityIndicatorView": [
+
+        ],
+        "iOSKit/RxSwift": [
+
+        ],
+        "iOSKit/SwiftyJSON": [
+
+        ],
+        "iOSKit/ObjectiveC": [
 
         ]
       }

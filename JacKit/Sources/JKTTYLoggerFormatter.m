@@ -1,3 +1,5 @@
+@import Foundation;
+
 #import "JKTTYLoggerFormatter.h"
 
 @implementation JKTTYLoggerFormatter
@@ -10,23 +12,23 @@
   switch (logMessage.flag)
   {
   case DDLogFlagError:
-    levelPrefix = @"⁉️";
+    levelPrefix = @"💔";
     break;
 
   case DDLogFlagWarning:
-    levelPrefix = @"⚠️";
+    levelPrefix = @"💜";
     break;
 
   case DDLogFlagInfo:
-    levelPrefix = @"🔆";
+    levelPrefix = @"💛";
     break;
 
   case DDLogFlagDebug:
-    levelPrefix = @"🔎";
+    levelPrefix = @"💚";
     break;
 
   case DDLogFlagVerbose:
-    levelPrefix = @"▫️";
+    levelPrefix = @"🖤";
     break;
 
   default:
@@ -48,7 +50,8 @@
     message   = logMessage.message;
   }
 
-  return [NSString stringWithFormat:@"%@ %@\n%@", levelPrefix, subsystem, message];
+  NSString *msg = [NSString stringWithFormat:@"%@ %@\n%@", levelPrefix, subsystem, message];
+  return [msg stringByReplacingOccurrencesOfString:@"\n" withString:@"\n   "];
 }
 
 @end
