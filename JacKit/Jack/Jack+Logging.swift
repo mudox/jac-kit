@@ -21,8 +21,10 @@ fileprivate enum Formatter {
     _ line: UInt
   ) -> String {
 
-    let location = Formatter.fileFunctionLine(file, function, line)
-    let prefix = "\(scope) @ \(location)"
+//    let location = Formatter.fileFunctionLine(file, function, line)
+//    let prefix = "\(scope) @ \(location)"
+    
+    let prefix = scope
 
     assert(!prefix.contains("\u{0B}"), """
       logging prefix should not contain "\u{0B}" character, which is used to delimit \
