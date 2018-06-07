@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  JacKit
-//
-//  Created by mudox on 11/17/2017.
-//  Copyright (c) 2017 mudox. All rights reserved.
-//
-
 import UIKit
 
 class ViewController: UIViewController {

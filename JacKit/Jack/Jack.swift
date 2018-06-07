@@ -9,38 +9,39 @@ private func _setLevel(_ level: DDLogLevel, for scope: String) {
   _lock.unlock()
 }
 
-private func _isValidaScope(_ text: String) -> Bool {
-  // If already already checked
-  _lock.lock()
-  if _scopeLevels.keys.contains(text) {
-    return true
-  }
-  _lock.unlock()
-  
-  let components = text.split(separator: ".", omittingEmptySubsequences: false)
 
-  guard !components.isEmpty else { return false }
-
-  for text in components {
-    if text.range(of: "^\\b.*\\b$", options: .regularExpression) == nil {
-      return false
-    }
-  }
-
-  return true
-}
 
 public final class Jack {
 
   public struct Scope {
     
+    static func isValidScope(_ text: String) -> Bool {
+      // If already already checked
+      _lock.lock()
+      if _scopeLevels.keys.contains(text) {
+        return true
+      }
+      _lock.unlock()
+      
+      let components = text.split(separator: ".", omittingEmptySubsequences: false)
+      
+      guard !components.isEmpty else { return false }
+      
+      for text in components {
+        if text.range(of: "^\\b.*\\b$", options: .regularExpression) == nil {
+          return false
+        }
+      }
+      
+      return true
+    }
     static let fallback = Scope("FALLBACK")!
 
     let string: String
 
     init?(_ string: String) {
 
-      guard _isValidaScope(string) else {
+      guard Scope.isValidScope(string) else {
         return nil
       }
 
@@ -61,7 +62,7 @@ public final class Jack {
 
   }
 
-  private enum LevelLookup: Equatable {
+  enum LevelLookup: Equatable {
     case set(DDLogLevel)
     case inherit(DDLogLevel, from: String)
     case root
@@ -83,7 +84,7 @@ public final class Jack {
   let scope: Scope
 
   public init(scope: String, level: DDLogLevel? = nil) {
-    
+
     if let s = Scope(scope) {
       self.scope = s
     } else {
@@ -99,9 +100,9 @@ public final class Jack {
     }
   }
 
-  private func _lookupLevel() -> LevelLookup {
+  func lookupLevel() -> LevelLookup {
     _lock.lock(); defer { _lock.unlock() }
-    
+
     if let level = _scopeLevels[scope.string] {
       return .set(level)
     }
@@ -116,10 +117,11 @@ public final class Jack {
   }
 
   public var level: DDLogLevel {
-    return _lookupLevel().level
+    return lookupLevel().level
   }
-  
-  public func setLevel(_ level: DDLogLevel) -> Jack{
+
+  @discardableResult
+  public func setLevel(_ level: DDLogLevel) -> Jack {
     _setLevel(level, for: scope.string)
     return self
   }

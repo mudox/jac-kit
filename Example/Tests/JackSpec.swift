@@ -8,7 +8,7 @@ import Nimble
 class StringSpec: QuickSpec {
   override func spec() {
 
-    describe("Jackey") {
+    describe("Jack") {
 
       it("init validate scope string") {
         let expects = [
@@ -25,24 +25,20 @@ class StringSpec: QuickSpec {
 
         expects.forEach { text, result in
           print("🍋 try \(String(reflecting: text))")
-          if result {
-            expect(Jack(scope: text)).toNot(beNil())
-          } else {
-            expect(Jack(scope: text)).to(beNil())
-          }
+          expect(Jack.Scope.isValidScope(text)) == result
         }
       } // it("init")
       
       it("manages level") {
-        expect(Jack(scope: "a")!.lookupLevel())
+        expect(Jack(scope: "a").lookupLevel())
           .to(equal(Jack.LevelLookup.root))
-        expect(Jack(scope: "b", level: .debug)!.lookupLevel())
+        expect(Jack(scope: "b", level: .debug).lookupLevel())
           .to(equal(Jack.LevelLookup.set(.debug)))
-        expect(Jack(scope: "b.c")!.lookupLevel())
+        expect(Jack(scope: "b.c").lookupLevel())
           .to(equal(Jack.LevelLookup.inherit(.debug, from: "b")))
         
-        let b = Jack(scope: "b")!
-        let c = Jack(scope: "b.c")!
+        let b = Jack(scope: "b")
+        let c = Jack(scope: "b.c")
         expect(b.lookupLevel())
           .to(equal(Jack.LevelLookup.set(.debug)))
         
@@ -55,7 +51,7 @@ class StringSpec: QuickSpec {
         expect(c.level) == .error
       }
 
-    } // describe("Jackey")
+    } // describe("Jack")
   }
   
 }
