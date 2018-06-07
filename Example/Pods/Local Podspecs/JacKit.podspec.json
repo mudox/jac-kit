@@ -16,8 +16,7 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "JacKit/Sources/**/*",
-  "preserve_paths": "JacKit/Assets/*",
+  "source_files": "JacKit/**/*",
   "dependencies": {
     "CocoaLumberjack/Swift": [
       "~> 3.3.0"

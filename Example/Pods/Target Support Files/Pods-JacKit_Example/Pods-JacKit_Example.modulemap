@@ -1,6 +1,0 @@
-framework module Pods_JacKit_Example {
-  umbrella header "Pods-JacKit_Example-umbrella.h"
-
-  export *
-  module * { export * }
-}

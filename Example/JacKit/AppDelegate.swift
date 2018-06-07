@@ -1,34 +1,17 @@
-//
-//  AppDelegate.swift
-//  JacKit
-//
-//  Created by mudox on 11/17/2017.
-//  Copyright (c) 2017 mudox. All rights reserved.
-//
-
 import UIKit
 
-import JacKit
-import iOSKit
+import MudoxKit
 
-fileprivate let jack = Jack.with(levelOfThisFile: .debug)
+import JacKit
+fileprivate let jack = Jack.usingLocalFileScope().setLevel(.verbose)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 
-
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    
-    application.mdx_greet()
-    application.mdx_observeAppStates()
-    
-    DispatchQueue.global().async {
-      var t = JacKitTest()
-      t.test()
-    }
-    
+
     return true
   }
 
@@ -56,4 +39,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-

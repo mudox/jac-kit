@@ -1,15 +1,17 @@
 use_frameworks!
 platform :ios, '9.0'
 
-target 'JacKit_Example' do
+target 'Demo' do
 
-  pod 'JacKit', :path => '../'
-  pod 'iOSKit/Core', :path => '../../iOSKit/'
+  pod 'JacKit',        :path => '../'
+  pod 'MudoxKit/Core', :path => '../../MudoxKit/'
 
   pod 'Fakery'
 
-  target 'JacKit_Tests' do
+  target 'Tests' do
     inherit! :search_paths
 
+    pod 'Quick'
+    pod 'Nimble'
   end
 end

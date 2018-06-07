@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'JacKit'
-  s.version          = '1.0.0-beta1'
+  s.version          = '1.0'
   s.summary          = 'JacKit, my iOS developing logging tool'
   s.description      = <<-DESC
   Wrap CocoaLumberjack to embrace Swift syntax.
@@ -18,8 +18,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'JacKit/Sources/**/*'
-  s.preserve_paths = 'JacKit/Assets/*'
+  s.source_files = 'JacKit/**/*'
 
   s.dependency 'CocoaLumberjack/Swift', '~> 3.3.0'
 end
