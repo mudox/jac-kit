@@ -11,6 +11,7 @@
 #endif
 
 #import "JacKit.h"
+#import "CLManager.h"
 #import "JKHTTPLogger.h"
 #import "JKTTYLoggerFormatter.h"
 
