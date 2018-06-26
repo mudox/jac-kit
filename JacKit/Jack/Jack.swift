@@ -28,13 +28,14 @@ public final class Jack {
       guard !components.isEmpty else { return false }
       
       for text in components {
-        if text.range(of: "^\\b.*\\b$", options: .regularExpression) == nil {
+        if text.range(of: "^(\\[.*\\] )?\\b.*\\b$", options: .regularExpression) == nil {
           return false
         }
       }
       
       return true
     }
+    
     static let fallback = Scope("FALLBACK")!
 
     let string: String

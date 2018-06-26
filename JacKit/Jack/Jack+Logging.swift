@@ -20,10 +20,6 @@ fileprivate enum Formatter {
     _ function: StaticString,
     _ line: UInt
   ) -> String {
-
-//    let location = Formatter.fileFunctionLine(file, function, line)
-//    let prefix = "\(scope) @ \(location)"
-    
     let prefix = scope
 
     assert(!prefix.contains("\u{0B}"), """
@@ -39,23 +35,22 @@ fileprivate enum Formatter {
 extension Jack {
 
   // MARK: Convenient Initialiazers
-
-  public static func usingLocalFileScope(
+  
+  public static func fileScopeInstance(
     _ file: StaticString = #file,
     _ function: StaticString = #function,
     _ line: UInt = #line
-  ) -> Jack {
-    return Jack(scope: Formatter.fileFunction(file, function))
+    ) -> Jack {
+    return Jack(scope: "[F] \(Formatter.fileFunction(file, function))")
   }
 
-  public static func usingAppScope(
+  public static func appScopeInstance(
     _ file: StaticString = #file,
     _ function: StaticString = #function,
     _ line: UInt = #line
-  ) -> Jack {
-    return Jack(scope: ProcessInfo.processInfo.processName)
+    ) -> Jack {
+    return Jack(scope: "[A] \(ProcessInfo.processInfo.processName)")
   }
-
 
   private func _canLog(flag: DDLogFlag) -> Bool {
     return level.rawValue & flag.rawValue != 0
