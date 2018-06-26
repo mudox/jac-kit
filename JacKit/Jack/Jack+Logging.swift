@@ -2,25 +2,34 @@ import Foundation
 import CocoaLumberjack
 
 fileprivate enum Formatter {
+  static func file(_ file: StaticString) -> String {
+    return URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+  }
 
-  fileprivate static func fileFunction(_ file: StaticString, _ function: StaticString) -> String {
+  static func fileFunction(_ file: StaticString, _ function: StaticString) -> String {
     let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
     return "\(fileName).\(function)"
   }
 
-  fileprivate static func fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
+  static func fileLine(_ file: StaticString, _ line: UInt) -> String {
+    let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+    return "\(fileName):\(line)"
+  }
+  
+  static func fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
     let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
     return "\(fileName).\(function):\(line)"
   }
 
-  fileprivate static func compose(
+  static func compose(
     _ scope: String,
     _ message: String,
     _ file: StaticString,
     _ function: StaticString,
     _ line: UInt
   ) -> String {
-    let prefix = scope
+    let location = Formatter.fileLine(file, line)
+    let prefix = "\(scope) ·· \(location)"
 
     assert(!prefix.contains("\u{0B}"), """
       logging prefix should not contain "\u{0B}" character, which is used to delimit \
@@ -36,22 +45,6 @@ extension Jack {
 
   // MARK: Convenient Initialiazers
   
-  public static func fileScopeInstance(
-    _ file: StaticString = #file,
-    _ function: StaticString = #function,
-    _ line: UInt = #line
-    ) -> Jack {
-    return Jack(scope: "[F] \(Formatter.fileFunction(file, function))")
-  }
-
-  public static func appScopeInstance(
-    _ file: StaticString = #file,
-    _ function: StaticString = #function,
-    _ line: UInt = #line
-    ) -> Jack {
-    return Jack(scope: "[A] \(ProcessInfo.processInfo.processName)")
-  }
-
   private func _canLog(flag: DDLogFlag) -> Bool {
     return level.rawValue & flag.rawValue != 0
   }
