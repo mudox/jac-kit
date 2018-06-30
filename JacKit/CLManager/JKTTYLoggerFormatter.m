@@ -32,42 +32,45 @@
     }
 
     NSString * scope, * location, * message;
-    int options;
     scope = jsonObject[@"scope"];
     location = jsonObject[@"location"];
     message = jsonObject[@"message"];
 
-    options = [jsonObject[@"options"] intValue];
+    int options = [jsonObject[@"options"] intValue];
     int noLevelIcon = 1 << 0;
     int noLocation = 1 << 1;
     int noScope = 1 << 2;
-  BOOL compact = options & (1 << 3);
+    int compact = 1 << 3;
 
-    NSString * text;
+    NSString * text = nil;
+
     if (options == noLevelIcon) {
-    text = [NSString stringWithFormat:@"%@\n%@\n%@", scope, message, location];
+        text = [NSString stringWithFormat:@"%@\n%@\n%@", scope, message, location];
+    } else if (options == (noLevelIcon | compact)) {
+        text = [NSString stringWithFormat:@"%@   %@\n%@", scope, message, location];
     } else if (options == noLocation) {
-      if (compact) {
-        text = [NSString stringWithFormat:@"%@ %@   %@", levelIcon, scope, message];
-      } else {
         text = [NSString stringWithFormat:@"%@ %@\n%@", levelIcon, scope, message];
-      }
+    } else if (options == (noLocation | compact)) {
+        text = [NSString stringWithFormat:@"%@ %@   %@", levelIcon, scope, message];
+    } else if (options == noScope) {
+        text = [NSString stringWithFormat:@"%@ %@\n%@", levelIcon, message, location];
+    } else if (options == (noScope | compact)) {
+        text = [NSString stringWithFormat:@"%@ %@\n%@", levelIcon, message, location];
     } else if (options == (noLevelIcon | noLocation)) {
-      if (compact) {
-        text = [NSString stringWithFormat:@"%@   %@", scope, message];
-      } else {
         text = [NSString stringWithFormat:@"%@\n%@", scope, message];
-      }
+    } else if (options == (noLevelIcon | noLocation | compact)) {
+        text = [NSString stringWithFormat:@"%@   %@", scope, message];
     } else if (options == (noLevelIcon | noLocation | noScope)) {
         text = [NSString stringWithFormat:@"%@", message];
-    } else {
-      if (compact) {
+    } else if (options == (noLevelIcon | noLocation | noScope | compact)) {
+        text = [NSString stringWithFormat:@"%@", message];
+    } else if (options == compact) {
         text = [NSString stringWithFormat:@"%@ %@   %@\n%@", levelIcon, scope, message, location];
-      } else {
+    } else { // Fallback
         text = [NSString stringWithFormat:@"%@ %@\n%@\n%@", levelIcon, scope, message, location];
-      }
     }
 
+    // Indent following lines
     return [text stringByReplacingOccurrencesOfString:@"\n" withString:@"\n   "];
 }
 
