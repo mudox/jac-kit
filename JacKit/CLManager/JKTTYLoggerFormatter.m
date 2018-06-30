@@ -41,18 +41,31 @@
     int noLevelIcon = 1 << 0;
     int noLocation = 1 << 1;
     int noScope = 1 << 2;
+  BOOL compact = options & (1 << 3);
 
     NSString * text;
     if (options == noLevelIcon) {
     text = [NSString stringWithFormat:@"%@\n%@\n%@", scope, message, location];
     } else if (options == noLocation) {
+      if (compact) {
+        text = [NSString stringWithFormat:@"%@ %@   %@", levelIcon, scope, message];
+      } else {
         text = [NSString stringWithFormat:@"%@ %@\n%@", levelIcon, scope, message];
+      }
     } else if (options == (noLevelIcon | noLocation)) {
-      text = [NSString stringWithFormat:@"%@\n%@", scope, message];
+      if (compact) {
+        text = [NSString stringWithFormat:@"%@   %@", scope, message];
+      } else {
+        text = [NSString stringWithFormat:@"%@\n%@", scope, message];
+      }
     } else if (options == (noLevelIcon | noLocation | noScope)) {
         text = [NSString stringWithFormat:@"%@", message];
     } else {
+      if (compact) {
+        text = [NSString stringWithFormat:@"%@ %@   %@\n%@", levelIcon, scope, message, location];
+      } else {
         text = [NSString stringWithFormat:@"%@ %@\n%@\n%@", levelIcon, scope, message, location];
+      }
     }
 
     return [text stringByReplacingOccurrencesOfString:@"\n" withString:@"\n   "];

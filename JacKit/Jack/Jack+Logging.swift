@@ -14,6 +14,7 @@ extension Jack {
     public static let noLevelIcon = FormattingOptions(rawValue: 1 << 0)
     public static let noLocation = FormattingOptions(rawValue: 1 << 1)
     public static let noScope = FormattingOptions(rawValue: 1 << 2)
+    public static let compact = FormattingOptions(rawValue: 1 << 3)
 
     // Derived cases
     public static let `default`: FormattingOptions = []
