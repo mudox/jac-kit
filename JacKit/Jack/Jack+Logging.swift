@@ -5,7 +5,7 @@ extension Jack {
 
   public struct FormattingOptions: OptionSet {
     public let rawValue: Int
-    
+
     public init(rawValue: Int) {
       self.rawValue = rawValue
     }
@@ -23,138 +23,136 @@ extension Jack {
 
 }
 
-fileprivate enum Formatter {
+// MARK: - Message Composing Helpers
 
-  static func file(_ file: StaticString) -> String {
-    return URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-  }
+fileprivate func _file(_ file: StaticString) -> String {
+  return URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+}
 
-  static func fileFunction(_ file: StaticString, _ function: StaticString) -> String {
-    let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-    return "\(fileName).\(function)"
-  }
+fileprivate func _fileFunction(_ file: StaticString, _ function: StaticString) -> String {
+  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+  return "\(fileName).\(function)"
+}
 
-  static func fileLine(_ file: StaticString, _ line: UInt) -> String {
-    let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-    return "\(fileName):\(line)"
-  }
+fileprivate func _fileLine(_ file: StaticString, _ line: UInt) -> String {
+  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+  return "\(fileName):\(line)"
+}
 
-  static func fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
-    let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-    return "\(fileName).\(function):\(line)"
-  }
+fileprivate func _fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
+  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+  return "\(fileName).\(function):\(line)"
+}
 
-  static func compose(
-    _ scope: String,
-    _ message: String,
-    _ options: Jack.FormattingOptions,
-    _ file: StaticString,
-    _ function: StaticString,
-    _ line: UInt
-  ) -> String {
-    let location = Formatter.fileLine(file, line)
-    let prefix = "\(scope) ·· \(location)"
+fileprivate func _compose(
+  _ scope: String,
+  _ message: String,
+  _ options: Jack.FormattingOptions,
+  _ file: StaticString,
+  _ function: StaticString,
+  _ line: UInt
+) -> String {
+  let location = _fileLine(file, line)
+  let prefix = "\(scope) ·· \(location)"
 
-    assert(!prefix.contains("\u{0B}"), """
+  assert(!prefix.contains("\u{0B}"), """
       logging prefix should not contain "\u{0B}" character, which is used to delimit \
       prefix and message.
       """)
 
-    let jsonObject: [String: Any] = [
-      "scope": scope,
-      "location": location,
-      "message": message,
-      "options": options.rawValue,
-    ]
+  let jsonObject: [String: Any] = [
+    "scope": scope,
+    "location": location,
+    "message": message,
+    "options": options.rawValue,
+  ]
 
-    do {
-      let jsonData = try! JSONSerialization.data(withJSONObject: jsonObject, options: [])
-      guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-        return "Jack.Formatter json string init error"
-      }
-      return jsonString
-    } catch {
-      return "Jack.Formatter json serialization error: \(error)"
+  do {
+    let jsonData = try! JSONSerialization.data(withJSONObject: jsonObject, options: [])
+    guard let jsonString = String(data: jsonData, encoding: .utf8) else {
+      return "Jack.Formatter json string init error"
     }
+    return jsonString
+  } catch {
+    return "Jack.Formatter json serialization error: \(error)"
   }
-
 }
 
-extension Jack {
+// MARK: - Logging Methods
 
-  // MARK: Convenient Initialiazers
+extension Jack {
 
   private func _canLog(flag: DDLogFlag) -> Bool {
     return level.rawValue & flag.rawValue != 0
   }
 
-  // MARK: Logging Methods
-
   public func error(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = .default,
+    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if _canLog(flag: .error) {
-      let message = Formatter.compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope.string, message(), options, file, function, line)
       DDLogError(message, level: level)
     }
   }
 
   public func warn(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = .default,
+    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if _canLog(flag: .warning) {
-      let message = Formatter.compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope.string, message(), options, file, function, line)
       DDLogWarn(message, level: level)
     }
   }
 
   public func info(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = .default,
+    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if _canLog(flag: .info) {
-      let message = Formatter.compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope.string, message(), options, file, function, line)
       DDLogInfo(message, level: level)
     }
   }
 
   public func debug(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = .default,
+    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if _canLog(flag: .debug) {
-      let message = Formatter.compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope.string, message(), options, file, function, line)
       DDLogDebug(message, level: level)
     }
   }
 
   public func verbose(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = .default,
+    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if _canLog(flag: .verbose) {
-      let message = Formatter.compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope.string, message(), options, file, function, line)
       DDLogVerbose(message, level: level)
     }
   }
 }
+
+// MARK: - Assertion methods
 
 extension Jack {
 
@@ -176,7 +174,8 @@ extension Jack {
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
-  ) {
+  )
+  {
     if !valid {
       #if DEBUG
         fatalError(message, file: file, line: line)
@@ -200,7 +199,8 @@ extension Jack {
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
-  ) {
+  )
+  {
     assert(false, message, file: file, line: line)
   }
 }
