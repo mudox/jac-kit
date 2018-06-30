@@ -4,54 +4,56 @@
 
 @implementation JKTTYLoggerFormatter
 
-- (NSString *)formatLogMessage: (DDLogMessage *)logMessage
-{
+- (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
 
-  NSString *levelPrefix;
+    NSString * levelIcon;
 
-  switch (logMessage.flag)
-  {
-  case DDLogFlagError:
-    levelPrefix = @"💔";
-    break;
+    switch (logMessage.flag) {
+        case DDLogFlagError:
+            levelIcon = @"💔"; break;
+        case DDLogFlagWarning:
+            levelIcon = @"💜"; break;
+        case DDLogFlagInfo:
+            levelIcon = @"💛"; break;
+        case DDLogFlagDebug:
+            levelIcon = @"💚"; break;
+        case DDLogFlagVerbose:
+            levelIcon = @"🖤"; break;
+        default:
+            NSAssert(false, @"Should not be here");
+    }
 
-  case DDLogFlagWarning:
-    levelPrefix = @"💜";
-    break;
+    // subsystem & message
+    NSData * jsonData = [logMessage.message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError * error;
+    NSDictionary * jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
+    if (error != nil) {
+        return [NSString stringWithFormat:@"JKTTYHttpFormatter json deserialization error: %@", error.description];
+    }
 
-  case DDLogFlagInfo:
-    levelPrefix = @"💛";
-    break;
+    NSString * scope, * location, * message;
+    int options;
+    scope = jsonObject[@"scope"];
+    location = jsonObject[@"location"];
+    message = jsonObject[@"message"];
 
-  case DDLogFlagDebug:
-    levelPrefix = @"💚";
-    break;
+    options = [jsonObject[@"options"] intValue];
+    int noLevelIcon = 1 << 0;
+    int noLocation = 1 << 1;
+    int noScope = 1 << 2;
 
-  case DDLogFlagVerbose:
-    levelPrefix = @"🖤";
-    break;
+    NSString * text;
+    if (options == noLevelIcon) {
+        text = [NSString stringWithFormat:@"%@\n%@\n%@", scope, message, location];
+    } else if (options == (noLevelIcon | noLocation)) {
+      text = [NSString stringWithFormat:@"%@\n%@", scope, message];
+    } else if (options == (noLevelIcon | noLocation | noScope)) {
+        text = [NSString stringWithFormat:@"%@", message];
+    } else {
+        text = [NSString stringWithFormat:@"%@ %@\n%@\n%@", levelIcon, scope, message, location];
+    }
 
-  default:
-    NSAssert(false, @"Should not be here");
-  }
-
-  // subsystem & message
-  NSArray  *subsystemAndMessage = [logMessage.message componentsSeparatedByString:@"\v"];
-  NSString *subsystem;
-  NSString *message;
-  if (subsystemAndMessage.count > 1)
-  {
-    subsystem = subsystemAndMessage[0];
-    message   = subsystemAndMessage[1];
-  }
-  else
-  {
-    subsystem = [NSString stringWithFormat:@"%@.%@ (fallback)", logMessage.fileName, logMessage.function];
-    message   = logMessage.message;
-  }
-
-  NSString *msg = [NSString stringWithFormat:@"%@ %@\n%@", levelPrefix, subsystem, message];
-  return [msg stringByReplacingOccurrencesOfString:@"\n" withString:@"\n   "];
+    return [text stringByReplacingOccurrencesOfString:@"\n" withString:@"\n   "];
 }
 
 @end
