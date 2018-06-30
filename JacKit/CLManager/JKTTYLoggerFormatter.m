@@ -44,7 +44,9 @@
 
     NSString * text;
     if (options == noLevelIcon) {
-        text = [NSString stringWithFormat:@"%@\n%@\n%@", scope, message, location];
+    text = [NSString stringWithFormat:@"%@\n%@\n%@", scope, message, location];
+    } else if (options == noLocation) {
+        text = [NSString stringWithFormat:@"%@ %@\n%@", levelIcon, scope, message];
     } else if (options == (noLevelIcon | noLocation)) {
       text = [NSString stringWithFormat:@"%@\n%@", scope, message];
     } else if (options == (noLevelIcon | noLocation | noScope)) {
