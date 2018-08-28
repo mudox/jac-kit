@@ -24,24 +24,24 @@ extension Jack {
 
 // MARK: - Message Composing Helpers
 
-fileprivate func _file(_ file: StaticString) -> String {
-  return URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-}
-
-fileprivate func _fileFunction(_ file: StaticString, _ function: StaticString) -> String {
-  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-  return "\(fileName).\(function)"
-}
-
+//fileprivate func _file(_ file: StaticString) -> String {
+//  return URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+//}
+//
+//fileprivate func _fileFunction(_ file: StaticString, _ function: StaticString) -> String {
+//  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+//  return "\(fileName).\(function)"
+//}
+//
 fileprivate func _fileLine(_ file: StaticString, _ line: UInt) -> String {
   let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
   return "\(fileName):\(line)"
 }
-
-fileprivate func _fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
-  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-  return "\(fileName).\(function):\(line)"
-}
+//
+//fileprivate func _fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
+//  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+//  return "\(fileName).\(function):\(line)"
+//}
 
 fileprivate func _compose(
   _ scope: Jack.Scope,
