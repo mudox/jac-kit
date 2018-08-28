@@ -10,10 +10,15 @@ private func _setLevel(_ level: DDLogLevel, for scope: String) {
 }
 
 public final class Jack {
-
+  
   public struct Scope {
-
-    static func isValidScope(_ text: String) -> Bool {
+    
+    enum Kind {
+      case normal
+      case file
+    }
+    
+    static func isValidScopeString(_ text: String) -> Bool {
       // If already already checked
       _lock.lock()
       if _scopeLevels.keys.contains(text) {
@@ -37,16 +42,15 @@ public final class Jack {
     static let fallback = Scope("FALLBACK")!
 
     let string: String
+    let kind = Kind.normal
 
-    init?(_ string: String) {
-
-      guard Scope.isValidScope(string) else {
+    init?(_ string: String, kind: Kind = .normal) {
+      guard Scope.isValidScopeString(string) else {
         return nil
       }
 
       self.string = string
     }
-
 
     fileprivate var _subscopes: [String] {
       let first = string.components(separatedBy: ".")[...]
@@ -55,10 +59,9 @@ public final class Jack {
         let next = $0.dropLast()
         return next.isEmpty ? nil : next
       }.map {
-        return $0.joined(separator: ".")
+        $0.joined(separator: ".")
       }
     }
-
   }
 
   enum LevelLookup: Equatable {
@@ -90,15 +93,23 @@ public final class Jack {
     line: UInt = #line
   ) {
     // Use file name as default scope string.
-    let scopeText = scope ?? URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+    let scopeText: String
+    let kind: Scope.Kind
+    if scope != nil {
+      scopeText = scope!
+      kind = .normal
+    } else {
+      scopeText = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+      kind = .file
+    }
 
-    if let s = Scope(scopeText) {
-      self.scope = s
+    if let scope = Scope(scopeText, kind: kind) {
+      self.scope = scope
     } else {
       print("""
-        invalid scope string: \(scope), fallback to use the special fallback \
-        scope - "\(Scope.fallback).string"
-        """)
+      invalid scope string: \(String(describing: scope)), fallback to use the special fallback \
+      scope - "\(Scope.fallback).string"
+      """)
       self.scope = Scope.fallback
     }
 
@@ -132,5 +143,4 @@ public final class Jack {
     _setLevel(level, for: scope.string)
     return self
   }
-
 }
