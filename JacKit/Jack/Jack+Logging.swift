@@ -1,8 +1,8 @@
 import Foundation
+
 import CocoaLumberjack
 
 extension Jack {
-
   public struct FormattingOptions: OptionSet {
     public let rawValue: Int
 
@@ -20,7 +20,6 @@ extension Jack {
     public static let `default`: FormattingOptions = []
     public static let messageOnly: FormattingOptions = [.noLevelIcon, .noLocation, .noScope]
   }
-
 }
 
 // MARK: - Message Composing Helpers
@@ -45,30 +44,36 @@ fileprivate func _fileFunctionLine(_ file: StaticString, _ function: StaticStrin
 }
 
 fileprivate func _compose(
-  _ scope: String,
+  _ scope: Jack.Scope,
   _ message: String,
   _ options: Jack.FormattingOptions,
   _ file: StaticString,
-  _ function: StaticString,
+  _: StaticString,
   _ line: UInt
 ) -> String {
   let location = _fileLine(file, line)
-  let prefix = "\(scope) ·· \(location)"
 
-  assert(!prefix.contains("\u{0B}"), """
-      logging prefix should not contain "\u{0B}" character, which is used to delimit \
-      prefix and message.
-      """)
+  let scopeText: String
+  switch scope.kind {
+  case .file:
+    scopeText = "[F] \(scope.string)"
+  case .normal:
+    scopeText = scope.string
+  }
+
+  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
 
   let jsonObject: [String: Any] = [
-    "scope": scope,
-    "location": location,
+    "scope": scopeText,
+    "location": location, // TODO: check if jacsrv need this field
+    "filename": fileName,
+    "lineno": line,
     "message": message,
     "options": options.rawValue,
   ]
 
   do {
-    let jsonData = try! JSONSerialization.data(withJSONObject: jsonObject, options: [])
+    let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
     guard let jsonString = String(data: jsonData, encoding: .utf8) else {
       return "Jack.Formatter json string init error"
     }
@@ -81,7 +86,6 @@ fileprivate func _compose(
 // MARK: - Logging Methods
 
 extension Jack {
-
   private func _canLog(flag: DDLogFlag) -> Bool {
     return level.rawValue & flag.rawValue != 0
   }
@@ -94,7 +98,7 @@ extension Jack {
     line: UInt = #line
   ) {
     if _canLog(flag: .error) {
-      let message = _compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope, message(), options, file, function, line)
       DDLogError(message, level: level)
     }
   }
@@ -107,7 +111,7 @@ extension Jack {
     line: UInt = #line
   ) {
     if _canLog(flag: .warning) {
-      let message = _compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope, message(), options, file, function, line)
       DDLogWarn(message, level: level)
     }
   }
@@ -120,7 +124,7 @@ extension Jack {
     line: UInt = #line
   ) {
     if _canLog(flag: .info) {
-      let message = _compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope, message(), options, file, function, line)
       DDLogInfo(message, level: level)
     }
   }
@@ -133,7 +137,7 @@ extension Jack {
     line: UInt = #line
   ) {
     if _canLog(flag: .debug) {
-      let message = _compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope, message(), options, file, function, line)
       DDLogDebug(message, level: level)
     }
   }
@@ -146,7 +150,7 @@ extension Jack {
     line: UInt = #line
   ) {
     if _canLog(flag: .verbose) {
-      let message = _compose(scope.string, message(), options, file, function, line)
+      let message = _compose(scope, message(), options, file, function, line)
       DDLogVerbose(message, level: level)
     }
   }
@@ -155,27 +159,24 @@ extension Jack {
 // MARK: - Assertion methods
 
 extension Jack {
-
-/// JacKit' version of `rxFatalError()`.
-/// It `falalError()` in debug mode, while logs a warnning message
-/// in release mode.
-/// Unlike `assert`, the expression is always evaluated.
-///
-/// - Parameters:
-///   - valid: The expression to be tested.
-///   - message: Failure message.
-///   - file: File name which is autolmatically captured.
-///   - function: Function name which automatically capture.
-///   - line: Line number which is automatically captured.
-
+  /// JacKit' version of `rxFatalError()`.
+  /// It `falalError()` in debug mode, while logs a warnning message
+  /// in release mode.
+  /// Unlike `assert`, the expression is always evaluated.
+  ///
+  /// - Parameters:
+  ///   - valid: The expression to be tested.
+  ///   - message: Failure message.
+  ///   - file: File name which is autolmatically captured.
+  ///   - function: Function name which automatically capture.
+  ///   - line: Line number which is automatically captured.
   public static func assert(
     _ valid: Bool,
     _ message: String,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
-  )
-  {
+  ) {
     if !valid {
       #if DEBUG
         fatalError(message, file: file, line: line)
@@ -185,22 +186,21 @@ extension Jack {
     }
   }
 
-/// JacKit' version of `assertionFailure()`.
-/// It `falalError()` in debug mode while logs a warnning message in
-/// release mode.
-///
-/// - Parameters:
-///   - message: Failure message.
-///   - file: File name which is autolmatically captured.
-///   - function: Function name which automatically capture.
-///   - line: Line number which is automatically captured.
+  /// JacKit' version of `assertionFailure()`.
+  /// It `falalError()` in debug mode while logs a warnning message in
+  /// release mode.
+  ///
+  /// - Parameters:
+  ///   - message: Failure message.
+  ///   - file: File name which is autolmatically captured.
+  ///   - function: Function name which automatically capture.
+  ///   - line: Line number which is automatically captured.
   public static func failure(
     _ message: String,
     file: StaticString = #file,
-    function: StaticString = #function,
+    function _: StaticString = #function,
     line: UInt = #line
-  )
-  {
+  ) {
     assert(false, message, file: file, line: line)
   }
 }

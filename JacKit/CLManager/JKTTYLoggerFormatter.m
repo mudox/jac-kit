@@ -33,7 +33,7 @@
 
     NSString * scope, * location, * message;
     scope = jsonObject[@"scope"];
-    location = jsonObject[@"location"];
+    location = [NSString stringWithFormat:@"▹ %@・%@", jsonObject[@"filename"], jsonObject[@"lineno"]];
     message = jsonObject[@"message"];
 
     int options = [jsonObject[@"options"] intValue];
