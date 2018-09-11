@@ -25,20 +25,21 @@ class StringSpec: QuickSpec {
 
         expects.forEach { text, result in
           print("🍋 try \(String(reflecting: text))")
-          expect(Jack.Scope.isValidScope(text)) == result
+          expect(Jack.Scope.isValidScopeString(text)) == result
         }
       } // it("init")
       
       it("manages level") {
-        expect(Jack(scope: "a").lookupLevel())
+        expect(Jack("a").lookupLevel())
           .to(equal(Jack.LevelLookup.root))
-        expect(Jack(scope: "b", level: .debug).lookupLevel())
+        expect(Jack("b", level: .debug).lookupLevel())
           .to(equal(Jack.LevelLookup.set(.debug)))
-        expect(Jack(scope: "b.c").lookupLevel())
+        expect(Jack("b.c").lookupLevel())
           .to(equal(Jack.LevelLookup.inherit(.debug, from: "b")))
         
-        let b = Jack(scope: "b")
-        let c = Jack(scope: "b.c")
+        let b = Jack("b")
+        let c = Jack("b.c")
+        let d = c.descendant("d.dd.ddd")
         expect(b.lookupLevel())
           .to(equal(Jack.LevelLookup.set(.debug)))
         
@@ -46,7 +47,8 @@ class StringSpec: QuickSpec {
         expect(b.lookupLevel())
           .to(equal(Jack.LevelLookup.set(.warning)))
         expect(c.lookupLevel()) == .inherit(.warning, from: "b")
-        
+        expect(d.lookupLevel()) == .inherit(.warning, from: "b")
+
         c.setLevel(.error)
         expect(c.level) == .error
       }

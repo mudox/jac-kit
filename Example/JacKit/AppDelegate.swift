@@ -3,7 +3,6 @@ import UIKit
 import MudoxKit
 
 import JacKit
-fileprivate let jack = Jack.usingLocalFileScope().setLevel(.verbose)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
