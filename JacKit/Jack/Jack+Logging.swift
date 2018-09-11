@@ -20,28 +20,31 @@ extension Jack {
     public static let `default`: FormattingOptions = []
     public static let messageOnly: FormattingOptions = [.noLevelIcon, .noLocation, .noScope]
   }
+
+  public static var formattingOptions: FormattingOptions = []
 }
 
 // MARK: - Message Composing Helpers
 
-//fileprivate func _file(_ file: StaticString) -> String {
+// fileprivate func _file(_ file: StaticString) -> String {
 //  return URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-//}
+// }
 //
-//fileprivate func _fileFunction(_ file: StaticString, _ function: StaticString) -> String {
+// fileprivate func _fileFunction(_ file: StaticString, _ function: StaticString) -> String {
 //  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
 //  return "\(fileName).\(function)"
-//}
+// }
 //
 fileprivate func _fileLine(_ file: StaticString, _ line: UInt) -> String {
   let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
   return "\(fileName):\(line)"
 }
+
 //
-//fileprivate func _fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
+// fileprivate func _fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
 //  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
 //  return "\(fileName).\(function):\(line)"
-//}
+// }
 
 fileprivate func _compose(
   _ scope: Jack.Scope,
@@ -92,7 +95,7 @@ extension Jack {
 
   public func error(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
+    options: Jack.FormattingOptions = Jack.formattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
@@ -105,7 +108,7 @@ extension Jack {
 
   public func warn(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
+    options: Jack.FormattingOptions = Jack.formattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
@@ -118,7 +121,7 @@ extension Jack {
 
   public func info(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
+    options: Jack.FormattingOptions = Jack.formattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
@@ -131,7 +134,7 @@ extension Jack {
 
   public func debug(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
+    options: Jack.FormattingOptions = Jack.formattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
@@ -144,7 +147,7 @@ extension Jack {
 
   public func verbose(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Defaults.defaultFormattingOptions,
+    options: Jack.FormattingOptions = Jack.formattingOptions,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
