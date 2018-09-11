@@ -117,6 +117,17 @@ public final class Jack {
       _setLevel(level, for: scopeText)
     }
   }
+  
+  
+  /// Return a new Jack instance that is a descendant of the receiver whose scope
+  /// is constructed by appending the argument scope string the one of the receiver.
+  ///
+  /// - Parameter scope: Descendant scope string.
+  /// - Returns: Descendant scoped Jack instance.
+  public func descendant(_ scope: String) -> Jack {
+    let newScope = self.scope.string + "." + scope
+    return .init(newScope)
+  }
 
   func lookupLevel() -> LevelLookup {
     _lock.lock(); defer { _lock.unlock() }
