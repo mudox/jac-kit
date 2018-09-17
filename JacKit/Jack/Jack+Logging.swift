@@ -18,7 +18,8 @@ extension Jack {
 
     // Derived cases
     public static let `default`: FormattingOptions = []
-    public static let messageOnly: FormattingOptions = [.noLevelIcon, .noLocation, .noScope]
+    public static let bare: FormattingOptions = [.noLevelIcon, .noLocation, .noScope]
+    public static let short: FormattingOptions = [.noLocation, .compact]
   }
 
   public static var formattingOptions: FormattingOptions = []
