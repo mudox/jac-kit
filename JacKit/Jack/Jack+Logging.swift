@@ -2,30 +2,7 @@ import Foundation
 
 import CocoaLumberjack
 
-extension Jack {
-  public struct FormattingOptions: OptionSet {
-    public let rawValue: Int
-
-    public init(rawValue: Int) {
-      self.rawValue = rawValue
-    }
-
-    // Primitive cases
-    public static let noLevelIcon = FormattingOptions(rawValue: 1 << 0)
-    public static let noLocation = FormattingOptions(rawValue: 1 << 1)
-    public static let noScope = FormattingOptions(rawValue: 1 << 2)
-    public static let compact = FormattingOptions(rawValue: 1 << 3)
-
-    // Derived cases
-    public static let `default`: FormattingOptions = []
-    public static let bare: FormattingOptions = [.noLevelIcon, .noLocation, .noScope]
-    public static let short: FormattingOptions = [.noLocation, .compact]
-  }
-
-  public static var formattingOptions: FormattingOptions = []
-}
-
-// MARK: - Message Composing Helpers
+// MARK: - Helpers
 
 // fileprivate func _file(_ file: StaticString) -> String {
 //  return URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
@@ -36,7 +13,7 @@ extension Jack {
 //  return "\(fileName).\(function)"
 // }
 //
-fileprivate func _fileLine(_ file: StaticString, _ line: UInt) -> String {
+fileprivate func fileLine(_ file: StaticString, _ line: UInt) -> String {
   let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
   return "\(fileName):\(line)"
 }
@@ -47,15 +24,15 @@ fileprivate func _fileLine(_ file: StaticString, _ line: UInt) -> String {
 //  return "\(fileName).\(function):\(line)"
 // }
 
-fileprivate func _compose(
+fileprivate func compose(
   _ scope: Jack.Scope,
   _ message: String,
-  _ options: Jack.FormattingOptions,
+  _ options: Jack.Options,
   _ file: StaticString,
   _: StaticString,
   _ line: UInt
 ) -> String {
-  let location = _fileLine(file, line)
+  let location = fileLine(file, line)
 
   let scopeText: String
   switch scope.kind {
@@ -83,86 +60,88 @@ fileprivate func _compose(
     }
     return jsonString
   } catch {
-    return "Jack.Formatter json serialization error: \(error)"
+    return "Jack._compose JSON serialization error: \(error)"
   }
 }
 
-// MARK: - Logging Methods
+// MARK: - Logging
 
 extension Jack {
-  private func _canLog(flag: DDLogFlag) -> Bool {
+  private func canLog(flag: DDLogFlag) -> Bool {
     return level.rawValue & flag.rawValue != 0
   }
 
   public func error(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Jack.formattingOptions,
+    options: Jack.Options? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
-    if _canLog(flag: .error) {
-      let message = _compose(scope, message(), options, file, function, line)
+    if canLog(flag: .error) {
+      let message = compose(scope, message(), options ?? self.options, file, function, line)
       DDLogError(message, level: level)
     }
   }
 
   public func warn(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Jack.formattingOptions,
+    options: Jack.Options? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
-    if _canLog(flag: .warning) {
-      let message = _compose(scope, message(), options, file, function, line)
+    if canLog(flag: .warning) {
+      let message = compose(scope, message(), options ?? self.options, file, function, line)
       DDLogWarn(message, level: level)
     }
   }
 
   public func info(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Jack.formattingOptions,
+    options: Jack.Options? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
-    if _canLog(flag: .info) {
-      let message = _compose(scope, message(), options, file, function, line)
+    if canLog(flag: .info) {
+      let message = compose(scope, message(), options ?? self.options, file, function, line)
       DDLogInfo(message, level: level)
     }
   }
 
   public func debug(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Jack.formattingOptions,
+    options: Jack.Options? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
-    if _canLog(flag: .debug) {
-      let message = _compose(scope, message(), options, file, function, line)
+    if canLog(flag: .debug) {
+      let message = compose(scope, message(), options ?? self.options, file, function, line)
       DDLogDebug(message, level: level)
     }
   }
 
   public func verbose(
     _ message: @autoclosure () -> String,
-    options: Jack.FormattingOptions = Jack.formattingOptions,
+    options: Jack.Options? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
-    if _canLog(flag: .verbose) {
-      let message = _compose(scope, message(), options, file, function, line)
+    if canLog(flag: .verbose) {
+      let message = compose(scope, message(), options ?? self.options, file, function, line)
       DDLogVerbose(message, level: level)
     }
   }
+  
 }
 
-// MARK: - Assertion methods
+// MARK: - Assertion
 
 extension Jack {
+  
   /// JacKit' version of `rxFatalError()`.
   /// It `falalError()` in debug mode, while logs a warnning message
   /// in release mode.
@@ -207,4 +186,5 @@ extension Jack {
   ) {
     assert(false, message, file: file, line: line)
   }
+  
 }
