@@ -5,7 +5,7 @@ import CocoaLumberjack
 internal extension Jack {
 
   struct Scope {
-    static let fallback = Scope("FALLBACK")!
+    static let fallback = Scope("InvalidScope")!
 
     enum Kind {
       case normal
