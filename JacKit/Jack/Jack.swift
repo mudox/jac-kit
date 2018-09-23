@@ -41,6 +41,8 @@ public final class Jack {
     let newScope = self.scope.string + "." + scope
     return .init(newScope)
   }
+  
+  // MARK: - Level
 
   public var level: DDLogLevel {
     return ScopeRoster
@@ -51,6 +53,20 @@ public final class Jack {
   @discardableResult
   public func set(level: DDLogLevel?) -> Jack {
     ScopeRoster.set(level, scope: scope, keyPath: \ScopeRoster.Item.level)
+    return self
+  }
+  
+  // MARK: - Options
+  
+  public var options: Jack.Options {
+    return ScopeRoster
+      .lookup(Jack.Options.self, scope: scope, keyPath: \ScopeRoster.Item.options)
+      .value
+  }
+  
+  @discardableResult
+  public func set(options: Jack.Options?) -> Jack {
+    ScopeRoster.set(options, scope: scope, keyPath: \ScopeRoster.Item.options)
     return self
   }
 }

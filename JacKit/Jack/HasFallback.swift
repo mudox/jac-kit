@@ -11,3 +11,9 @@ extension DDLogLevel: HasFallback {
     return .verbose
   }
 }
+
+extension Jack.Options : HasFallback {
+  static var fallback: Jack.Options {
+    return .default
+  }
+}
