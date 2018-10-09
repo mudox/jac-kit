@@ -4,7 +4,12 @@ import CocoaLumberjack
 
 extension Jack {
   
-  public struct Options: OptionSet {
+  public struct Options: OptionSet, HasFallback {
+    
+    static var fallback: Jack.Options {
+      return .default
+    }
+    
     public let rawValue: Int
 
     public init(rawValue: Int) {
@@ -19,12 +24,12 @@ extension Jack {
     // Use as less lines as possible
     public static let compact = Options(rawValue: 1 << 3)
 
-    // Derived cases
+    // Default option
     public static let `default`: Options = []
+    // Only the message text
     public static let bare: Options = [.noLevelIcon, .noLocation, .noScope]
+    // Single line, no locaion line
     public static let short: Options = [.noLocation, .compact]
   }
 
-  public static var defaultOptions: Options = []
-  
 }
