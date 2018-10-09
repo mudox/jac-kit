@@ -18,7 +18,7 @@
         case DDLogFlagDebug:
             levelIcon = @"💚"; break;
         case DDLogFlagVerbose:
-            levelIcon = @"🖤"; break;
+            levelIcon = @"💙"; break;
         default:
             NSAssert(false, @"Should not be here");
     }
