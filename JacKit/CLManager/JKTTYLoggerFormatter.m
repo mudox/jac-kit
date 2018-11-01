@@ -31,9 +31,15 @@
         return [NSString stringWithFormat:@"JKTTYHttpFormatter json deserialization error: %@", error.description];
     }
 
+    // scope
     NSString * scope, * location, * message;
     scope = jsonObject[@"scope"];
+    scope = [NSString stringWithFormat:@"[%@]", scope];
+
+    // location
     location = [NSString stringWithFormat:@"▹ %@・%@", jsonObject[@"filename"], jsonObject[@"lineno"]];
+
+    // message text body
     message = jsonObject[@"message"];
 
     int options = [jsonObject[@"options"] intValue];
