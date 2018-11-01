@@ -42,6 +42,13 @@ public final class Jack {
     return .init(newScope)
   }
   
+  public func `func`(_ name: StaticString = #function) -> Jack {
+    let nameString = name.description
+    let index = nameString.firstIndex(of: "(") ?? nameString.endIndex
+    let scope = String(nameString[nameString.startIndex..<index])
+    return descendant(scope)
+  }
+  
   // MARK: - Level
 
   public var level: DDLogLevel {

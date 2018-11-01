@@ -21,14 +21,14 @@ extension Jack {
     public static let noLocation = Options(rawValue: 1 << 1)
     public static let noScope = Options(rawValue: 1 << 2)
     
-    // Use as less lines as possible
+    /// Use as less lines as possible
     public static let compact = Options(rawValue: 1 << 3)
 
-    // Default option
+    /// Default option, empty
     public static let `default`: Options = []
-    // Only the message text
+    /// Only the message text
     public static let bare: Options = [.noLevelIcon, .noLocation, .noScope]
-    // Single line, no locaion line
+    /// Single line, no locaion line
     public static let short: Options = [.noLocation, .compact]
   }
 
