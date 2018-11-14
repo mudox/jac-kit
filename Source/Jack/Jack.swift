@@ -32,6 +32,8 @@ public final class Jack {
     }
   }
 
+  // MARK: - Create Descendants
+  
   /// Return a new Jack instance that is a descendant of the receiver whose scope
   /// is constructed by appending the argument scope string the one of the receiver.
   ///
@@ -42,7 +44,7 @@ public final class Jack {
     return .init(newScope)
   }
   
-  public func `func`(_ name: StaticString = #function) -> Jack {
+  public func function(_ name: StaticString = #function) -> Jack {
     let nameString = name.description
     let index = nameString.firstIndex(of: "(") ?? nameString.endIndex
     let scope = String(nameString[nameString.startIndex..<index])
