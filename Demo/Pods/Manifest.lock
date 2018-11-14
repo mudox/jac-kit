@@ -2,7 +2,6 @@ PODS:
   - CocoaLumberjack/Default (3.3.0)
   - CocoaLumberjack/Swift (3.3.0):
     - CocoaLumberjack/Default
-  - Fakery (3.4.0)
   - JacKit (1.0):
     - CocoaLumberjack/Swift (~> 3.3.0)
   - MudoxKit (0.1.0):
@@ -25,7 +24,6 @@ PODS:
     - RxSwift (~> 4.0)
 
 DEPENDENCIES:
-  - Fakery
   - JacKit (from `../`)
   - MudoxKit (from `../../MudoxKit/`)
   - Nimble
@@ -34,7 +32,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - CocoaLumberjack
-    - Fakery
     - Nimble
     - Quick
     - RxAtomic
@@ -50,7 +47,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
-  Fakery: 885e894a3e7c392e1da96c6e46a1abe5a0b28686
   JacKit: 87c6f2b35c6b75016cd66cf54f8b81467f67950b
   MudoxKit: 749f870d10e48e43a769d608db49512f291b0dc8
   Nimble: 04f732da099ea4d153122aec8c2a88fd0c7219ae
@@ -60,6 +56,6 @@ SPEC CHECKSUMS:
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
   RxSwiftExt: 81afb48ab0602f503147417baeb3989d64c7687d
 
-PODFILE CHECKSUM: 5e16cbf195d72614ec673dcd2b8435cddf89117a
+PODFILE CHECKSUM: 2125cf48dc5a6dcf8fa0f09399a7278aa06dd59c
 
 COCOAPODS: 1.5.3

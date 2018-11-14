@@ -5,18 +5,20 @@ inhibit_all_warnings!
 
 target 'Demo' do
 
-  pod 'JacKit',        :path => '../'
-  pod 'MudoxKit',      :path => '../../MudoxKit/'
-
-  pod 'Fakery'
-
   target 'Test' do
     inherit! :search_paths
 
-    pod 'JacKit',        :path => '../'
-    pod 'MudoxKit', :path => '../../MudoxKit/'
+    # Travis-CI set `CI` on macOS environment
+    if ENV['CI'] == 'true'
+      pod 'JacKit',      :git  => 'https://github.com/mudox/jac-kit.git'
+      pod 'MudoxKit',    :git  => 'https://github.com/mudox/mudox-kit.git'
+    else
+      pod 'JacKit',      :path => '../'
+      pod 'MudoxKit',    :path => '../../MudoxKit/'
+    end
 
     pod 'Quick'
     pod 'Nimble'
   end
+
 end
