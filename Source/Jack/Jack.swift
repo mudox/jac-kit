@@ -57,6 +57,11 @@ public final class Jack {
       .value
   }
 
+  
+  /// Associate level to its scope.
+  ///
+  /// - Parameter level: The DDLogLevel to associate with scope.
+  /// - Returns: `self` to enabled chain of method calls.
   @discardableResult
   public func set(level: DDLogLevel?) -> Jack {
     ScopeRoster.set(level, scope: scope, keyPath: \ScopeRoster.Item.level)
@@ -71,6 +76,10 @@ public final class Jack {
       .value
   }
   
+  /// Associate options to its scope.
+  ///
+  /// - Parameter options: The `Jack.Options` to associate with its scope.
+  /// - Returns: `self` to enabled chain of method calls.
   @discardableResult
   public func set(options: Jack.Options?) -> Jack {
     ScopeRoster.set(options, scope: scope, keyPath: \ScopeRoster.Item.options)
