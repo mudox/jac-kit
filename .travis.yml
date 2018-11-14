@@ -1,14 +1,20 @@
-# references:
-# * http://www.objc.io/issue-6/travis-ci.html
-# * https://github.com/supermarin/xcpretty#usage
+language: swift
+osx_image: xcode10
 
-osx_image: xcode7.3
-language: objective-c
-# cache: cocoapods
-# podfile: Example/Podfile
-# before_install:
-# - gem install cocoapods # Since Travis is not always on latest version
-# - pod install --project-directory=Example
+cache: bundler
+
+notifications:
+  email: false
+
+before_install:
+  - gem install bundler
+
+before_script:
+  # Switch to use `:git` parameter in CI environment instead of `:path`
+  - pod --project-directory=Demo update JacKit MudoxKit
+
 script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/JacKit.xcworkspace -scheme JacKit-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint
+  - bundle exec fastlane ios test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -J 'JacKit'
