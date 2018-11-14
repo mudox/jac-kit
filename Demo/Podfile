@@ -6,7 +6,7 @@ inhibit_all_warnings!
 target 'Demo' do
 
   pod 'JacKit',        :path => '../'
-  pod 'MudoxKit', :path => '../../MudoxKit/'
+  pod 'MudoxKit',      :path => '../../MudoxKit/'
 
   pod 'Fakery'
 
