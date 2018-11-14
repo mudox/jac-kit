@@ -11,7 +11,7 @@ before_install:
 
 before_script:
   # Switch to use `:git` parameter in CI environment instead of `:path`
-  - pod --project-directory=Demo update JacKit MudoxKit
+  - pod --project-directory=Demo update JacKit
 
 script:
   - bundle exec fastlane ios test
