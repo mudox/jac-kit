@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'JacKit/**/*'
+  s.source_files = 'Source/**/*'
 
   s.dependency 'CocoaLumberjack/Swift', '~> 3.3.0'
 end

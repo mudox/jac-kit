@@ -1,0 +1,22 @@
+use_frameworks!
+platform :ios, '9.0'
+
+inhibit_all_warnings!
+
+target 'Demo' do
+
+  pod 'JacKit',        :path => '../'
+  pod 'MudoxKit', :path => '../../MudoxKit/'
+
+  pod 'Fakery'
+
+  target 'Test' do
+    inherit! :search_paths
+
+    pod 'JacKit',        :path => '../'
+    pod 'MudoxKit', :path => '../../MudoxKit/'
+
+    pod 'Quick'
+    pod 'Nimble'
+  end
+end
