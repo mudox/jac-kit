@@ -1,5 +1,5 @@
 language: swift
-osx_image: xcode9.1
+osx_image: xcode10
 
 cache: bundler
 
@@ -11,7 +11,7 @@ before_install:
 
 before_script:
   # Switch to use `:git` parameter in CI environment instead of `:path`
-  - pod --project-directory=Demo update
+  - pod --project-directory=Demo install
 
 script:
   - bundle exec fastlane ios test
