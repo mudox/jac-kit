@@ -11,10 +11,8 @@ target 'Demo' do
     # Travis-CI set `CI` on macOS environment
     if ENV['CI'] == 'true'
       pod 'JacKit',      :git  => 'https://github.com/mudox/jac-kit.git'
-      pod 'MudoxKit',    :git  => 'https://github.com/mudox/mudox-kit.git'
     else
       pod 'JacKit',      :path => '../'
-      pod 'MudoxKit',    :path => '../../MudoxKit/'
     end
 
     pod 'Quick'
