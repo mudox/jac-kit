@@ -12,7 +12,7 @@ notifications:
   #- bundle exec fastlane ios test
 
 script:
-  - bundle exec pod install --repo-update
+  - bundle exec pod install --repo-update --project-directory Demo
   - set -o pipefail
     && xcodebuild test
       -workspace Demo/JacKit.xcworkspace
