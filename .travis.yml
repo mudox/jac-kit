@@ -8,20 +8,21 @@ cache:
 notifications:
   email: false
 
-  #script:
-  #- bundle exec fastlane ios test
-
 script:
-  - bundle exec pod install --repo-update --project-directory=Demo
-  - set -o pipefail
-    && xcodebuild test
-      -workspace Demo/JacKit.xcworkspace
-      -scheme JacKit-Demo
-      -enableCodeCoverage YES
-      -destination 'platform=iOS Simulator,OS=12.0,name=iPhone 8'
-      -configuration=Debug
-      ONLY_ACTIVE_ARCH=YES
-    | xcpretty
+  - bundle exec fastlane ios test
+
+# Switch back to it in case fastlane output is vague.
+#script:
+  #- bundle exec pod install --repo-update --project-directory=Demo
+  #- set -o pipefail
+    #&& xcodebuild test
+      #-workspace Demo/JacKit.xcworkspace
+      #-scheme JacKit-Demo
+      #-enableCodeCoverage YES
+      #-destination 'platform=iOS Simulator,OS=12.0,name=iPhone 8'
+      #-configuration=Debug
+      #ONLY_ACTIVE_ARCH=YES
+    #| xcpretty
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J 'JacKit'
