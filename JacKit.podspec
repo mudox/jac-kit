@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'JacKit'
   s.version          = '1.0'
-  s.summary          = 'JacKit, my iOS developing logging tool'
+  s.summary          = 'A scope based Swift logger'
   s.description      = <<-DESC
   Wrap CocoaLumberjack to embrace Swift syntax.
   File based logging level control.
