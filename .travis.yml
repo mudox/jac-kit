@@ -8,12 +8,8 @@ cache:
 notifications:
   email: false
 
-before_install:
-  - gem install bundler
-
-before_script:
-  # Switch to use `:git` parameter in CI environment instead of `:path`
-  - pod --project-directory=Demo --repo-update install
+#before_install:
+  #- gem install bundler
 
 script:
   - bundle exec fastlane ios test

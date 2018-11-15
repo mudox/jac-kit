@@ -1,3 +1,4 @@
+# vim: ft=ruby
 # This file contains the fastlane.tools configuration
 # You can find the documentation at https://docs.fastlane.tools
 #
@@ -23,11 +24,18 @@ platform :ios do
     workspace = "Demo/JacKit.xcworkspace"
     project = "Demo/JacKit.xcodeproj"
     scheme = "JacKit-Demo"
+    targetDevices = ["iPhone 8"]
+
+    cocoapods(
+      podfile: "Demo/Podfile",
+      use_bundle_exec: true,
+      try_repo_update_on_error: true,
+    )
 
     run_tests(
       workspace: workspace,
       scheme: scheme,
-      devices: ["iPhone 8"],
+      devices: targetDevices,
       code_coverage: true,
     )
 
