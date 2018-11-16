@@ -41,15 +41,15 @@ pod 'JacKit' :git => 'https://github.com/mudox/jac-kit.git'
 import JacKit
 
 private let jack = Jack("MyApp.NetworkService")
-  .set(level: .warning)      // set severity level at upper scope
-  .set(options: .short)      // set formatting optoins at upper scope
+  .set(level: .warning)      // Set severity level at a higher scope
+  .set(options: .short)      // Set formatting optoins at a higher scope
 
 class NetworkService {
 
   func request() {
     jack
-      .descendant("request") // sub-scope "MyApp.NetworkService.request"
-      .info("request ...")   // message with severity level `.info`
+      .descendant("request") // Lower scope "MyApp.NetworkService.request"
+      .info("request ...")   // Message with severity level `.info`
   }
 
 }
