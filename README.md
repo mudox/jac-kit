@@ -17,6 +17,7 @@ JacKit is a scope based logger inspired from [Python logging module]. It is base
 - [x] Modern Swifty interface.
 - [x] Scope based logging control.
 - [ ] Flexible & eye-saving console output formatting.
+    - [x] Common layout options
     - [ ] Merge contiguous logging with the same scope and level.
     - [ ] Significant interval separator.
 - [x] HTTP logger to make logging available outside Xcode.
@@ -79,13 +80,18 @@ Descendants inherit scoped based behaviors from its nearest ancestor who have
 corresponding behavior set. You can explicitly set behaviors on a given
 descendant to override those inherited behaviors from upstream.
 
-Each `Jack` instance maintains 2 important properties associated with its
+Each `Jack` instance is associated to a given scope when initialized.
+
+Each `Jack` instance expose 2 important properties associated with its
 scope:
 
-- Severity level `.level`.
-- Formatting options `.options`.
+- Severity `level`.
+- Formatting `options`.
 
-Which are resolved into 3 cases:
+They are __computed__ properties, values assigned to are stored in a private shared
+place indexed by the scope string.
+
+Every time the property value is read, it is resolved under 3 cases:
 
 - Explicitly set on current scope.
 

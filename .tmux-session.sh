@@ -46,6 +46,8 @@ vv -O ${session_name}.podspec Demo/Podfile
 :tabnew .travis.yml
 :tabnew .gitignore
 :tabnew .tmux-session.sh
+:tabnew README.md
+:tabnew CHANGELOG.md
 "
 
 #
@@ -72,7 +74,7 @@ v python *.py
 #
 jackProgress 'Creating window [Shell] ...'
 
-root="${HOME}/Develop/Apple/Frameworks/JacKit/Example"
+root="${HOME}/Develop/Apple/Frameworks/JacKit/"
 window_name='Shell'
 window="${session_name}:${window_name}"
 tmux new-window              \
