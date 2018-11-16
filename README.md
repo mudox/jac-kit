@@ -21,6 +21,10 @@ JacKit is a scope based logger inspired from [Python logging module]. It is base
     - [ ] Merge contiguous logging with the same scope and level.
     - [ ] Significant interval separator.
 - [x] HTTP logger to make logging available outside Xcode.
+- [ ] Common automatic logging
+    - [ ] Launching reports
+    - [ ] Application states change report
+- [ ] Tmux integration
 
 ## Installation
 
