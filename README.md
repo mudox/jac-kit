@@ -59,7 +59,7 @@ class NetworkService {
 }
 ```
 
-### Scope based logging
+## Scopes Explained
 
 A __scope__ is a string using [reverse-DNS] notation you use to represent
 arbitrary components in your project. For example:
@@ -94,6 +94,12 @@ scope:
 
 They are __computed__ properties, values assigned to are stored in a private shared
 place indexed by the scope string.
+
+<p align="center">
+  <img src="Asset/types.png" width=540/>
+</p>
+
+## Behavior inheriting & overriding
 
 Every time the property value is read, it is resolved under 3 cases:
 
