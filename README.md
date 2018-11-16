@@ -16,9 +16,10 @@ JacKit is a scope based logger inspired from [Python logging module]. It is base
 
 - [x] Modern Swifty interface.
 - [x] Scope based logging control.
-  - [x] Flexible & eye-saving console output formatting.
-  - [x] Severity level for each scope or inherit from upstream.
-- [x] ~A HTTP logger to direct logs to be shown outside of Xcode, e.g. on terminal emulators (Current broken on the server-side).~
+- [ ] Flexible & eye-saving console output formatting.
+    - [ ] Merge contiguous logging with the same scope and level.
+    - [ ] Significant interval separator.
+- [x] HTTP logger to make logging available outside Xcode.
 
 ## Installation
 
