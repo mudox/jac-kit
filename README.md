@@ -8,6 +8,10 @@
 
 JacKit is a scope based logger inspired from [Python logging module]. It is based on the [CocoaLumberjack] framework.
 
+<p align="center">
+  <img src="Asset/screenshot-project-start.png" width=747/>
+</p>
+
 ## Features
 
 - [x] Modern Swifty interafce.
@@ -27,7 +31,7 @@ JacKit is currently not published.
 pod 'JacKit' :git => 'https://github.com/mudox/jac-kit.git'
 ```
 
-# Usage
+## Usage
 
 ```swift
 // NetworkService.swift
@@ -47,8 +51,68 @@ class NetworkService {
   }
 
 }
-
 ```
+
+### Scope based logging
+
+A __scope__ is a string using [reverse-DNS] notation you use to represent
+arbitrary components in your project. For example:
+
+```swift
+// A method named `request` of class `NetworkService`.
+MyApp.NetworkService.request
+
+// A class `MainViewController` in your App project.
+MyApp.MainViewController
+
+// A method under from your framework project.
+MyFramework.Component1.Class2.method3
+```
+
+Here
+
+- `MyFramework.Component1` is an **ancestor** of `MyFramework.Component1.Class2.method3`
+- `MyApp.NetworkService.request` is a **descendant** of `MyApp`.
+
+Descendants inherit scoped based behaviors from its nearest ancestor who have
+cooresponding behavior set. You can explicitly set behaviors on a given
+descendant to override those inherited from upstream.
+
+Each `Jack` instance maintains 2 important properties associated with its
+scope:
+
+- Severity level `.level`.
+- Formatting options `.options`.
+
+Which are resolved into 3 cases:
+
+- Explicitly set on current scope.
+
+  ```swift
+  // Scope have its severity level explicitly set to `.info`
+  let jack = Jack("A.B.C")
+  jack.set(level: .info)
+  ```
+
+- Inherit from parent scope.
+
+  ```swift
+  // Explicitly set severity level at higher scope.
+  Jack("A").set(level: .warning)
+
+  // This scope have its severity level inherited from ancetor "A".
+  let jack = Jack("A.B.C")
+  jack.debug("...") // This message will not be logged out.
+  ```
+
+- Use fallback value if no parent scope have this property set.
+
+  ```swift
+  // This scope and all its ancestor have not set the severity level.
+  // Hence use the fallback value - `.verbose`
+  let jack = Jack("A.B.C")
+  jack.debug("...") // `.debug` is higher than the fallback level `.verbose`, messge get logged out.
+  ```
 
 ## Author
 
@@ -60,3 +124,4 @@ JacKit is available under the MIT license. See the LICENSE file for more info.
 
 [CocoaLumberjack]: https://cocoalumberjack.github.io
 [Python logging module]: https://docs.python.org/3/library/logging.html
+[reverse-DNS]: https://en.wikipedia.org/wiki/Reverse_domain_name_notation
