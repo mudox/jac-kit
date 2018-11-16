@@ -26,12 +26,12 @@ fi
 
 
 #
-# window: Kit
+# window: Editor (JacKit)
 #
-jackProgress 'Creating window [Kit] ...'
+jackProgress 'Creating window [Editor (JacKit)] ...'
 
 root="${HOME}/Develop/Apple/Frameworks/JacKit/"
-window_name='Kit'
+window_name='Editor (JacKit)'
 window="${session_name}:${window_name}"
 tmux new-session        \
   -s "${session_name}"  \
@@ -41,16 +41,20 @@ tmux new-session        \
   -c "${root}"          \
   -d
 tmux send-keys -t "${window}.1" "
-vv -O JacKit.podspec Example/Podfile
+vv -O ${session_name}.podspec Demo/Podfile
+:tabnew fastlane/Fastfile
+:tabnew .travis.yml
+:tabnew .gitignore
+:tabnew .tmux-session.sh
 "
 
 #
-# window: Server
+# window: Editor (jacsrv)
 #
-jackProgress 'Creating window [Server] ...'
+jackProgress 'Creating window [Editor (jacsrv)] ...'
 
 root="${HOME}/Develop/Python/jac-srv/"
-window_name='Server'
+window_name='Editor (jacsrv)'
 window="${session_name}:${window_name}"
 tmux new-window              \
   -a                         \
