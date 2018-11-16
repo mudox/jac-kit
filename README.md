@@ -14,7 +14,7 @@ JacKit is a scope based logger inspired from [Python logging module]. It is base
 
 ## Features
 
-- [x] Modern Swifty interafce.
+- [x] Modern Swifty interface.
 - [x] Scope based logging control.
   - [x] Flexible & eye-saving console output formatting.
   - [x] Severity level for each scope or inherit from upstream.
@@ -75,8 +75,8 @@ Here
 - `MyApp.NetworkService.request` is a **descendant** of `MyApp`.
 
 Descendants inherit scoped based behaviors from its nearest ancestor who have
-cooresponding behavior set. You can explicitly set behaviors on a given
-descendant to override those inherited from upstream.
+corresponding behavior set. You can explicitly set behaviors on a given
+descendant to override those inherited behaviors from upstream.
 
 Each `Jack` instance maintains 2 important properties associated with its
 scope:
