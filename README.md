@@ -46,7 +46,7 @@ import JacKit
 
 private let jack = Jack("MyApp.NetworkService")
   .set(level: .warning)      // Set severity level at a higher scope
-  .set(options: .short)      // Set formatting optoins at a higher scope
+  .set(format: .short)       // Set formatting optoins at a higher scope
 
 class NetworkService {
 
