@@ -7,6 +7,8 @@ target 'Demo' do
 
   pod 'JacKit',       :path => '../'
 
+  pod 'SwiftLint'
+
   target 'Test' do
     inherit! :search_paths
 

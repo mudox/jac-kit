@@ -192,6 +192,7 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				C5DEB0152BF24DA6029EBFCB /* [CP] Embed Pods Frameworks */,
+				F4CD855121A0B64600D18B34 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -344,6 +345,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Demo/Pods-Demo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		F4CD855121A0B64600D18B34 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LINTER=\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\nlint() {\nif which swiftlint >/dev/null; then\n  $LINTER autocorrect\n  $LINTER\nelse\n  echo \"warning: SwiftLint not installed\"\nfi\n}\n\nlint\n";
 		};
 		F4E8A1B5D04396C391B064EF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -6,17 +6,20 @@ PODS:
     - CocoaLumberjack/Swift (~> 3.3.0)
   - Nimble (7.3.1)
   - Quick (1.3.2)
+  - SwiftLint (0.28.0)
 
 DEPENDENCIES:
   - JacKit (from `../`)
   - Nimble
   - Quick
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - CocoaLumberjack
     - Nimble
     - Quick
+    - SwiftLint
 
 EXTERNAL SOURCES:
   JacKit:
@@ -27,7 +30,8 @@ SPEC CHECKSUMS:
   JacKit: 829f22a30cf6000011c8cc5efd9e47e2d831fae9
   Nimble: 04f732da099ea4d153122aec8c2a88fd0c7219ae
   Quick: 2623cb30d7a7f41ca62f684f679586558f483d46
+  SwiftLint: 088cfacb75b45970017e62b7524d506776d60148
 
-PODFILE CHECKSUM: 0f14bf85b161259654856353401acb9136a7af94
+PODFILE CHECKSUM: 0314da296f1d4bf174e4cc08238a92a40a7551f2
 
 COCOAPODS: 1.5.3
