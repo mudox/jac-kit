@@ -46,7 +46,7 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9F4D4C0130BD7CDC2AC69E32DF3AC82F"
+            BlueprintIdentifier = "94AF62DEDAAEBFD0B244208550223223"
             BuildableName = "JacKit.framework"
             BlueprintName = "JacKit"
             ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -63,9 +63,6 @@
                ReferencedContainer = "container:JacKit.xcodeproj">
             </BuildableReference>
             <SkippedTests>
-               <Test
-                  Identifier = "JKHTTPLoggerSpec">
-               </Test>
                <Test
                   Identifier = "JKTTYLoggerFormatterSpec">
                </Test>
@@ -113,12 +110,12 @@
          <EnvironmentVariable
             key = "JACKIT_SERVER_URL"
             value = "http://192.168.0.100:7086"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "JACKIT_DEBUG"
             value = ""
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
