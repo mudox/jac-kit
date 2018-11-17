@@ -21,6 +21,7 @@
 		F4AD94CF21A04AF500878BF1 /* JackScopeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */; };
 		F4AD94D121A050D600878BF1 /* PrettySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94D021A050D600878BF1 /* PrettySpec.swift */; };
 		F4AD94D321A053F100878BF1 /* JackLoggingSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94D221A053F000878BF1 /* JackLoggingSpec.swift */; };
+		F4AD94D621A056A500878BF1 /* CLManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94D421A055BA00878BF1 /* CLManagerSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,6 +384,7 @@
 				F4AD94CF21A04AF500878BF1 /* JackScopeSpec.swift in Sources */,
 				F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */,
 				F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */,
+				F4AD94D621A056A500878BF1 /* CLManagerSpec.swift in Sources */,
 				F4AD94D121A050D600878BF1 /* PrettySpec.swift in Sources */,
 				F41F6BBD219FB90A005E06E7 /* JKTTYLoggerFormatterSpec.swift in Sources */,
 				F4AD94D321A053F100878BF1 /* JackLoggingSpec.swift in Sources */,
