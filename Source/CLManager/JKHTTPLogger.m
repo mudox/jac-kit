@@ -37,6 +37,7 @@ static BOOL _isDebugging;
   
 + (void)initialize
 {
+  // Only once
   if (self.class != JKHTTPLogger.self)
   {
     return;
@@ -195,7 +196,7 @@ static BOOL _isDebugging;
          // check error
          if (error != nil)
          {
-           TTYLog(@"JKHTTPLogger - error sending request: %@", error);
+           TTYLog(@"\n💀 JKHTTPLogger - error sending request: %@\n\n", error);
            return;
          }
          // check reponse status code
@@ -242,7 +243,7 @@ static BOOL _isDebugging;
          // check error
          if (error != nil)
          {
-           TTYLog(@"JKHTTPLogger - error sending request: %@", error);
+           TTYLog(@"\n💀 JKHTTPLogger - error sending request: %@\n\n", error);
            return;
          }
          // check reponse status code
