@@ -37,7 +37,7 @@ class JackScopeSpec: QuickSpec {
     describe("Jack.ScopeRoster") {
 
       afterEach {
-        Jack.ScopeRoster.items = [:]
+        Jack.ScopeRoster.items.removeAll()
       }
 
       it("LookupResult.fallback") {

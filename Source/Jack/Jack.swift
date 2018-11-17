@@ -83,8 +83,8 @@ public final class Jack {
   /// - Parameter options: The `Jack.Options` to associate with its scope.
   /// - Returns: `self` to enabled chain of method calls.
   @discardableResult
-  public func set(options: Jack.Format?) -> Jack {
-    ScopeRoster.set(options, scope: scope, keyPath: \ScopeRoster.Item.options)
+  public func set(format: Jack.Format?) -> Jack {
+    ScopeRoster.set(format, scope: scope, keyPath: \ScopeRoster.Item.options)
     return self
   }
 }
