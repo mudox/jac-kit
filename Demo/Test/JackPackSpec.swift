@@ -35,35 +35,35 @@ class JackPackSpec: QuickSpec {
 
   override func spec() {
 
-    describe("Jack.pack") {
+    // MARK: normal kind
 
-      it("normal scope") {
+    it("normal kind") {
 
-        let scope = Jack.Scope("Logging.Scope")!
-        let message = "Logging message text"
-        let format = Jack.Format.noIcon
-        let file: StaticString = "file.swift"
-        let function: StaticString = "function"
-        let line: UInt = 2018
+      let scope = Jack.Scope("Logging.Scope")!
+      let message = "Logging message text"
+      let format = Jack.Format.noIcon
+      let file: StaticString = "file.swift"
+      let function: StaticString = "function"
+      let line: UInt = 2018
 
-        self.testPack(scope, format, file, function, line, message)
+      self.testPack(scope, format, file, function, line, message)
 
-      }
+    }
 
-      it("file scope") {
+    // MARK: file kind
 
-        let scope = Jack.Scope("Logging.Scope", kind: .file)!
-        let message = "Logging message text"
-        let format = Jack.Format.noIcon
-        let file: StaticString = "file.swift"
-        let function: StaticString = "function"
-        let line: UInt = 2018
+    it("file kind") {
 
-        self.testPack(scope, format, file, function, line, message)
+      let scope = Jack.Scope("Logging.Scope", kind: .file)!
+      let message = "Logging message text"
+      let format = Jack.Format.noIcon
+      let file: StaticString = "file.swift"
+      let function: StaticString = "function"
+      let line: UInt = 2018
 
-      }
+      self.testPack(scope, format, file, function, line, message)
 
-    } // describe("Jack.pack")
+    }
 
   }
 

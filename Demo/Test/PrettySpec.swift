@@ -9,8 +9,6 @@ class PrettySpec: QuickSpec { override func spec() {
 
   describe("String") {
 
-    // MARK: Scope
-
     it("indented") {
       let src = """
       line 1
@@ -24,16 +22,16 @@ class PrettySpec: QuickSpec { override func spec() {
       """
     }
 
-    it("stringFromHTTPStatusCode") {
-      let dest = string(fromHTTPStatusCode: 200)
-      expect(dest) == "200 NO ERROR"
-    }
+  }
+  
+  it("stringFromHTTPStatusCode") {
+    let dest = string(fromHTTPStatusCode: 200)
+    expect(dest) == "200 NO ERROR"
+  }
 
-    it("dump") {
-      let dest = dump(of: 2018)
-      expect(dest) == "- 2018\n"
-    }
-
+  it("dump") {
+    let dest = dump(of: 2018)
+    expect(dest) == "- 2018\n"
   }
 
 } }

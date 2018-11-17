@@ -7,8 +7,6 @@ import Quick
 
 class JackSpec: QuickSpec { override func spec() {
 
-  describe("Jack") {
-
     beforeEach {
       Jack.ScopeRoster.items.removeAll()
     }
@@ -82,7 +80,5 @@ class JackSpec: QuickSpec { override func spec() {
       expect(Jack("A.B").format) == Jack.Format.fallback
 
     }
-
-  } // describe("Jack")
 
 } }
