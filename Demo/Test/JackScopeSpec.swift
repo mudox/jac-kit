@@ -5,7 +5,7 @@ import Quick
 
 @testable import JacKit
 
-class JackSpec: QuickSpec {
+class JackScopeSpec: QuickSpec {
   override func spec() {
 
     describe("Jack.Scope") {
@@ -111,22 +111,6 @@ class JackSpec: QuickSpec {
         
         expect(lookup.value) == Jack.Format.noIcon
       }
-
-//        let b = Jack("b")
-//        let c = Jack("b.c")
-//        let d = c.descendant("d.dd.ddd")
-//        expect(b.lookupLevel())
-//          .to(equal(Jack.LevelLookup.set(.debug)))
-//
-//        b.setLevel(.warning)
-//        expect(b.lookupLevel())
-//          .to(equal(Jack.LevelLookup.set(.warning)))
-//        expect(c.lookupLevel()) == .inherit(.warning, from: "b")
-//        expect(d.lookupLevel()) == .inherit(.warning, from: "b")
-//
-//        c.setLevel(.error)
-//        expect(c.level) == .error
-//      }
 
     } // describe("Jack.ScopeRoster")
   }
