@@ -19,6 +19,7 @@
 		F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4014D7820C8BF1E002F3D86 /* JackSpec.swift */; };
 		F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */; };
 		F4AD94CF21A04AF500878BF1 /* JackScopeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */; };
+		F4AD94D121A050D600878BF1 /* PrettySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94D021A050D600878BF1 /* PrettySpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		F4A71BC520C8CCD1006C5486 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackPackSpec.swift; sourceTree = "<group>"; };
 		F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackScopeSpec.swift; sourceTree = "<group>"; };
+		F4AD94D021A050D600878BF1 /* PrettySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrettySpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				F4014D7820C8BF1E002F3D86 /* JackSpec.swift */,
+				F4AD94D021A050D600878BF1 /* PrettySpec.swift */,
 				F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */,
 				F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */,
 				F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */,
@@ -375,6 +378,7 @@
 				F4AD94CF21A04AF500878BF1 /* JackScopeSpec.swift in Sources */,
 				F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */,
 				F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */,
+				F4AD94D121A050D600878BF1 /* PrettySpec.swift in Sources */,
 				F41F6BBD219FB90A005E06E7 /* JKTTYLoggerFormatterSpec.swift in Sources */,
 				F41F6BBC219FB90A005E06E7 /* JKHTTPLoggerSpec.swift in Sources */,
 			);
