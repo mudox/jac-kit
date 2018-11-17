@@ -96,7 +96,7 @@ They are __computed__ properties, values assigned to are stored in a private sha
 place indexed by the scope string.
 
 <p align="center">
-  <img src="Asset/types.png" width=540/>
+  <img src="Asset/types.png" width=900/>
 </p>
 
 ## Behavior inheriting & overriding
