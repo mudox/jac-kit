@@ -13,16 +13,16 @@ internal extension Jack {
     }
 
     let string: String
-    let kind = Kind.normal
+    let kind: Kind
 
     static func isValid(scopeString: String) -> Bool {
       let components = scopeString.split(separator: ".", omittingEmptySubsequences: false)
 
       // Must have at least one component.
       guard !components.isEmpty else { return false }
-      
+
       // Must NOT contain empty string `""` components.
-      guard components.firstIndex(of: "") == nil else { return false}
+      guard components.firstIndex(of: "") == nil else { return false }
 
       return true
     }
@@ -33,6 +33,7 @@ internal extension Jack {
       }
 
       self.string = string
+      self.kind = kind
     }
 
     var superScopeStrings: [String] {
