@@ -70,11 +70,11 @@ public final class Jack {
     return self
   }
   
-  // MARK: - Options
+  // MARK: - Format
   
-  public var options: Jack.Options {
+  public var format: Jack.Format {
     return ScopeRoster
-      .lookup(Jack.Options.self, scope: scope, keyPath: \ScopeRoster.Item.options)
+      .lookup(Jack.Format.self, scope: scope, keyPath: \ScopeRoster.Item.options)
       .value
   }
   
@@ -83,7 +83,7 @@ public final class Jack {
   /// - Parameter options: The `Jack.Options` to associate with its scope.
   /// - Returns: `self` to enabled chain of method calls.
   @discardableResult
-  public func set(options: Jack.Options?) -> Jack {
+  public func set(options: Jack.Format?) -> Jack {
     ScopeRoster.set(options, scope: scope, keyPath: \ScopeRoster.Item.options)
     return self
   }

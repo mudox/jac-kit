@@ -24,33 +24,40 @@ fileprivate func fileLine(_ file: StaticString, _ line: UInt) -> String {
 //  return "\(fileName).\(function):\(line)"
 // }
 
-fileprivate func compose(
+internal func pack(
   _ scope: Jack.Scope,
   _ message: String,
-  _ options: Jack.Options,
+  _ options: Jack.Format,
   _ file: StaticString,
-  _: StaticString,
+  _ function: StaticString,
   _ line: UInt
 ) -> String {
   let location = fileLine(file, line)
 
-  let scopeText: String
+  let scopeString: String
   switch scope.kind {
   case .file:
-    scopeText = "[F] \(scope.string)"
+    scopeString = "File:\(scope.string)"
   case .normal:
-    scopeText = scope.string
+    scopeString = scope.string
   }
 
   let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
 
   let jsonObject: [String: Any] = [
-    "scope": scopeText,
-    "location": location, // TODO: check if jacsrv need this field
-    "filename": fileName,
-    "lineno": line,
-    "message": message,
-    "options": options.rawValue,
+    // logging scope
+    "scope"   : scopeString,
+    
+    // location
+    "file"    : fileName,
+    "function": function,
+    "line"    : line,
+    
+    // the real message
+    "message" : message,
+    
+    // options
+    "options" : options.rawValue,
   ]
 
   do {
@@ -73,75 +80,75 @@ extension Jack {
 
   public func error(
     _ message: @autoclosure () -> String,
-    options: Jack.Options? = nil,
+    options: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .error) {
-      let message = compose(scope, message(), options ?? self.options, file, function, line)
+      let message = pack(scope, message(), options ?? self.format, file, function, line)
       DDLogError(message, level: level)
     }
   }
 
   public func warn(
     _ message: @autoclosure () -> String,
-    options: Jack.Options? = nil,
+    options: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .warning) {
-      let message = compose(scope, message(), options ?? self.options, file, function, line)
+      let message = pack(scope, message(), options ?? self.format, file, function, line)
       DDLogWarn(message, level: level)
     }
   }
 
   public func info(
     _ message: @autoclosure () -> String,
-    options: Jack.Options? = nil,
+    options: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .info) {
-      let message = compose(scope, message(), options ?? self.options, file, function, line)
+      let message = pack(scope, message(), options ?? self.format, file, function, line)
       DDLogInfo(message, level: level)
     }
   }
 
   public func debug(
     _ message: @autoclosure () -> String,
-    options: Jack.Options? = nil,
+    options: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .debug) {
-      let message = compose(scope, message(), options ?? self.options, file, function, line)
+      let message = pack(scope, message(), options ?? self.format, file, function, line)
       DDLogDebug(message, level: level)
     }
   }
 
   public func verbose(
     _ message: @autoclosure () -> String,
-    options: Jack.Options? = nil,
+    options: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .verbose) {
-      let message = compose(scope, message(), options ?? self.options, file, function, line)
+      let message = pack(scope, message(), options ?? self.format, file, function, line)
       DDLogVerbose(message, level: level)
     }
   }
-  
+
 }
 
 // MARK: - Assertion
 
 extension Jack {
-  
+
   /// JacKit' version of `rxFatalError()`.
   /// It `falalError()` in debug mode, while logs a warnning message
   /// in release mode.
@@ -186,5 +193,5 @@ extension Jack {
   ) {
     assert(false, message, file: file, line: line)
   }
-  
+
 }

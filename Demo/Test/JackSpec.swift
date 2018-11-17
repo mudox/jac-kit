@@ -42,7 +42,7 @@ class JackSpec: QuickSpec {
 
       it("LookupResult.fallback") {
         let lookup = Jack.ScopeRoster.lookup(
-          Jack.Options.self,
+          Jack.Format.self,
           scope: Jack.Scope("a")!,
           keyPath: \Jack.ScopeRoster.Item.options
         )
@@ -54,18 +54,18 @@ class JackSpec: QuickSpec {
           return .succeeded
         }).to(succeed())
         
-        expect(lookup.value) == Jack.Options.fallback
+        expect(lookup.value) == Jack.Format.fallback
       }
 
       it("LookupResult.set") {
         Jack.ScopeRoster.set(
-          Jack.Options.noIcon,
+          Jack.Format.noIcon,
           scope: Jack.Scope("b")!,
           keyPath: \Jack.ScopeRoster.Item.options
         )
 
         let lookup = Jack.ScopeRoster.lookup(
-          Jack.Options.self,
+          Jack.Format.self,
           scope: Jack.Scope("b")!,
           keyPath: \Jack.ScopeRoster.Item.options
         )
@@ -73,7 +73,7 @@ class JackSpec: QuickSpec {
         expect({
           guard
             case let Jack.ScopeRoster.LookupResult.set(opt) = lookup,
-            opt == Jack.Options.noIcon
+            opt == Jack.Format.noIcon
           else {
             return .failed(reason: "wrong enum case or associated value")
           }
@@ -81,18 +81,18 @@ class JackSpec: QuickSpec {
           return .succeeded
         }).to(succeed())
         
-        expect(lookup.value) == Jack.Options.noIcon
+        expect(lookup.value) == Jack.Format.noIcon
       }
 
       it("LookupResult.inherit") {
         Jack.ScopeRoster.set(
-          Jack.Options.noIcon,
+          Jack.Format.noIcon,
           scope: Jack.Scope("b")!,
           keyPath: \Jack.ScopeRoster.Item.options
         )
         
         let lookup = Jack.ScopeRoster.lookup(
-          Jack.Options.self,
+          Jack.Format.self,
           scope: Jack.Scope("b.c")!,
           keyPath: \Jack.ScopeRoster.Item.options
         )
@@ -100,7 +100,7 @@ class JackSpec: QuickSpec {
         expect({
           guard
             case let Jack.ScopeRoster.LookupResult.inherit(opt, from: parent) = lookup,
-            opt == Jack.Options.noIcon,
+            opt == Jack.Format.noIcon,
             parent == "b"
             else {
               return .failed(reason: "wrong enum case or associated value")
@@ -109,7 +109,7 @@ class JackSpec: QuickSpec {
           return .succeeded
         }).to(succeed())
         
-        expect(lookup.value) == Jack.Options.noIcon
+        expect(lookup.value) == Jack.Format.noIcon
       }
 
 //        let b = Jack("b")
