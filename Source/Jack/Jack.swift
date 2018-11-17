@@ -33,7 +33,7 @@ public final class Jack {
   }
 
   // MARK: - Create Descendants
-  
+
   /// Return a new Jack instance that is a descendant of the receiver whose scope
   /// is constructed by appending the argument scope string the one of the receiver.
   ///
@@ -43,14 +43,14 @@ public final class Jack {
     let newScope = self.scope.string + "." + scope
     return .init(newScope)
   }
-  
+
   public func function(_ name: StaticString = #function) -> Jack {
     let nameString = name.description
     let index = nameString.firstIndex(of: "(") ?? nameString.endIndex
     let scope = String(nameString[nameString.startIndex..<index])
     return descendant(scope)
   }
-  
+
   // MARK: - Level
 
   public var level: DDLogLevel {
@@ -59,7 +59,6 @@ public final class Jack {
       .value
   }
 
-  
   /// Associate level to its scope.
   ///
   /// - Parameter level: The DDLogLevel to associate with scope.
@@ -69,15 +68,15 @@ public final class Jack {
     ScopeRoster.set(level, scope: scope, keyPath: \ScopeRoster.Item.level)
     return self
   }
-  
+
   // MARK: - Format
-  
+
   public var format: Jack.Format {
     return ScopeRoster
       .lookup(Jack.Format.self, scope: scope, keyPath: \ScopeRoster.Item.options)
       .value
   }
-  
+
   /// Associate options to its scope.
   ///
   /// - Parameter options: The `Jack.Options` to associate with its scope.

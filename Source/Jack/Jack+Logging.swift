@@ -13,7 +13,7 @@ import CocoaLumberjack
 //  return "\(fileName).\(function)"
 // }
 //
-fileprivate func fileLine(_ file: StaticString, _ line: UInt) -> String {
+private func fileLine(_ file: StaticString, _ line: UInt) -> String {
   let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
   return "\(fileName):\(line)"
 }
@@ -24,6 +24,7 @@ fileprivate func fileLine(_ file: StaticString, _ line: UInt) -> String {
 //  return "\(fileName).\(function):\(line)"
 // }
 
+// swiftlint:disable:next function_parameter_count
 internal func pack(
   _ scope: Jack.Scope,
   _ message: String,
@@ -46,18 +47,18 @@ internal func pack(
 
   let jsonObject: [String: Any] = [
     // logging scope
-    "scope"   : scopeString,
-    
+    "scope": scopeString,
+
     // location
-    "file"    : "\(file)",
+    "file": "\(file)",
     "function": "\(function)",
-    "line"    : line,
-    
+    "line": line,
+
     // the real message
-    "message" : message,
-    
+    "message": message,
+
     // foramt
-    "format" : format.rawValue,
+    "format": format.rawValue,
   ]
 
   do {
@@ -147,7 +148,7 @@ extension Jack {
 
 // MARK: - Assertion
 
-extension Jack {
+public extension Jack {
 
   /// JacKit' version of `rxFatalError()`.
   /// It `falalError()` in debug mode, while logs a warnning message
@@ -160,7 +161,7 @@ extension Jack {
   ///   - file: File name which is autolmatically captured.
   ///   - function: Function name which automatically capture.
   ///   - line: Line number which is automatically captured.
-  public static func assert(
+  static func assert(
     _ valid: Bool,
     _ message: String,
     file: StaticString = #file,
@@ -185,7 +186,7 @@ extension Jack {
   ///   - file: File name which is autolmatically captured.
   ///   - function: Function name which automatically capture.
   ///   - line: Line number which is automatically captured.
-  public static func failure(
+  static func failure(
     _ message: String,
     file: StaticString = #file,
     function _: StaticString = #function,

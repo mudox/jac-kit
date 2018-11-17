@@ -49,7 +49,9 @@ NSString * iconForFlag(DDLogFlag flag) {
     //
 
     // Icon
-    NSString * levelIcon = iconForFlag(logMessage.flag);
+    NSString * icon = iconForFlag(logMessage.flag);
+
+    assert(icon != nil);
 
 
     // Transform logMessage.message -> deserialized JSON object
@@ -57,6 +59,7 @@ NSString * iconForFlag(DDLogFlag flag) {
     NSError * error;
     NSDictionary * jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
 
+    assert(error == nil);
     if (error != nil) {
         return [NSString stringWithFormat:@"JKTTYHttpFormatter json deserialization error: %@", error.description];
     }
@@ -64,6 +67,7 @@ NSString * iconForFlag(DDLogFlag flag) {
     // Scope
     NSString * scope, * location, * message;
     scope = jsonObject[@"scope"];
+    assert(scope != nil);
     scope = [scope stringByReplacingOccurrencesOfString:@"." withString:@"・"];
     scope = [NSString stringWithFormat:@"%@", scope];
 
@@ -72,6 +76,7 @@ NSString * iconForFlag(DDLogFlag flag) {
 
     // Message text
     message = jsonObject[@"message"];
+    assert(message != nil);
 
     /*
      *
@@ -79,6 +84,7 @@ NSString * iconForFlag(DDLogFlag flag) {
      *
      */
 
+    assert(jsonObject[@"format"] != nil);
     int format = [jsonObject[@"format"] intValue];
 
     NSString * formatted = nil;
@@ -91,16 +97,16 @@ NSString * iconForFlag(DDLogFlag flag) {
             formatted = [NSString stringWithFormat:@"%@ - %@\n%@", scope, message, location];
             break;
         case  noLocation:
-            formatted = [NSString stringWithFormat:@"%@ %@\n%@", levelIcon, scope, message];
+            formatted = [NSString stringWithFormat:@"%@ %@\n%@", icon, scope, message];
             break;
         case  noLocation | compact:
-            formatted = [NSString stringWithFormat:@"%@ %@ - %@", levelIcon, scope, message];
+            formatted = [NSString stringWithFormat:@"%@ %@ - %@", icon, scope, message];
             break;
         case  noScope:
-            formatted = [NSString stringWithFormat:@"%@ %@\n%@", levelIcon, message, location];
+            formatted = [NSString stringWithFormat:@"%@ %@\n%@", icon, message, location];
             break;
         case  noScope | compact:
-            formatted = [NSString stringWithFormat:@"%@ %@\n%@", levelIcon, message, location];
+            formatted = [NSString stringWithFormat:@"%@ %@\n%@", icon, message, location];
             break;
         case  noIcon | noLocation:
             formatted = [NSString stringWithFormat:@"%@\n%@", scope, message];
@@ -115,9 +121,9 @@ NSString * iconForFlag(DDLogFlag flag) {
             formatted = [NSString stringWithFormat:@"%@", message];
             break;
         case  compact:
-            formatted = [NSString stringWithFormat:@"%@ %@ - %@\n%@", levelIcon, scope, message, location];
+            formatted = [NSString stringWithFormat:@"%@ %@ - %@\n%@", icon, scope, message, location];
         default:
-            formatted = [NSString stringWithFormat:@"%@ %@\n%@\n%@", levelIcon, scope, message, location];
+            formatted = [NSString stringWithFormat:@"%@ %@\n%@\n%@", icon, scope, message, location];
     }
 
     // Indent following lines

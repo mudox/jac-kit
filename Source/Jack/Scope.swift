@@ -7,6 +7,7 @@ internal extension Jack {
   struct Scope {
     static let fallback = Scope("InvalidScope")!
 
+    // swiftlint:disable:next nesting
     enum Kind {
       case normal
       case file
