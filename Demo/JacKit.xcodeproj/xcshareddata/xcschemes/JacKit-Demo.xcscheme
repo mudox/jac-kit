@@ -103,9 +103,34 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "OS_ACTIVITY_MODE"
-            value = "disable"
-            isEnabled = "NO">
+            key = "JACKIT_ERROR_ICON"
+            value = "&#x1f525;"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "JACKIT_WARN_ICON"
+            value = "&#x26a0;&#xfe0f;"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "JACKIT_INFO_ICON"
+            value = "&#x1f431;"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "JACKIT_DEBUG_ICON"
+            value = "&#x1f9e0;"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "JACKIT_VERBOSE_ICON"
+            value = "&#x1f539;"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "JACKIT_DEBUG"
+            value = "enable"
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "JACKIT_SERVER_URL"
@@ -113,9 +138,9 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "JACKIT_DEBUG"
-            value = ""
-            isEnabled = "YES">
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
