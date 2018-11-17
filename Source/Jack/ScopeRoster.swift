@@ -20,7 +20,7 @@ extension Jack.ScopeRoster {
   struct Item {
 
     var level: DDLogLevel?
-    var options: Jack.Options?
+    var options: Jack.Format?
 
     init() {
       level = nil
