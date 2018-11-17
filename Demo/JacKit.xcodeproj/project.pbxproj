@@ -16,8 +16,9 @@
 		7EB60516AE8112C52A9831B3 /* Pods_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9650423CCE64A2F8761BFB /* Pods_Test.framework */; };
 		F41F6BBC219FB90A005E06E7 /* JKHTTPLoggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */; };
 		F41F6BBD219FB90A005E06E7 /* JKTTYLoggerFormatterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */; };
-		F4A71BCF20C8CD64006C5486 /* JackScopeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4014D7820C8BF1E002F3D86 /* JackScopeSpec.swift */; };
+		F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4014D7820C8BF1E002F3D86 /* JackSpec.swift */; };
 		F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */; };
+		F4AD94CF21A04AF500878BF1 /* JackScopeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,11 +49,12 @@
 		6AC4C0A3BC8F3641946D3137 /* Pods-Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.debug.xcconfig"; sourceTree = "<group>"; };
 		A2CEFA2E9353211B22994373 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F3ADF404B6E323E70F61FDE6 /* Pods-Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.release.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.release.xcconfig"; sourceTree = "<group>"; };
-		F4014D7820C8BF1E002F3D86 /* JackScopeSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackScopeSpec.swift; sourceTree = "<group>"; };
+		F4014D7820C8BF1E002F3D86 /* JackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackSpec.swift; sourceTree = "<group>"; };
 		F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKHTTPLoggerSpec.swift; sourceTree = "<group>"; };
 		F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKTTYLoggerFormatterSpec.swift; sourceTree = "<group>"; };
 		F4A71BC520C8CCD1006C5486 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackPackSpec.swift; sourceTree = "<group>"; };
+		F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackScopeSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +123,8 @@
 		607FACE81AFB9204008FA782 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				F4014D7820C8BF1E002F3D86 /* JackScopeSpec.swift */,
+				F4014D7820C8BF1E002F3D86 /* JackSpec.swift */,
+				F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */,
 				F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */,
 				F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */,
 				F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */,
@@ -369,8 +372,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4AD94CF21A04AF500878BF1 /* JackScopeSpec.swift in Sources */,
 				F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */,
-				F4A71BCF20C8CD64006C5486 /* JackScopeSpec.swift in Sources */,
+				F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */,
 				F41F6BBD219FB90A005E06E7 /* JKTTYLoggerFormatterSpec.swift in Sources */,
 				F41F6BBC219FB90A005E06E7 /* JKHTTPLoggerSpec.swift in Sources */,
 			);
