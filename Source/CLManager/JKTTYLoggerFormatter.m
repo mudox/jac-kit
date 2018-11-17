@@ -22,7 +22,7 @@ NSString * iconForFlag(DDLogFlag flag) {
             icon = (env[@"JACKIT_WARNING_ICON"] != nil) ? env[@"JACKIT_WARNING_ICON"] : @"💜";
             break;
         case DDLogFlagInfo:
-            icon = (env[@"JACKIT_INFO_ICON"] != nil) ? env[@"JACINFOKIT_INFO_ICON"] : @"💛";
+            icon = (env[@"JACKIT_INFO_ICON"] != nil) ? env[@"JACKIT_INFO_ICON"] : @"💛";
             break;
         case DDLogFlagDebug:
             icon = (env[@"JACKIT_DEBUG_ICON"] != nil) ? env[@"JACKIT_DEBUG_ICON"] : @"💚";
@@ -50,7 +50,6 @@ NSString * iconForFlag(DDLogFlag flag) {
 
     // Icon
     NSString * icon = iconForFlag(logMessage.flag);
-
     assert(icon != nil);
 
 
