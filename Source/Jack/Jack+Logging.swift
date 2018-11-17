@@ -27,7 +27,7 @@ fileprivate func fileLine(_ file: StaticString, _ line: UInt) -> String {
 internal func pack(
   _ scope: Jack.Scope,
   _ message: String,
-  _ options: Jack.Format,
+  _ format: Jack.Format,
   _ file: StaticString,
   _ function: StaticString,
   _ line: UInt
@@ -42,32 +42,32 @@ internal func pack(
     scopeString = scope.string
   }
 
-  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
+//  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
 
   let jsonObject: [String: Any] = [
     // logging scope
     "scope"   : scopeString,
     
     // location
-    "file"    : fileName,
-    "function": function,
+    "file"    : "\(file)",
+    "function": "\(function)",
     "line"    : line,
     
     // the real message
     "message" : message,
     
-    // options
-    "options" : options.rawValue,
+    // foramt
+    "format" : format.rawValue,
   ]
 
   do {
-    let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
+    let jsonData = try JSONSerialization.data(withJSONObject: jsonObject)
     guard let jsonString = String(data: jsonData, encoding: .utf8) else {
       return "Jack.Formatter json string init error"
     }
     return jsonString
   } catch {
-    return "Jack._compose JSON serialization error: \(error)"
+    return "JacKit.pack JSON serialization error: \(error)"
   }
 }
 
@@ -80,65 +80,65 @@ extension Jack {
 
   public func error(
     _ message: @autoclosure () -> String,
-    options: Jack.Format? = nil,
+    format: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .error) {
-      let message = pack(scope, message(), options ?? self.format, file, function, line)
+      let message = pack(scope, message(), format ?? self.format, file, function, line)
       DDLogError(message, level: level)
     }
   }
 
   public func warn(
     _ message: @autoclosure () -> String,
-    options: Jack.Format? = nil,
+    format: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .warning) {
-      let message = pack(scope, message(), options ?? self.format, file, function, line)
+      let message = pack(scope, message(), format ?? self.format, file, function, line)
       DDLogWarn(message, level: level)
     }
   }
 
   public func info(
     _ message: @autoclosure () -> String,
-    options: Jack.Format? = nil,
+    format: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .info) {
-      let message = pack(scope, message(), options ?? self.format, file, function, line)
+      let message = pack(scope, message(), format ?? self.format, file, function, line)
       DDLogInfo(message, level: level)
     }
   }
 
   public func debug(
     _ message: @autoclosure () -> String,
-    options: Jack.Format? = nil,
+    format: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .debug) {
-      let message = pack(scope, message(), options ?? self.format, file, function, line)
+      let message = pack(scope, message(), format ?? self.format, file, function, line)
       DDLogDebug(message, level: level)
     }
   }
 
   public func verbose(
     _ message: @autoclosure () -> String,
-    options: Jack.Format? = nil,
+    format: Jack.Format? = nil,
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
   ) {
     if canLog(flag: .verbose) {
-      let message = pack(scope, message(), options ?? self.format, file, function, line)
+      let message = pack(scope, message(), format ?? self.format, file, function, line)
       DDLogVerbose(message, level: level)
     }
   }
