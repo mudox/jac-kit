@@ -5,130 +5,84 @@ import Quick
 
 @testable import JacKit
 
-class JackSpec: QuickSpec {
-  override func spec() {
+class JackSpec: QuickSpec { override func spec() {
 
-    describe("Jack.Scope") {
+  describe("Jack") {
 
-      it("validate scope string") {
+    beforeEach {
+      Jack.ScopeRoster.items.removeAll()
+    }
 
-        let samples = [
-          "onlyOneComponent": true,
-          "io.gihut.mudox.JacKit.Jack": true,
-          ".": false, // empty component
-          "..": false, // more empty component
-          "": false, // no component
-          "<name>.[with].{special}.symbols": true, // allow symbols
-          "have. space.around .componnets": true, // space is allowed
-          "have..contiguous...dots": false, // contiguous empty componnet
-          ".start.with.a.dot": false, // head empty component
-          "end.with.a.dot.": false, // trailing empty component
-        ]
+    // MARK: Scope
 
-        samples.forEach { text, result in
-          print("🍋 validate \(String(reflecting: text))")
-          expect(Jack.Scope.isValid(scopeString: text)) == result
-        }
+    it("has scope") {
+      let jack = Jack("A.B.C")
+      expect(jack.scope.string) == "A.B.C"
+    }
 
-      }
+    it("fallback scope") {
+      let jack = Jack(".A.C.")
+      expect(jack.scope.string) == Jack.Scope.fallback.string
+    }
+    
+    // MARK: Creation
+    
+    it("descendant") {
+      let jack = Jack("A.B").descendant("C.D")
+      expect(jack.scope.string) == "A.B.C.D"
+    }
+    
+    it("function") {
+      let jack = Jack("A.B").function()
+      expect(jack.scope.string) == "A.B.spec"
+    }
 
-    } // describe("Jack.Scope")
+    // MARK: Level
 
-    describe("Jack.ScopeRoster") {
+    it("sets level") {
 
-      afterEach {
-        Jack.ScopeRoster.items = [:]
-      }
+      let jack = Jack()
+      jack.set(level: .info)
+      expect(jack.level) == .info
 
-      it("LookupResult.fallback") {
-        let lookup = Jack.ScopeRoster.lookup(
-          Jack.Options.self,
-          scope: Jack.Scope("a")!,
-          keyPath: \Jack.ScopeRoster.Item.options
-        )
+    }
 
-        expect({
-          guard case Jack.ScopeRoster.LookupResult.fallback = lookup else {
-            return .failed(reason: "wrong enum case")
-          }
-          return .succeeded
-        }).to(succeed())
-        
-        expect(lookup.value) == Jack.Options.fallback
-      }
+    it("inherits level") {
 
-      it("LookupResult.set") {
-        Jack.ScopeRoster.set(
-          Jack.Options.noIcon,
-          scope: Jack.Scope("b")!,
-          keyPath: \Jack.ScopeRoster.Item.options
-        )
+      Jack("A").set(level: .info)
+      expect(Jack("A.B.C").level) == .info
 
-        let lookup = Jack.ScopeRoster.lookup(
-          Jack.Options.self,
-          scope: Jack.Scope("b")!,
-          keyPath: \Jack.ScopeRoster.Item.options
-        )
+    }
 
-        expect({
-          guard
-            case let Jack.ScopeRoster.LookupResult.set(opt) = lookup,
-            opt == Jack.Options.noIcon
-          else {
-            return .failed(reason: "wrong enum case or associated value")
-          }
-          
-          return .succeeded
-        }).to(succeed())
-        
-        expect(lookup.value) == Jack.Options.noIcon
-      }
+    it("fallback level") {
 
-      it("LookupResult.inherit") {
-        Jack.ScopeRoster.set(
-          Jack.Options.noIcon,
-          scope: Jack.Scope("b")!,
-          keyPath: \Jack.ScopeRoster.Item.options
-        )
-        
-        let lookup = Jack.ScopeRoster.lookup(
-          Jack.Options.self,
-          scope: Jack.Scope("b.c")!,
-          keyPath: \Jack.ScopeRoster.Item.options
-        )
-        
-        expect({
-          guard
-            case let Jack.ScopeRoster.LookupResult.inherit(opt, from: parent) = lookup,
-            opt == Jack.Options.noIcon,
-            parent == "b"
-            else {
-              return .failed(reason: "wrong enum case or associated value")
-          }
-          
-          return .succeeded
-        }).to(succeed())
-        
-        expect(lookup.value) == Jack.Options.noIcon
-      }
+      expect(Jack("A.B").level) == DDLogLevel.fallback
 
-//        let b = Jack("b")
-//        let c = Jack("b.c")
-//        let d = c.descendant("d.dd.ddd")
-//        expect(b.lookupLevel())
-//          .to(equal(Jack.LevelLookup.set(.debug)))
-//
-//        b.setLevel(.warning)
-//        expect(b.lookupLevel())
-//          .to(equal(Jack.LevelLookup.set(.warning)))
-//        expect(c.lookupLevel()) == .inherit(.warning, from: "b")
-//        expect(d.lookupLevel()) == .inherit(.warning, from: "b")
-//
-//        c.setLevel(.error)
-//        expect(c.level) == .error
-//      }
+    }
 
-    } // describe("Jack.ScopeRoster")
-  }
+    // MARK: Format
 
-}
+    it("sets format") {
+
+      let jack = Jack()
+      jack.set(format: .noIcon)
+      expect(jack.format) == .noIcon
+
+    }
+
+    it("inherits format") {
+
+      Jack("A").set(format: .noIcon)
+      expect(Jack("A.B.C").format) == .noIcon
+
+    }
+
+    it("fallback format") {
+
+      expect(Jack("A.B").format) == Jack.Format.fallback
+
+    }
+
+  } // describe("Jack")
+
+} }

@@ -1,5 +1,7 @@
 import UIKit
 
+import JacKit
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -11,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   )
     -> Bool
   {
-
+    Jack("App").info("launched", format: .short)
     return true
   }
 
