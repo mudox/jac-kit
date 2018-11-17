@@ -14,7 +14,10 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		7EB60516AE8112C52A9831B3 /* Pods_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F9650423CCE64A2F8761BFB /* Pods_Test.framework */; };
-		F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4014D7820C8BF1E002F3D86 /* JackSpec.swift */; };
+		F41F6BBC219FB90A005E06E7 /* JKHTTPLoggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */; };
+		F41F6BBD219FB90A005E06E7 /* JKTTYLoggerFormatterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */; };
+		F4A71BCF20C8CD64006C5486 /* JackScopeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4014D7820C8BF1E002F3D86 /* JackScopeSpec.swift */; };
+		F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +34,7 @@
 		12661E930A7A75E1D3DE88EB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		2302180289B9C230CCAA69F2 /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		48F7531326F9294ADD4DCC8C /* Pods-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo/Pods-Demo.debug.xcconfig"; sourceTree = "<group>"; };
-		4C374D72C7FAA40C5BBAAB3A /* JacKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = JacKit.podspec; path = ../JacKit.podspec; sourceTree = "<group>"; };
+		4C374D72C7FAA40C5BBAAB3A /* JacKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = JacKit.podspec; path = ../JacKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4E74797B94C7C197366B58FE /* Pods_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9650423CCE64A2F8761BFB /* Pods_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,8 +48,11 @@
 		6AC4C0A3BC8F3641946D3137 /* Pods-Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.debug.xcconfig"; sourceTree = "<group>"; };
 		A2CEFA2E9353211B22994373 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F3ADF404B6E323E70F61FDE6 /* Pods-Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test.release.xcconfig"; path = "Pods/Target Support Files/Pods-Test/Pods-Test.release.xcconfig"; sourceTree = "<group>"; };
-		F4014D7820C8BF1E002F3D86 /* JackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackSpec.swift; sourceTree = "<group>"; };
+		F4014D7820C8BF1E002F3D86 /* JackScopeSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackScopeSpec.swift; sourceTree = "<group>"; };
+		F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKHTTPLoggerSpec.swift; sourceTree = "<group>"; };
+		F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKTTYLoggerFormatterSpec.swift; sourceTree = "<group>"; };
 		F4A71BC520C8CCD1006C5486 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackPackSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +121,10 @@
 		607FACE81AFB9204008FA782 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				F4014D7820C8BF1E002F3D86 /* JackSpec.swift */,
+				F4014D7820C8BF1E002F3D86 /* JackScopeSpec.swift */,
+				F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */,
+				F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */,
+				F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Test;
@@ -170,6 +179,7 @@
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
+				C5DEB0152BF24DA6029EBFCB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -299,6 +309,30 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C5DEB0152BF24DA6029EBFCB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Demo/Pods-Demo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/JacKit/JacKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JacKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Demo/Pods-Demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F4E8A1B5D04396C391B064EF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -306,15 +340,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Test/Pods-Test-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/JacKit/JacKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JacKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
 			);
@@ -339,7 +369,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */,
+				F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */,
+				F4A71BCF20C8CD64006C5486 /* JackScopeSpec.swift in Sources */,
+				F41F6BBD219FB90A005E06E7 /* JKTTYLoggerFormatterSpec.swift in Sources */,
+				F41F6BBC219FB90A005E06E7 /* JKHTTPLoggerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
