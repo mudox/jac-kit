@@ -31,4 +31,36 @@ class JackLoggingSpec: QuickSpec { override func spec() {
     jack.verbose("verbose message", format: .noScope)
   }
 
+  it("assert") {
+    #if DEBUG
+      expect {
+        jack.assert(true, "message")
+      }.notTo(throwAssertion())
+
+      expect {
+        jack.assert(false, "message")
+      }.to(throwAssertion())
+    #else
+      expect {
+        jack.assert(true, "message")
+      }.toNot(throwAssertion())
+
+      expect {
+        jack.assert(false, "message")
+      }.toNot(throwAssertion())
+    #endif
+  }
+
+  it("failure") {
+    #if DEBUG
+      expect {
+        jack.failure("message")
+      }.to(throwAssertion())
+    #else
+      expect {
+        jack.failure("message")
+      }.toNot(throwAssertion())
+    #endif
+  }
+
 } }
