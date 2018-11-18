@@ -106,9 +106,11 @@ extension Jack {
 public extension Jack {
 
   /// JacKit' version of `rxFatalError()`.
+  ///
   /// It `falalError()` in debug mode, while logs a warnning message
   /// in release mode.
-  /// Unlike `assert`, the expression is always evaluated.
+  ///
+  /// - Note: Unlike `Swift.assert`, the expression is always evaluated.
   ///
   /// - Parameters:
   ///   - valid: The expression to be tested.
@@ -116,7 +118,7 @@ public extension Jack {
   ///   - file: File name which is autolmatically captured.
   ///   - function: Function name which automatically capture.
   ///   - line: Line number which is automatically captured.
-  static func assert(
+  func assert(
     _ valid: Bool,
     _ message: String,
     file: StaticString = #file,
@@ -127,12 +129,13 @@ public extension Jack {
       #if DEBUG
         fatalError(message, file: file, line: line)
       #else
-        warn(message, file: file, function: function)
+        error(message, file: file, function: function)
       #endif
     }
   }
 
   /// JacKit' version of `assertionFailure()`.
+  ///
   /// It `falalError()` in debug mode while logs a warnning message in
   /// release mode.
   ///
@@ -141,7 +144,7 @@ public extension Jack {
   ///   - file: File name which is autolmatically captured.
   ///   - function: Function name which automatically capture.
   ///   - line: Line number which is automatically captured.
-  static func failure(
+  func failure(
     _ message: String,
     file: StaticString = #file,
     function _: StaticString = #function,
