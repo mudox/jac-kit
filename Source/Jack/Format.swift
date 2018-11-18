@@ -14,6 +14,15 @@ public extension Jack {
 
     // MARK: - Primitive Options
 
+    /// For example, when you want to use custom icon for specific logging message.
+    /// Use this option and then put your icon into scope part.
+    ///
+    /// ```swift
+    /// // Leave 1 space between the emoji icon (usually take 2 spaces)
+    /// // and scope string.
+    /// Jack("⚠️   You.scope.string")
+    ///   .info("your message ...", format: .noIcon)
+    /// ```
     public static let noIcon = Format(rawValue: 1 << 0)
 
     public static let noLocation = Format(rawValue: 1 << 1)
