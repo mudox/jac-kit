@@ -62,11 +62,6 @@
                BlueprintName = "Test"
                ReferencedContainer = "container:JacKit.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "JKTTYLoggerFormatterSpec">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
