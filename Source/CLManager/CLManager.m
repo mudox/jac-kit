@@ -64,10 +64,10 @@ static NSString * _greetings;
                  [NSString stringWithFormat:@"   Logger name:      %@", httpLogger.loggerName],
                  [NSString stringWithFormat:@"   Logging queue:    %s", dispatch_queue_get_label(httpLogger.loggerQueue)],
                  [NSString stringWithFormat:@"   Server address:   %@", JKHTTPLogger.serverURL],
-                 [NSString stringWithFormat:@"   Session ID:       %@", JKHTTPLogger.sessionID],
+                 [NSString stringWithFormat:@"   Session ID:       %@", JKHTTPLogger.sessionIdentifier],
              ] componentsJoinedByString: @"\n"]];
     }
-  
+
     _greetings = greetingLines;
     TTYLog(@"\n\n\n%@\n\n\n\n", greetingLines);
 
@@ -82,15 +82,3 @@ static NSString * _greetings;
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-

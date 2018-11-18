@@ -20,7 +20,7 @@ public extension Jack {
     /// ```swift
     /// // Leave 1 space between the emoji icon (usually take 2 spaces)
     /// // and scope string.
-    /// Jack("⚠️   You.scope.string")
+    /// Jack("⚠️ You.scope.string")
     ///   .info("your message ...", format: .noIcon)
     /// ```
     public static let noIcon = Format(rawValue: 1 << 0)

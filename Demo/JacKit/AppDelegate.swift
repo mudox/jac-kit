@@ -7,13 +7,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
 
-  private func application(
+  func application(
     _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  )
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil)
     -> Bool
   {
-    Jack("App").info("launched", format: .short)
+    
+    Jack.reportAppInfo()
+    Jack.startReportingAppStateChanges()
+    
     return true
   }
 

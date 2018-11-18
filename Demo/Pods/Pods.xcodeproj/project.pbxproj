@@ -155,6 +155,8 @@
 		F088EE1AE386EEF27AC934DE13F455BB /* CwlCatchException.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F73ECA66B511F773E73EDCAA437D513 /* CwlCatchException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F12912A0DC2EB181991C3BF39B5B848C /* ExpectationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776C56B3F98BBD558FD2C2B728F81A19 /* ExpectationMessage.swift */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F311BB2F19071A9E3342F1B6C30155B5 /* DDOSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E71B7CDF680FE291D80C1550DAC1D0A /* DDOSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F49B991B21A1A4C7004D63BB /* Jack+Reporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B991A21A1A4C7004D63BB /* Jack+Reporting.swift */; };
+		F49B991D21A1A511004D63BB /* ApplicationStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B991C21A1A511004D63BB /* ApplicationStates.swift */; };
 		F4D6F41221A13F7200765A73 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D6F41121A13F7200765A73 /* Package.swift */; };
 		F5E4B4CB0F7341C2FC51BB4619DF1274 /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = EA9E883189A597B9F61A8A963259D57A /* DDFileLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F83EB9DAF3D8D1E9557FEE67A2CB6FD3 /* NSBundle+CurrentTestBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF41EAA0D951F9434168A1FF975671F3 /* NSBundle+CurrentTestBundle.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -392,6 +394,8 @@
 		F08987483E78025F325B480880627F7A /* EndWith.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EndWith.swift; path = Sources/Nimble/Matchers/EndWith.swift; sourceTree = "<group>"; };
 		F24C4568C03B209E583DD069D32044D2 /* Expectation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Expectation.swift; path = Sources/Nimble/Expectation.swift; sourceTree = "<group>"; };
 		F29C040F57A425466D650AF41B0F9F78 /* QuickConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QuickConfiguration.m; path = Sources/QuickObjectiveC/Configuration/QuickConfiguration.m; sourceTree = "<group>"; };
+		F49B991A21A1A4C7004D63BB /* Jack+Reporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jack+Reporting.swift"; sourceTree = "<group>"; };
+		F49B991C21A1A511004D63BB /* ApplicationStates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationStates.swift; sourceTree = "<group>"; };
 		F4D6F41121A13F7200765A73 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		F9B2FD3F120BB9A044038BB92EB4DE64 /* Pods-Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Test.debug.xcconfig"; sourceTree = "<group>"; };
 		FCC752D9B19199384CF91E9D51CAA601 /* QCKDSL.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QCKDSL.h; path = Sources/QuickObjectiveC/DSL/QCKDSL.h; sourceTree = "<group>"; };
@@ -654,6 +658,8 @@
 				A8E9093D4E0FBC00776E778ACD01C558 /* Format.swift */,
 				57B9B38AEA4F2FC1C84106CBFCE6C8FB /* HasFallback.swift */,
 				0C485E1D44264C9133AA41F9F386075D /* Jack.swift */,
+				F49B991A21A1A4C7004D63BB /* Jack+Reporting.swift */,
+				F49B991C21A1A511004D63BB /* ApplicationStates.swift */,
 				E1AC066FA8936F949741E013EFDFD997 /* Jack+Logging.swift */,
 				F4D6F41121A13F7200765A73 /* Package.swift */,
 				AA4D47ACEEEA268321EB2B3632C2510F /* Scope.swift */,
@@ -1215,10 +1221,12 @@
 			files = (
 				8F31A2BC0EF20BB9199CBCA92B7AC713 /* CLManager.m in Sources */,
 				4F2C29BE8F4E216ED1F36E4F14B15FDC /* Format.swift in Sources */,
+				F49B991D21A1A511004D63BB /* ApplicationStates.swift in Sources */,
 				CA996BBB350E998FDD4B2B70FC11694D /* HasFallback.swift in Sources */,
 				DFBDA4A2382F91E5EA8A0C83A5280A0D /* Jack+Logging.swift in Sources */,
 				EA4B8DF557DEEE0E2F4F21F0E58AC98A /* Jack.swift in Sources */,
 				21D79B0BB2C036DF24B236A557CBE91C /* JacKit-dummy.m in Sources */,
+				F49B991B21A1A4C7004D63BB /* Jack+Reporting.swift in Sources */,
 				DFA027293E1C0F8EBB529B213EC03DB7 /* JKHTTPLogger.m in Sources */,
 				F9ABC75B59C5CA69E83C460F896B3E91 /* JKTTYLoggerFormatter.m in Sources */,
 				F4D6F41221A13F7200765A73 /* Package.swift in Sources */,
