@@ -37,18 +37,13 @@ internal extension Jack {
     let line: UInt
 
     static func fallbackString(
-      error: Error? = nil,
+      error: Error,
       file: StaticString = #file,
       function: StaticString = #function,
       line: UInt = #line
     )
       -> String {
-      let message: String
-      if let error = error {
-        message = "JSON encoding failed with: \(error)"
-      } else {
-        message = "JSON encoding failed"
-      }
+      let message = "JSON encoding failed with: \(error)"
 
       let package = Package(
         scope: Jack.Scope("Jack.Package")!,
