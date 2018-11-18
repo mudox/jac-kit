@@ -30,12 +30,5 @@ class JackLoggingSpec: QuickSpec { override func spec() {
   it("verbose") {
     jack.verbose("verbose message", format: .noScope)
   }
-  
-  describe("Package") {
-    
-    it("failureJSONString") {
-      
-    }
-  }
-  
+
 } }

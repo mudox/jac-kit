@@ -17,7 +17,6 @@
 		F41F6BBC219FB90A005E06E7 /* JKHTTPLoggerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */; };
 		F41F6BBD219FB90A005E06E7 /* JKTTYLoggerFormatterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */; };
 		F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4014D7820C8BF1E002F3D86 /* JackSpec.swift */; };
-		F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */; };
 		F4AD94CF21A04AF500878BF1 /* JackScopeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */; };
 		F4AD94D121A050D600878BF1 /* PrettySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94D021A050D600878BF1 /* PrettySpec.swift */; };
 		F4AD94D321A053F100878BF1 /* JackLoggingSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AD94D221A053F000878BF1 /* JackLoggingSpec.swift */; };
@@ -57,7 +56,6 @@
 		F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKHTTPLoggerSpec.swift; sourceTree = "<group>"; };
 		F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JKTTYLoggerFormatterSpec.swift; sourceTree = "<group>"; };
 		F4A71BC520C8CCD1006C5486 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackPackSpec.swift; sourceTree = "<group>"; };
 		F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackScopeSpec.swift; sourceTree = "<group>"; };
 		F4AD94D021A050D600878BF1 /* PrettySpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrettySpec.swift; sourceTree = "<group>"; };
 		F4AD94D221A053F000878BF1 /* JackLoggingSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackLoggingSpec.swift; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 				F4D6F40F21A13C0900765A73 /* JackPackageSpec.swift */,
 				F4AD94D021A050D600878BF1 /* PrettySpec.swift */,
 				F4AD94CE21A04AF400878BF1 /* JackScopeSpec.swift */,
-				F4AD94CC21A02EAC00878BF1 /* JackPackSpec.swift */,
 				F41F6BBA219FB909005E06E7 /* JKHTTPLoggerSpec.swift */,
 				F41F6BBB219FB909005E06E7 /* JKTTYLoggerFormatterSpec.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
@@ -404,7 +401,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4AD94CF21A04AF500878BF1 /* JackScopeSpec.swift in Sources */,
-				F4AD94CD21A02EAC00878BF1 /* JackPackSpec.swift in Sources */,
 				F4A71BCF20C8CD64006C5486 /* JackSpec.swift in Sources */,
 				F4AD94D621A056A500878BF1 /* CLManagerSpec.swift in Sources */,
 				F4AD94D121A050D600878BF1 /* PrettySpec.swift in Sources */,

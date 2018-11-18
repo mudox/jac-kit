@@ -2,51 +2,6 @@ import Foundation
 
 import CocoaLumberjack
 
-// swiftlint:disable:next function_parameter_count
-internal func pack(
-  _ scope: Jack.Scope,
-  _ message: String,
-  _ format: Jack.Format,
-  _ file: StaticString,
-  _ function: StaticString,
-  _ line: UInt
-) -> String {
-
-  let scopeString: String
-  switch scope.kind {
-  case .file:
-    scopeString = "File:\(scope.string)"
-  case .normal:
-    scopeString = scope.string
-  }
-
-  let jsonObject: [String: Any] = [
-    // logging scope
-    "scope": scopeString,
-
-    // location
-    "file": "\(file)",
-    "function": "\(function)",
-    "line": line,
-
-    // the real message
-    "message": message,
-
-    // foramt
-    "format": format.rawValue,
-  ]
-
-  do {
-    let jsonData = try JSONSerialization.data(withJSONObject: jsonObject)
-    guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-      return "Jack.Formatter json string init error"
-    }
-    return jsonString
-  } catch {
-    return "JacKit.pack JSON serialization error: \(error)"
-  }
-}
-
 // MARK: - Logging
 
 extension Jack {
@@ -62,8 +17,13 @@ extension Jack {
     line: UInt = #line
   ) {
     if canLog(flag: .error) {
-      let message = pack(scope, message(), format ?? self.format, file, function, line)
-      DDLogError(message, level: level)
+      let package = Package(
+        scope: scope,
+        message: message(),
+        format: format ?? self.format,
+        file: file, function: function, line: line
+      )
+      DDLogError(package.messageString, level: level)
     }
   }
 
@@ -75,8 +35,13 @@ extension Jack {
     line: UInt = #line
   ) {
     if canLog(flag: .warning) {
-      let message = pack(scope, message(), format ?? self.format, file, function, line)
-      DDLogWarn(message, level: level)
+      let package = Package(
+        scope: scope,
+        message: message(),
+        format: format ?? self.format,
+        file: file, function: function, line: line
+      )
+      DDLogWarn(package.messageString, level: level)
     }
   }
 
@@ -88,8 +53,13 @@ extension Jack {
     line: UInt = #line
   ) {
     if canLog(flag: .info) {
-      let message = pack(scope, message(), format ?? self.format, file, function, line)
-      DDLogInfo(message, level: level)
+      let package = Package(
+        scope: scope,
+        message: message(),
+        format: format ?? self.format,
+        file: file, function: function, line: line
+      )
+      DDLogInfo(package.messageString, level: level)
     }
   }
 
@@ -101,8 +71,13 @@ extension Jack {
     line: UInt = #line
   ) {
     if canLog(flag: .debug) {
-      let message = pack(scope, message(), format ?? self.format, file, function, line)
-      DDLogDebug(message, level: level)
+      let package = Package(
+        scope: scope,
+        message: message(),
+        format: format ?? self.format,
+        file: file, function: function, line: line
+      )
+      DDLogDebug(package.messageString, level: level)
     }
   }
 
@@ -114,8 +89,13 @@ extension Jack {
     line: UInt = #line
   ) {
     if canLog(flag: .verbose) {
-      let message = pack(scope, message(), format ?? self.format, file, function, line)
-      DDLogVerbose(message, level: level)
+      let package = Package(
+        scope: scope,
+        message: message(),
+        format: format ?? self.format,
+        file: file, function: function, line: line
+      )
+      DDLogVerbose(package.messageString, level: level)
     }
   }
 
