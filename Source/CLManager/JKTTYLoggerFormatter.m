@@ -10,7 +10,15 @@ enum {
     compact = 1 << 3
 };
 
-NSString * iconForFlag(DDLogFlag flag) {
+NSString * locationStringFrom(NSDictionary * jsonObject) {
+    return [NSString stringWithFormat:@"▹ %@・%@・%@", jsonObject[@"file"], jsonObject[@"function"], jsonObject[@"line"]];
+}
+
+@implementation JKTTYLoggerFormatter
+
+
++ (NSString * __nonnull)iconForFlag:(DDLogFlag)flag {
+
     NSDictionary * env = NSProcessInfo.processInfo.environment;
     NSString * icon;
 
@@ -38,12 +46,6 @@ NSString * iconForFlag(DDLogFlag flag) {
     return icon;
 }
 
-NSString * locationStringFrom(NSDictionary * jsonObject) {
-    return [NSString stringWithFormat:@"▹ %@・%@・%@", jsonObject[@"file"], jsonObject[@"function"], jsonObject[@"line"]];
-}
-
-@implementation JKTTYLoggerFormatter
-
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
 
     //
@@ -53,7 +55,7 @@ NSString * locationStringFrom(NSDictionary * jsonObject) {
     //
 
     // Icon
-    NSString * icon = iconForFlag(logMessage.flag);
+    NSString * icon = [self.class iconForFlag:logMessage.flag];
 
     assert(icon != nil);
 
