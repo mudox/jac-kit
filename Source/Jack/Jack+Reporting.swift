@@ -19,7 +19,7 @@ public extension Jack {
   }
 
   static func stopReportingAppStatesChanges() {
-    guard tokens.isEmpty  else {
+    guard tokens.isEmpty else {
       jack.function().warn("\(#function) is invoked when there is no tokens to remove")
       return
     }
@@ -29,6 +29,12 @@ public extension Jack {
 
   // swiftlint:disable:next function_body_length
   static func reportAppInfo() {
+
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+    formatter.timeZone = TimeZone.current
+    let date = formatter.string(from: Date())
+
     let appName = ProcessInfo.processInfo.processName
     let bundleID = Bundle.main.bundleIdentifier
 
@@ -58,24 +64,26 @@ public extension Jack {
     let systemName = UIDevice.current.systemName
     let systemVersion = UIDevice.current.systemVersion
 
-    let lines = """
-    🚀 \(appName)
-    [App]
-      - Name       :   \(appName)
-      - ID         :   \(bundleID ?? "N/A")
-      - Release    :   \(release ?? "N/A")  (CFBundleShortVersionString)
-      - Build      :   \(build ?? "N/A") (kCFBundleVersionKey)
-      - Debug      :   \(isDebug)
-      - Simulator  :   \(isSimulator)
-    [Device]
-      - Name       :   \(deviceName)
-      - Model      :   \(deviceModel)
-      - UUID       :   \(deviceID ?? "N/A")
-    [System]
-      - Name       :   \(systemName)
-      - Version    :   \(systemVersion)
-    """ + "\n"
+    Jack("🍋 APPLICATION").info("""
+      Name          :   \(appName)
+      ID            :   \(bundleID ?? "N/A")
+      Release       :   \(release ?? "N/A")  (CFBundleShortVersionString)
+      Build         :   \(build ?? "N/A") (kCFBundleVersionKey)
+      Debug         :   \(isDebug)
+      Simulator     :   \(isSimulator)
+    """, format: [.noIcon, .noLocation])
 
-    Jack(appName).info(lines, format: .bare)
+    Jack("🥝 DEVICE").info("""
+      Name          :   \(deviceName)
+      Model         :   \(deviceModel)
+      UUID          :   \(deviceID ?? "N/A")
+    """, format: [.noIcon, .noLocation])
+
+    Jack("🍎 SYSTEM").info("""
+      Name          :   \(systemName)
+      Version       :   \(systemVersion)
+    \n\n
+    """, format: [.noIcon, .noLocation])
+
   }
 }

@@ -46,7 +46,7 @@
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "94AF62DEDAAEBFD0B244208550223223"
+            BlueprintIdentifier = "89C0F887EC298A492031F2D70457ADA4"
             BuildableName = "JacKit.framework"
             BlueprintName = "JacKit"
             ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -128,7 +128,7 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "JACKIT_SERVER_URL"
+            key = "JAC_SRV_URL"
             value = "http://192.168.0.100:7086"
             isEnabled = "YES">
          </EnvironmentVariable>

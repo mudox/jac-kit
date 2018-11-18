@@ -18,7 +18,6 @@ static BOOL _isDebugging;
 
 @implementation JKHTTPLogger {
     NSURLSession * _urlSession;
-
 }
 
 #pragma mark - Class Properties
@@ -46,15 +45,13 @@ static BOOL _isDebugging;
     NSTimeInterval sessionTimestamp = [NSDate.date timeIntervalSince1970];
     sessionIdentifier = [NSString stringWithFormat:@"%@-%f", bundleID, sessionTimestamp];
 
-    // Server URL
-    NSString * urlString = NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"];
+    [self.class setupURLs];
+}
+
++ (void)setupURLs {
+    NSString * urlString = NSProcessInfo.processInfo.environment[@"JAC_SRV_URL"];
+
     if (nil == urlString) {
-        NSString * errorLines =
-            [@[@"⚠️ JacKit initialization warning",
-               @"⚠️ Environment variable `JACKIT_SERVER_URL` is missing which is needed by the `JKHTTPLogger`",
-               @"⚠️ The `JKHTTPLogger` will not be installed",
-             ] componentsJoinedByString: @"\n"];
-        TTYLog(@"%@", errorLines);
         return;
     }
 
@@ -62,7 +59,7 @@ static BOOL _isDebugging;
     if (nil == url) {
         NSString * errorLines =
             [@[@"⚠️ JacKit initialization warning",
-               [NSString stringWithFormat:@"⚠️ Environment variable `JACKIT_SERVER_URL`s value `%@` is not a valid URL address string", urlString],
+               [NSString stringWithFormat:@"⚠️ Environment variable `JAC_SRV_URL`s value `%@` is not a valid URL address string", urlString],
                @"⚠️ The `JKHTTPLogger` will not be installed",
              ] componentsJoinedByString: @"\n"];
         TTYLog(@"%@\n\n", errorLines);

@@ -13,7 +13,7 @@ class JKHTTPLoggerSpec: QuickSpec { override func spec() {
   }
 
   it("serverURL") {
-    if ProcessInfo.processInfo.environment["JACKIT_SERVER_URL"] != nil {
+    if ProcessInfo.processInfo.environment["JAC_SRV_URL"] != nil {
       expect(JKHTTPLogger.serverURL).notTo(beNil())
     } else {
       expect(JKHTTPLogger.serverURL).to(beNil())
