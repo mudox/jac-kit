@@ -2,28 +2,6 @@ import Foundation
 
 import CocoaLumberjack
 
-// MARK: - Helpers
-
-// fileprivate func _file(_ file: StaticString) -> String {
-//  return URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-// }
-//
-// fileprivate func _fileFunction(_ file: StaticString, _ function: StaticString) -> String {
-//  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-//  return "\(fileName).\(function)"
-// }
-//
-private func fileLine(_ file: StaticString, _ line: UInt) -> String {
-  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-  return "\(fileName):\(line)"
-}
-
-//
-// fileprivate func _fileFunctionLine(_ file: StaticString, _ function: StaticString, _ line: UInt) -> String {
-//  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
-//  return "\(fileName).\(function):\(line)"
-// }
-
 // swiftlint:disable:next function_parameter_count
 internal func pack(
   _ scope: Jack.Scope,
@@ -33,7 +11,6 @@ internal func pack(
   _ function: StaticString,
   _ line: UInt
 ) -> String {
-  let location = fileLine(file, line)
 
   let scopeString: String
   switch scope.kind {
@@ -42,8 +19,6 @@ internal func pack(
   case .normal:
     scopeString = scope.string
   }
-
-//  let fileName = URL(fileURLWithPath: file.description).deletingPathExtension().lastPathComponent
 
   let jsonObject: [String: Any] = [
     // logging scope
