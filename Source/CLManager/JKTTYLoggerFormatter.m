@@ -38,6 +38,10 @@ NSString * iconForFlag(DDLogFlag flag) {
     return icon;
 }
 
+NSString * locationStringFrom(NSDictionary * jsonObject) {
+    return [NSString stringWithFormat:@"▹ %@・%@・%@", jsonObject[@"file"], jsonObject[@"function"], jsonObject[@"line"]];
+}
+
 @implementation JKTTYLoggerFormatter
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
@@ -50,6 +54,7 @@ NSString * iconForFlag(DDLogFlag flag) {
 
     // Icon
     NSString * icon = iconForFlag(logMessage.flag);
+
     assert(icon != nil);
 
 
@@ -64,17 +69,18 @@ NSString * iconForFlag(DDLogFlag flag) {
     }
 
     // Scope
-    NSString * scope, * location, * message;
+    NSString * scope;
     scope = jsonObject[@"scope"];
     assert(scope != nil);
     scope = [scope stringByReplacingOccurrencesOfString:@"." withString:@"・"];
     scope = [NSString stringWithFormat:@"%@", scope];
 
     // Location
-    location = [NSString stringWithFormat:@"▹ %@・%@・%@", jsonObject[@"file"], jsonObject[@"function"], jsonObject[@"line"]];
+    NSString * location = locationStringFrom(jsonObject);
+
 
     // Message text
-    message = jsonObject[@"message"];
+    NSString * message = jsonObject[@"message"];
     assert(message != nil);
 
     /*

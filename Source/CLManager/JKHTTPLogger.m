@@ -9,282 +9,254 @@
 #import "JKHTTPLogger.h"
 #import "CLManager.h"
 
-static NSURL    *serverURL;
-static NSURL    *eventURL;
-static NSURL    *sessionURL;
-static NSString *sessionID;
+static NSURL * serverURL;
+static NSURL * eventURL;
+static NSURL * sessionURL;
+static NSString * sessionID;
 
 static BOOL _isDebugging;
 
 @implementation JKHTTPLogger {
-  NSURLSession *_urlSession;
+    NSURLSession * _urlSession;
 
 }
 
 #pragma mark - Class Properties
 
-+ (NSURL *)serverURL
-{
-  return serverURL;
++ (NSURL *)serverURL {
+    return serverURL;
 }
 
-+ (NSString *)sessionID
-{
-  return sessionID;
++ (NSString *)sessionID {
+    return sessionID;
 }
 
 #pragma mark - Initialization
-  
-+ (void)initialize
-{
-  // Only once
-  if (self.class != JKHTTPLogger.self)
-  {
-    return;
-  }
 
-  _isDebugging = (NSProcessInfo.processInfo.environment[@"JACKIT_DEBUG"] != nil);
++ (void)initialize {
+    // Only once
+    if (self.class != JKHTTPLogger.self) {
+        return;
+    }
 
-  // server URL
-  NSString *urlString = NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"];
-  if (nil == urlString)
-  {
-    NSString *errorLines =
-      [@[@"⚠️ JacKit initialization warning",
-         @"⚠️ Environment variable `JACKIT_SERVER_URL` is missing which is needed by the `JKHTTPLogger`",
-         @"⚠️ The `JKHTTPLogger` will not be installed",
-       ] componentsJoinedByString: @"\n"];
-    TTYLog(@"%@", errorLines);
-    return;
-  }
-  
-  NSURL *url = [NSURL URLWithString:urlString];
-  if (nil == url)
-  {
-    NSString *errorLines =
-      [@[@"⚠️ JacKit initialization warning",
-         [NSString stringWithFormat:@"⚠️ Environment variable `JACKIT_SERVER_URL`s value `%@` is not a valid URL address string", urlString],
-         @"⚠️ The `JKHTTPLogger` will not be installed",
-       ] componentsJoinedByString: @"\n"];
-    TTYLog(@"%@\n\n", errorLines);
-    return;
-  }
-  
-  serverURL = url;
+    _isDebugging = (NSProcessInfo.processInfo.environment[@"JACKIT_DEBUG"] != nil);
 
-  // sessionID
-  NSString      *bundleID         = NSBundle.mainBundle.bundleIdentifier;
-  NSTimeInterval sessionTimestamp = [NSDate.date timeIntervalSince1970];
-  sessionID = [NSString stringWithFormat:@"%@-%f", bundleID, sessionTimestamp];
+    // server URL
+    NSString * urlString = NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"];
+    if (nil == urlString) {
+        NSString * errorLines =
+            [@[@"⚠️ JacKit initialization warning",
+               @"⚠️ Environment variable `JACKIT_SERVER_URL` is missing which is needed by the `JKHTTPLogger`",
+               @"⚠️ The `JKHTTPLogger` will not be installed",
+             ] componentsJoinedByString: @"\n"];
+        TTYLog(@"%@", errorLines);
+        return;
+    }
 
-  // eventURL & sessionURL
-  eventURL   = [self.class.serverURL URLByAppendingPathComponent:@"event" isDirectory:YES];
-  sessionURL = [self.class.serverURL URLByAppendingPathComponent:@"session" isDirectory:YES];
+    NSURL * url = [NSURL URLWithString:urlString];
+    if (nil == url) {
+        NSString * errorLines =
+            [@[@"⚠️ JacKit initialization warning",
+               [NSString stringWithFormat:@"⚠️ Environment variable `JACKIT_SERVER_URL`s value `%@` is not a valid URL address string", urlString],
+               @"⚠️ The `JKHTTPLogger` will not be installed",
+             ] componentsJoinedByString: @"\n"];
+        TTYLog(@"%@\n\n", errorLines);
+        return;
+    }
+
+    serverURL = url;
+
+    // sessionID
+    NSString * bundleID         = NSBundle.mainBundle.bundleIdentifier;
+    NSTimeInterval sessionTimestamp = [NSDate.date timeIntervalSince1970];
+    sessionID = [NSString stringWithFormat:@"%@-%f", bundleID, sessionTimestamp];
+
+    // eventURL & sessionURL
+    eventURL   = [self.class.serverURL URLByAppendingPathComponent:@"event" isDirectory:YES];
+    sessionURL = [self.class.serverURL URLByAppendingPathComponent:@"session" isDirectory:YES];
 }
 
-- (instancetype)init
-{
-  if (nil == self.class.serverURL)
-  {
-    return nil;
-  }
+- (instancetype)init {
+    if (nil == self.class.serverURL) {
+        return nil;
+    }
 
-  if (nil == (self = [super init]))
-  {
-    return nil;
-  }
+    if (nil == (self = [super init])) {
+        return nil;
+    }
 
-  return self;
+    return self;
 }
 
 #pragma mark - Private Methods
 
-- (NSData *)requestBodyDataWithLogMessage: (DDLogMessage *)logMessage
-{
-  // timestamp
-  // transfer date into Unix time (time since epoch time)
-  NSNumber *timestamp = @([logMessage.timestamp timeIntervalSince1970]);
+- (NSData *)requestBodyDataWithLogMessage:(DDLogMessage *)logMessage {
+    // timestamp
+    // transfer date into Unix time (time since epoch time)
+    NSNumber * timestamp = @([logMessage.timestamp timeIntervalSince1970]);
 
-  // level
-  NSString* level;
-  switch (logMessage.flag)
-  {
-  case DDLogFlagError:
-    level = @"error";
-    break;
+    // level
+    NSString * level;
 
-  case DDLogFlagWarning:
-    level = @"warning";
-    break;
+    switch (logMessage.flag) {
+        case DDLogFlagError:
+            level = @"error";
+            break;
 
-  case DDLogFlagInfo:
-    level = @"info";
-    break;
+        case DDLogFlagWarning:
+            level = @"warning";
+            break;
 
-  case DDLogFlagDebug:
-    level = @"debug";
-    break;
+        case DDLogFlagInfo:
+            level = @"info";
+            break;
 
-  case DDLogFlagVerbose:
-    level = @"verbose";
-    break;
-  }
+        case DDLogFlagDebug:
+            level = @"debug";
+            break;
 
-  // subsystem & message
-  NSArray  *subsystemAndMessage = [logMessage.message componentsSeparatedByString:@"\v"];
-  NSString *subsystem;
-  NSString *message;
-  if (subsystemAndMessage.count > 1)
-  {
-    subsystem = subsystemAndMessage[0];
-    message   = subsystemAndMessage[1];
-  }
-  else
-  {
-    subsystem = [NSString stringWithFormat:@"%@.%@ (fallback)", logMessage.fileName, logMessage.function];
-    message   = logMessage.message;
-  }
+        case DDLogFlagVerbose:
+            level = @"verbose";
+            break;
+    }
 
-  NSDictionary *jsonDict = @{
-    @"sessionID": sessionID,
-    @"timestamp": timestamp,
-    @"level": level,
-    @"subsystem": subsystem,
-    @"message": message,
-  };
+    // subsystem & message
+    NSArray * subsystemAndMessage = [logMessage.message componentsSeparatedByString:@"\v"];
+    NSString * subsystem;
+    NSString * message;
+    if (subsystemAndMessage.count > 1) {
+        subsystem = subsystemAndMessage[0];
+        message   = subsystemAndMessage[1];
+    } else {
+        subsystem = [NSString stringWithFormat:@"%@.%@ (fallback)", logMessage.fileName, logMessage.function];
+        message   = logMessage.message;
+    }
 
-  NSError *error;
-  NSData  *data = [NSJSONSerialization dataWithJSONObject:jsonDict options:kNilOptions error:&error];
-  if (error != nil)
-  {
-    TTYLog(@"JKHTTPLogger - error JSON encoding event message: %@", error);
-    return nil;
-  }
+    NSDictionary * jsonDict = @{
+        @"sessionID": sessionID,
+        @"timestamp": timestamp,
+        @"level": level,
+        @"subsystem": subsystem,
+        @"message": message,
+    };
 
-  return data;
+    NSError * error;
+    NSData * data = [NSJSONSerialization dataWithJSONObject:jsonDict options:kNilOptions error:&error];
+    if (error != nil) {
+        TTYLog(@"JKHTTPLogger - error JSON encoding event message: %@", error);
+        return nil;
+    }
+
+    return data;
 }
 
-- (void)postGreetingMessage
-{
-  NSDictionary *sessionInfo= @{
-    @"bundleID": NSBundle.mainBundle.bundleIdentifier,
-    @"timestamp": @([NSDate.date timeIntervalSince1970]),
-    @"greeting": CLManager.greetings
-  };
+- (void)postGreetingMessage {
+    NSDictionary * sessionInfo = @{
+        @"bundleID": NSBundle.mainBundle.bundleIdentifier,
+        @"timestamp": @([NSDate.date timeIntervalSince1970]),
+        @"greeting": CLManager.greetings
+    };
 
-  NSError *error;
-  NSData  *bodyData = [NSJSONSerialization dataWithJSONObject:sessionInfo options:kNilOptions error:&error];
-  if (error != nil)
-  {
-    TTYLog(@"JKHTTPLogger - error JSON encoding session message: %@", error);
-    return;
-  }
+    NSError * error;
+    NSData * bodyData = [NSJSONSerialization dataWithJSONObject:sessionInfo options:kNilOptions error:&error];
 
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:sessionURL];
-  request.HTTPMethod = @"POST";
-  [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-  request.HTTPBody = bodyData;
+    if (error != nil) {
+        TTYLog(@"JKHTTPLogger - error JSON encoding session message: %@", error);
+        return;
+    }
+
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:sessionURL];
+    request.HTTPMethod = @"POST";
+    [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    request.HTTPBody = bodyData;
 
 
-  NSURLSessionDataTask *task;
-  if (_isDebugging)
-  {
-    task =
-      [_urlSession dataTaskWithRequest:request
-                     completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
-       {
-         // check error
-         if (error != nil)
-         {
-           TTYLog(@"\n💀 JKHTTPLogger - error sending request: %@\n\n", error);
-           return;
-         }
-         // check reponse status code
-         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-         assert(httpResponse != nil);
-         if (httpResponse.statusCode != 200)
-         {
-           TTYLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
-           return;
-         }
-       }];
-  }
-  else
-  {
-    task = [_urlSession dataTaskWithRequest:request];
-  }
+    NSURLSessionDataTask * task;
+    if (_isDebugging) {
+        task =
+            [_urlSession dataTaskWithRequest:request
+                           completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
+             {
+                 // check error
+                 if (error != nil) {
+                     TTYLog(@"\n💀 JKHTTPLogger - error sending request: %@\n\n", error);
+                     return;
+                 }
+                 // check reponse status code
+                 NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)response;
+                 assert(httpResponse != nil);
+                 if (httpResponse.statusCode != 200) {
+                     TTYLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
+                     return;
+                 }
+             }];
+    } else {
+        task = [_urlSession dataTaskWithRequest:request];
+    }
 
-  [task resume];
+    [task resume];
 }
 
 #pragma mark DDLogger protocol
 
-- (void)logMessage: (DDLogMessage *)logMessage
-{
-  NSData *bodyData = [self requestBodyDataWithLogMessage:logMessage];
-  if (nil == bodyData)
-  {
-    return;
-  }
+- (void)logMessage:(DDLogMessage *)logMessage {
+    NSData * bodyData = [self requestBodyDataWithLogMessage:logMessage];
 
-  // make request
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:eventURL];
-  request.HTTPMethod = @"POST";
-  [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-  request.HTTPBody = bodyData;
+    if (nil == bodyData) {
+        return;
+    }
 
-  NSURLSessionDataTask *task;
-  if (_isDebugging)
-  {
-    task =
-      [_urlSession dataTaskWithRequest:request
-                     completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
-       {
-         // check error
-         if (error != nil)
-         {
-           TTYLog(@"\n💀 JKHTTPLogger - error sending request: %@\n\n", error);
-           return;
-         }
-         // check reponse status code
-         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-         assert(httpResponse != nil);
-         if (httpResponse.statusCode != 200)
-         {
-           TTYLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
-           return;
-         }
-       }];
-  }
-  else
-  {
-    task = [_urlSession dataTaskWithRequest:request];
-  }
+    // make request
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:eventURL];
+    request.HTTPMethod = @"POST";
+    [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    request.HTTPBody = bodyData;
 
-  [task resume];
+    NSURLSessionDataTask * task;
+    if (_isDebugging) {
+        task =
+            [_urlSession dataTaskWithRequest:request
+                           completionHandler:^(NSData * data, NSURLResponse * response, NSError * error)
+             {
+                 // check error
+                 if (error != nil) {
+                     TTYLog(@"\n💀 JKHTTPLogger - error sending request: %@\n\n", error);
+                     return;
+                 }
+                 // check reponse status code
+                 NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)response;
+                 assert(httpResponse != nil);
+                 if (httpResponse.statusCode != 200) {
+                     TTYLog(@"JKHTTPLogger - invalid response: %@", httpResponse);
+                     return;
+                 }
+             }];
+    } else {
+        task = [_urlSession dataTaskWithRequest:request];
+    }
+
+    [task resume];
 }
 
-- (NSString *)loggerName
-{
-  return @"io.github.muodx.JacKit.JKHTTPLogger";
+- (NSString *)loggerName {
+    return @"io.github.muodx.JacKit.JKHTTPLogger";
 }
 
-- (void)didAddLogger
-{
-  // create URL session
-  NSURLSessionConfiguration * config = NSURLSessionConfiguration.defaultSessionConfiguration;
-  config.requestCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-  config.URLCache = nil;
-  _urlSession = [NSURLSession sessionWithConfiguration:config];
+- (void)didAddLogger {
+    // create URL session
+    NSURLSessionConfiguration * config = NSURLSessionConfiguration.defaultSessionConfiguration;
 
-  [self postGreetingMessage];
+    config.requestCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+    config.URLCache = nil;
+    _urlSession = [NSURLSession sessionWithConfiguration:config];
+
+    [self postGreetingMessage];
 }
 
-- (void)willRemoveLogger
-{
-  // cancel all requests & destroy URL session
-  [_urlSession invalidateAndCancel];
-  _urlSession = nil;
+- (void)willRemoveLogger {
+    // cancel all requests & destroy URL session
+    [_urlSession invalidateAndCancel];
+    _urlSession = nil;
 }
 
 @end
