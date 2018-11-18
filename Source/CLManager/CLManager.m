@@ -48,9 +48,10 @@ static NSString * _greetings;
              @"  \\$$$$$$   \\$$$$$$$  \\$$$$$$$ \\$$   \\$$ \\$$    \\$$$$",
              @"\n",
 
-             @"💡 Add [TTY] Logger",
-             [NSString stringWithFormat:@"   Logger name:      %@", ttyLogger.loggerName],
-             [NSString stringWithFormat:@"   Logging queue:    %s", dispatch_queue_get_label(ttyLogger.loggerQueue)],
+             @"🍄 Add [TTY] Logger",
+
+             [NSString stringWithFormat:@"     Logger name:      %@", ttyLogger.loggerName],
+             [NSString stringWithFormat:@"     Logging queue:    %s", dispatch_queue_get_label(ttyLogger.loggerQueue)],
          ] componentsJoinedByString: @"\n"]];
 
     /**
@@ -60,11 +61,11 @@ static NSString * _greetings;
     if (httpLogger != nil) {
         [greetingLines appendString:[
              @[
-                 @"\n\n💡 Add [HTTP] Logger",
-                 [NSString stringWithFormat:@"   Logger name:      %@", httpLogger.loggerName],
-                 [NSString stringWithFormat:@"   Logging queue:    %s", dispatch_queue_get_label(httpLogger.loggerQueue)],
-                 [NSString stringWithFormat:@"   Server address:   %@", JKHTTPLogger.serverURL],
-                 [NSString stringWithFormat:@"   Session ID:       %@", JKHTTPLogger.sessionIdentifier],
+                 @"\n\n🍄 Add [HTTP] Logger",
+                 [NSString stringWithFormat:@"     Logger name:      %@", httpLogger.loggerName],
+                 [NSString stringWithFormat:@"     Logging queue:    %s", dispatch_queue_get_label(httpLogger.loggerQueue)],
+                 [NSString stringWithFormat:@"     Server address:   %@", JKHTTPLogger.serverURL],
+                 [NSString stringWithFormat:@"     Session ID:       %@", JKHTTPLogger.sessionIdentifier],
              ] componentsJoinedByString: @"\n"]];
     }
 
