@@ -8,9 +8,11 @@ import Quick
 class JKHTTPLoggerSpec: QuickSpec { override func spec() {
   
   it("sessionID") {
-    let jack = Jack()
-    jack.info("\(JKHTTPLogger.serverURL)")
-    jack.info("\(JKHTTPLogger.sessionID)")
+    expect(JKHTTPLogger.sessionID).notTo(beNil())
+  }
+  
+  it("serverURL") {
+    expect(JKHTTPLogger.serverURL).notTo(beNil())
   }
 
 } }
