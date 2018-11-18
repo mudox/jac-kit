@@ -5,14 +5,18 @@ import Quick
 
 @testable import JacKit
 
+enum SomeError: Error {
+  case error
+}
+
 class JackPackageSpec: QuickSpec { override func spec() {
 
   it("fallbackString") {
-    let string = Jack.Package.fallbackString()
+    let string = Jack.Package.fallbackString(error: SomeError.error)
     let data = string.data(using: .utf8)!
     let package = try! JSONDecoder().decode(Jack.Package.self, from: data)
 
-    expect(package.message) == "JSON encoding failed"
+    expect(package.message).to(beginWith("JSON encoding failed with:"))
     expect(package.messageString) == string
   }
 
