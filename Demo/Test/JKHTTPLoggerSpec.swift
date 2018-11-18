@@ -6,13 +6,18 @@ import Quick
 @testable import JacKit
 
 class JKHTTPLoggerSpec: QuickSpec { override func spec() {
-  
-  it("sessionID") {
-    expect(JKHTTPLogger.sessionID).notTo(beNil())
+
+  it("sessionIdentifier") {
+    expect(JKHTTPLogger.sessionIdentifier).notTo(beNil())
+
   }
-  
+
   it("serverURL") {
-    expect(JKHTTPLogger.serverURL).notTo(beNil())
+    if ProcessInfo.processInfo.environment["JACKIT_SERVER_URL"] != nil {
+      expect(JKHTTPLogger.serverURL).notTo(beNil())
+    } else {
+      expect(JKHTTPLogger.serverURL).to(beNil())
+    }
   }
 
 } }

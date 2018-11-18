@@ -12,7 +12,7 @@
 static NSURL * serverURL;
 static NSURL * eventURL;
 static NSURL * sessionURL;
-static NSString * sessionID;
+static NSString * sessionIdentifier;
 
 static BOOL _isDebugging;
 
@@ -27,8 +27,8 @@ static BOOL _isDebugging;
     return serverURL;
 }
 
-+ (NSString *)sessionID {
-    return sessionID;
++ (NSString *)sessionIdentifier {
+    return sessionIdentifier;
 }
 
 #pragma mark - Initialization
@@ -39,9 +39,14 @@ static BOOL _isDebugging;
         return;
     }
 
-    _isDebugging = (NSProcessInfo.processInfo.environment[@"JACKIT_DEBUG"] != nil);
+    _isDebugging = ([NSProcessInfo.processInfo.environment[@"JACKIT_DEBUG"] isEqualToString:@"enable"]);
 
-    // server URL
+    // Session id = Bundle id + Timestamp
+    NSString * bundleID         = NSBundle.mainBundle.bundleIdentifier;
+    NSTimeInterval sessionTimestamp = [NSDate.date timeIntervalSince1970];
+    sessionIdentifier = [NSString stringWithFormat:@"%@-%f", bundleID, sessionTimestamp];
+
+    // Server URL
     NSString * urlString = NSProcessInfo.processInfo.environment[@"JACKIT_SERVER_URL"];
     if (nil == urlString) {
         NSString * errorLines =
@@ -64,14 +69,8 @@ static BOOL _isDebugging;
         return;
     }
 
-    serverURL = url;
-
-    // sessionID
-    NSString * bundleID         = NSBundle.mainBundle.bundleIdentifier;
-    NSTimeInterval sessionTimestamp = [NSDate.date timeIntervalSince1970];
-    sessionID = [NSString stringWithFormat:@"%@-%f", bundleID, sessionTimestamp];
-
-    // eventURL & sessionURL
+    // Other URLs
+    serverURL  = url;
     eventURL   = [self.class.serverURL URLByAppendingPathComponent:@"event" isDirectory:YES];
     sessionURL = [self.class.serverURL URLByAppendingPathComponent:@"session" isDirectory:YES];
 }
@@ -133,7 +132,7 @@ static BOOL _isDebugging;
     }
 
     NSDictionary * jsonDict = @{
-        @"sessionID": sessionID,
+        @"sessionID": sessionIdentifier,
         @"timestamp": timestamp,
         @"level": level,
         @"subsystem": subsystem,
@@ -260,11 +259,3 @@ static BOOL _isDebugging;
 }
 
 @end
-
-
-
-
-
-
-
-
