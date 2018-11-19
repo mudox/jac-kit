@@ -3,7 +3,7 @@
 ![Platform](https://img.shields.io/badge/platform-ios-lightgrey.svg)
 [![GitHub license](https://img.shields.io/github/license/mudox/jac-kit.svg)](https://github.com/mudox/jac-kit/blob/master/LICENSE)
 [![Travis (.com)](https://img.shields.io/travis/com/mudox/jac-kit.svg)](https://travis-ci.com/mudox/jac-kit)
-[![Codecov](https://img.shields.io/codecov/c/github/mudox/jac-kit.svg)](https://codecov.io/gh/mudox/mudox-kit)
+[![codecov](https://codecov.io/gh/mudox/jac-kit/branch/master/graph/badge.svg)](https://codecov.io/gh/mudox/jac-kit)
 [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/mudox/jac-kit.svg)](https://codeclimate.com/github/mudox/jac-kit/maintainability)
 
 JacKit is a scope based logger inspired from [Python logging module]. It is based on the [CocoaLumberjack] framework.
