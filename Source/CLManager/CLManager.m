@@ -50,8 +50,8 @@ static NSString * _greetings;
 
              @"🍄 Add [TTY] Logger",
 
-             [NSString stringWithFormat:@"     Logger name:      %@", ttyLogger.loggerName],
-             [NSString stringWithFormat:@"     Logging queue:    %s", dispatch_queue_get_label(ttyLogger.loggerQueue)],
+             [NSString stringWithFormat:@"     Logger name   :   %@", ttyLogger.loggerName],
+             [NSString stringWithFormat:@"     Logging queue :   %s", dispatch_queue_get_label(ttyLogger.loggerQueue)],
          ] componentsJoinedByString: @"\n"]];
 
     /**
@@ -62,10 +62,10 @@ static NSString * _greetings;
         [greetingLines appendString:[
              @[
                  @"\n\n🍄 Add [HTTP] Logger",
-                 [NSString stringWithFormat:@"     Logger name:      %@", httpLogger.loggerName],
-                 [NSString stringWithFormat:@"     Logging queue:    %s", dispatch_queue_get_label(httpLogger.loggerQueue)],
+                 [NSString stringWithFormat:@"     Logger name   :   %@", httpLogger.loggerName],
+                 [NSString stringWithFormat:@"     Logging queue :   %s", dispatch_queue_get_label(httpLogger.loggerQueue)],
                  [NSString stringWithFormat:@"     Server address:   %@", JKHTTPLogger.serverURL],
-                 [NSString stringWithFormat:@"     Session ID:       %@", JKHTTPLogger.sessionIdentifier],
+                 [NSString stringWithFormat:@"     Session ID    :   %@", JKHTTPLogger.sessionIdentifier],
              ] componentsJoinedByString: @"\n"]];
     }
 

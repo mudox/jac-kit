@@ -73,15 +73,15 @@ public extension Jack {
       Simulator     :   \(isSimulator)
     """, format: [.noIcon, .noLocation])
 
+    Jack("🍎 SYSTEM").info("""
+      Name          :   \(systemName)
+      Version       :   \(systemVersion)
+    """, format: [.noIcon, .noLocation])
+
     Jack("🥝 DEVICE").info("""
       Name          :   \(deviceName)
       Model         :   \(deviceModel)
       UUID          :   \(deviceID ?? "N/A")
-    """, format: [.noIcon, .noLocation])
-
-    Jack("🍎 SYSTEM").info("""
-      Name          :   \(systemName)
-      Version       :   \(systemVersion)
     \n\n
     """, format: [.noIcon, .noLocation])
 
