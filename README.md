@@ -131,6 +131,22 @@ Every time the property value is read, it is resolved under 3 cases:
   jack.debug("...") // `.debug` is higher than the fallback level `.verbose`, messge get logged out.
   ```
 
+## Usage snippets
+
+Use custom icon for one time.
+
+```swift
+jack.info("🌻 only use this icon for thismessage, format: .bare")
+```
+
+Use custom icon for multiple logging messages under same severity level.
+
+```swift
+let log = Jack("⛑ ").set(format: .noIcon).
+
+jack.debug("some logging")
+```
+
 ## Author
 
 Mudox
