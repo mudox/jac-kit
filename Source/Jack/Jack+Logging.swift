@@ -147,10 +147,36 @@ public extension Jack {
   func failure(
     _ message: String,
     file: StaticString = #file,
-    function _: StaticString = #function,
+    function: StaticString = #function,
     line: UInt = #line
   ) {
-    assert(false, message, file: file, line: line)
+    assert(false, message, file: file, function: function, line: line)
+  }
+
+  func assertBackgroundThread(
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
+    ) {
+    if Thread.isMainThread {
+      failure(
+        "this method is time consuming, should run on background thread",
+        file: file, function: function, line: line
+      )
+    }
+  }
+  
+  func assertMainThread(
+    file: StaticString = #file,
+    function: StaticString = #function,
+    line: UInt = #line
+  ) {
+    if !Thread.isMainThread {
+      failure(
+        "this method should be run on main thread",
+        file: file, function: function, line: line
+      )
+    }
   }
 
 }
