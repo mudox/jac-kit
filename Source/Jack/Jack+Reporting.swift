@@ -20,7 +20,7 @@ public extension Jack {
 
   static func stopReportingAppStatesChanges() {
     guard tokens.isEmpty else {
-      jack.function().warn("\(#function) is invoked when there is no tokens to remove")
+      jack.func().warn("\(#function) is invoked when there is no tokens to remove")
       return
     }
 

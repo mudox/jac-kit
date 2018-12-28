@@ -39,16 +39,16 @@ public final class Jack {
   ///
   /// - Parameter scope: Descendant scope string.
   /// - Returns: Descendant scoped Jack instance.
-  public func descendant(_ scope: String) -> Jack {
+  public func sub(_ scope: String) -> Jack {
     let newScope = self.scope.string + "." + scope
     return .init(newScope)
   }
 
-  public func function(_ name: StaticString = #function) -> Jack {
+  public func `func`(_ name: StaticString = #function) -> Jack {
     let nameString = name.description
     let index = nameString.firstIndex(of: "(") ?? nameString.endIndex
     let scope = String(nameString[nameString.startIndex..<index])
-    return descendant(scope)
+    return sub(scope)
   }
 
   // MARK: - Level
