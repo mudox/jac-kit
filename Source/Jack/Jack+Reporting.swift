@@ -13,7 +13,7 @@ public extension Jack {
 
     tokens = applicationStateDescriptions.map { item in
       return NotificationCenter.default.addObserver(forName: item.key, object: nil, queue: nil, using: { _ in
-        Jack().debug("🌗 \(item.value)", format: .bare)
+        Jack().debug("🎲 \(item.value)", format: .bare)
       })
     }
   }
