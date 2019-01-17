@@ -26,7 +26,9 @@ public extension Jack {
     // MARK: - Composed Options
 
     /// Default option - empty option set.
-    public static let fallback: Format = []
+    public static var fallback: Format = full
+    
+    public static let full: Format = []
 
     /// Only the message text
     ///
