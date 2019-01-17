@@ -2,8 +2,6 @@ import Foundation
 
 import CocoaLumberjack
 
-// MARK: - Logging
-
 extension Jack {
   private func canLog(flag: DDLogFlag) -> Bool {
     return level.rawValue & flag.rawValue != 0
@@ -129,7 +127,7 @@ public extension Jack {
       #if DEBUG
         fatalError(message, file: file, line: line)
       #else
-        error(message, file: file, function: function)
+        error(message, format: [], file: file, function: function)
       #endif
     }
   }
@@ -157,7 +155,7 @@ public extension Jack {
     file: StaticString = #file,
     function: StaticString = #function,
     line: UInt = #line
-    ) {
+  ) {
     if Thread.isMainThread {
       failure(
         "this method is time consuming, should run on background thread",
@@ -165,7 +163,7 @@ public extension Jack {
       )
     }
   }
-  
+
   func assertMainThread(
     file: StaticString = #file,
     function: StaticString = #function,
