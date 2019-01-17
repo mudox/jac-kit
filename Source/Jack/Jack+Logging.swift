@@ -2,7 +2,11 @@ import Foundation
 
 import CocoaLumberjack
 
+
 extension Jack {
+  
+  private static var forceFullFormatForErrorLogging = true
+  
   private func canLog(flag: DDLogFlag) -> Bool {
     return level.rawValue & flag.rawValue != 0
   }
@@ -15,10 +19,17 @@ extension Jack {
     line: UInt = #line
   ) {
     if canLog(flag: .error) {
+      let errorFormat: Format
+      if Jack.forceFullFormatForErrorLogging {
+        errorFormat = []
+      } else {
+        errorFormat = format ?? self.format
+      }
+      
       let package = Package(
         scope: scope,
         message: message(),
-        format: format ?? self.format,
+        format: errorFormat,
         file: file, function: function, line: line
       )
       DDLogError(package.messageString, level: level)
